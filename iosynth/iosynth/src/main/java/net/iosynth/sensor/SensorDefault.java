@@ -28,7 +28,7 @@ public class SensorDefault extends Sensor {
 		epoch = epoch + step;
 	}
 	
-	public double getValue(){
+	public int getValue(){
 		return state;
 	}
 

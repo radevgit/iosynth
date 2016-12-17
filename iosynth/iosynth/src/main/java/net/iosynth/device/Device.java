@@ -3,7 +3,7 @@
  */
 package net.iosynth.device;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.BlockingQueue;
@@ -38,7 +38,7 @@ public abstract class Device implements Runnable {
 		this.uuid = UUID.randomUUID().toString();
 		this.jitter = ThreadLocalRandom.current().nextInt(0, 200); // At most 2s jitter
 		this.rate   = 100*10; // Default 10s polling rate
-		this.sens   = new HashMap<String, Sensor>(0);
+		this.sens   = new LinkedHashMap<String, Sensor>(0);   // Ordered Map
 	}
 
 	public void setId(String uuid){
@@ -103,7 +103,5 @@ public abstract class Device implements Runnable {
 	/* (non-Javadoc)
 	 * @see java.lang.Runnable#run()
 	 */
-	public void run(){
-		System.out.println("Run Run");
-	}
+	abstract public void run();
 }

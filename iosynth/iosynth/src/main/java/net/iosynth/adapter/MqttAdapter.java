@@ -12,11 +12,11 @@ import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import net.iosynth.util.Message;
 
 public class MqttAdapter extends Thread {
-    String topic        = "iosynth.net/sensor/temp";
+    String topic        = "iosynth.net/device/";
     int qos             = 2;
-    String broker       = "tcp://localhost:1883";
-    //String broker       = "tcp://iot.eclipse.org:1883";
-    String clientId     = "iosynth-0.0.1 ";
+    //String broker       = "tcp://localhost:1883";
+    String broker       = "tcp://iot.eclipse.org:1883";
+    String clientId     = "iosynth-0.0.1";
     MemoryPersistence persistence;
     MqttClient sampleClient;
     MqttConnectOptions connOpts;
@@ -52,7 +52,7 @@ public class MqttAdapter extends Thread {
 					System.out.println("Publishing message: " + msg.getId() + " " + msg.getMsg());
 					MqttMessage message = new MqttMessage(msg.getMsg().getBytes());
 					message.setQos(qos);
-					sampleClient.publish(topic + String.format("%03d", msg.getId()), message);
+					sampleClient.publish(topic + msg.getId(), message);
 				}
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block

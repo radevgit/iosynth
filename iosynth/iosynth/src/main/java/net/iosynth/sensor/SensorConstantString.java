@@ -27,6 +27,6 @@ public class SensorConstantString extends Sensor {
 
 	@Override
 	public String getString() {
-		return getValue();
+		return "\"" + getValue() + "\"";
 	}
 }

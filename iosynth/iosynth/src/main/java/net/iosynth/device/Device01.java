@@ -32,34 +32,38 @@ public class Device01 extends Device {
 		String stringVal[] = {new String("ON"), new String("OF")};
 		addSensor(new String("door"), new SensorCycleString01(stringVal));
 		
+		String stringVal2[] = {new String("elevator_01"), new String("elevator_02"), new String("elevator_03"), new String("elevator_04")};
+		addSensor(new String("level1"), new SensorCycleString01(stringVal2));
+		
 		addSensor(new String("temp01"), new SensorRandomDouble01(15, 25));
 		
 		addSensor("default");
 	}
 
 	public void run() {
+		for(Map.Entry<String, Sensor> sen : sens.entrySet()) {
+		    String name = sen.getKey();
+		    Sensor sensor = sen.getValue();
+		    sensor.step(1);
+		}
 		getQueue().add(toJson());
 	}
 	
 	public Message toJson(){
-		StringBuilder msg = new StringBuilder();
-		msg.append("{");
+		StringBuilder m = new StringBuilder();
+		m.append("{");
 		for(Map.Entry<String, Sensor> sen : sens.entrySet()) {
 		    String name = sen.getKey();
 		    Sensor sensor = sen.getValue();
-		    msg.append("\"");
-		    msg.append(name);
-		    msg.append("\":");
-		    msg.append("\"");
-		    sensor.step(1);
-		    msg.append(sensor.getString());
-		    msg.append("\"");
-		    msg.append(",");
+		    m.append("\"");
+		    m.append(name);
+		    m.append("\":");
+		    m.append(sensor.getString());
+		    m.append(",");
 		}
-		msg.deleteCharAt(msg.length()-1) ; // remove last comma
-		msg.append("}");
-		Message m = new Message(getId(), msg.toString());
-		return m;
+		m.deleteCharAt(m.length()-1) ; // remove last comma
+		m.append("}");
+		return new Message(getId(), m.toString());
 	}
 	
 	

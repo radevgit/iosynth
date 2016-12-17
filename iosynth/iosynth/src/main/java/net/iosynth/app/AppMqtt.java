@@ -25,7 +25,11 @@ public class AppMqtt {
 		MqttAdapter  mqtt = new MqttAdapter(msgQueue);
 		mqtt.start();
 		Device dev1 = new Device01();
+		dev1.setRate(5000);
 		devsControl.add(dev1);
+		Device dev2 = new Device01();
+		devsControl.add(dev2);
+		dev2.setRate(10000);
 		devsControl.forever();
 	}
 	
