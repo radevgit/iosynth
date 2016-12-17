@@ -13,7 +13,7 @@ import net.iosynth.device.DeviceControl;
  *
  */
 public class AppMqtt {
-	BlockingQueue<Message> msgQueue;
+	public BlockingQueue<Message> msgQueue;
 	
 	public AppMqtt(){
 		msgQueue = new LinkedBlockingQueue<Message>();
