@@ -8,7 +8,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-import net.iosynth.app.Message;
+import net.iosynth.util.Message;
 
 public class DeviceControl {
 	public BlockingQueue<Message> msgQueue;

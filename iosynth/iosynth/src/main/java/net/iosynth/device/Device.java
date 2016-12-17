@@ -9,9 +9,9 @@ import java.util.UUID;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ThreadLocalRandom;
 
-import net.iosynth.app.Message;
 import net.iosynth.sensor.Sensor;
 import net.iosynth.sensor.SensorDefault;
+import net.iosynth.util.Message;
 
 /**
  * @author ross
@@ -38,7 +38,7 @@ public abstract class Device implements Runnable {
 		this.uuid = UUID.randomUUID().toString();
 		this.jitter = ThreadLocalRandom.current().nextInt(0, 200); // At most 2s jitter
 		this.rate   = 100*10; // Default 10s polling rate
-		this.sens   = new HashMap<>(0);
+		this.sens   = new HashMap<String, Sensor>(0);
 	}
 
 	public void setId(String uuid){

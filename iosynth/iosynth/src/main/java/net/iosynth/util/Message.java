@@ -1,4 +1,4 @@
-package net.iosynth.app;
+package net.iosynth.util;
 
 public class Message {
 	private String id;

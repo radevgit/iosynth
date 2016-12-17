@@ -9,7 +9,7 @@ import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
-import net.iosynth.app.Message;
+import net.iosynth.util.Message;
 
 public class MqttAdapter extends Thread {
     String topic        = "iosynth.net/sensor/temp";

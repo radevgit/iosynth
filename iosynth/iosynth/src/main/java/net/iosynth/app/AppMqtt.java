@@ -7,6 +7,7 @@ import net.iosynth.adapter.MqttAdapter;
 import net.iosynth.device.Device;
 import net.iosynth.device.Device01;
 import net.iosynth.device.DeviceControl;
+import net.iosynth.util.Message;
 
 /**
  * 

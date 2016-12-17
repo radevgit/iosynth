@@ -5,12 +5,12 @@ package net.iosynth.device;
 
 import java.util.Map;
 
-import net.iosynth.app.Message;
 import net.iosynth.sensor.Sensor;
 import net.iosynth.sensor.SensorCycleDouble01;
 import net.iosynth.sensor.SensorCycleInt01;
 import net.iosynth.sensor.SensorCycleString01;
 import net.iosynth.sensor.SensorRandomDouble01;
+import net.iosynth.util.Message;
 
 /**
  * Example Device class
