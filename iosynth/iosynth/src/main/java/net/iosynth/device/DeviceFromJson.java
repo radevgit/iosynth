@@ -21,6 +21,12 @@ public class DeviceFromJson {
 
 	
 	public DeviceFromJson(){
+		Device01 dev1 = new Device01();
+		Map<String,Object> args1 = new HashMap<String, Object>();
+		args1.put(JsonWriter.PRETTY_PRINT, true);
+		args1.put(JsonWriter.TYPE, false);
+		String json = JsonWriter.objectToJson(dev1, args1);
+		System.out.println(json);
 		
 		InputStream inputStream = null;
 		try {
@@ -29,6 +35,11 @@ public class DeviceFromJson {
 			args.put(JsonReader.USE_MAPS, true);
 			Object obj = JsonReader.jsonToJava(inputStream, args);
 			int a = 1;
+			
+			//Map<String,Object> args1 = new HashMap<String, Object>();
+			//args1.put(JsonWriter.PRETTY_PRINT, true);
+			//String json = JsonWriter.objectToJson(obj, args1);
+			//System.out.println(json);
 			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
