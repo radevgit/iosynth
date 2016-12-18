@@ -9,7 +9,6 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.iosynth.device.Device01;
 
 import com.cedarsoftware.util.io.JsonReader;
 import com.cedarsoftware.util.io.JsonWriter;
@@ -22,6 +21,7 @@ public class DeviceFromJson {
 
 	
 	public DeviceFromJson(){
+		
 		InputStream inputStream = null;
 		try {
 			inputStream = new FileInputStream("/home/ross/tmp/Device.json");
@@ -37,11 +37,6 @@ public class DeviceFromJson {
 		
 	}
 	
-	public void toJson(){
-		Device01 dev = new Device01();
-		String json = JsonWriter.objectToJson(dev);
-		System.out.println(json);
-	}
 	
 	/**
 	 * @param args
