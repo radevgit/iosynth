@@ -1,6 +1,5 @@
 package net.iosynth.adapter;
 
-import java.util.UUID;
 import java.util.concurrent.BlockingQueue;
 
 import org.eclipse.paho.client.mqttv3.MqttClient;

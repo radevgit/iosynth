@@ -5,4 +5,4 @@
  * @author rradev
  *
  */
-package net.iosynth.sensor;
+package net.iosynth.app;

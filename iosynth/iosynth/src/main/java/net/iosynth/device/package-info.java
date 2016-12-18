@@ -2,7 +2,7 @@
  * 
  */
 /**
- * @author ross
+ * @author rradev
  *
  */
 package net.iosynth.device;
