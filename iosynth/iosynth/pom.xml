@@ -21,6 +21,33 @@
     </repository>
   </repositories>
 
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <descriptorRefs>
+            <descriptorRef>jar-with-dependencies</descriptorRef>
+          </descriptorRefs>
+          <archive>
+            <manifest>
+              <addClasspath>true</addClasspath>
+              <mainClass>net.iosynth.app.AppMqtt</mainClass>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  
 
   <dependencies>
     <dependency>
@@ -39,7 +66,5 @@
   	<name>IoSynth</name>
   	<url>http://iosynth.net</url>
   </organization>
-  <description>IoSynth is IoT device/sensor simulator and synthetic data generator.
-
-It runs as Java command-line tool and creates test environments with large number simulated IoT devices.</description>
+  <description>IoSynth is IoT device/sensor simulator and synthetic data generator. It runs as Java command-line tool and creates test environments with large number simulated IoT devices.</description>
 </project>
