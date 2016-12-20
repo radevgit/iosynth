@@ -32,8 +32,11 @@ public class AppMqtt {
 		dev2.setRate(10000);
 		//devsControl.addFixed(dev2);
 
-		Device dev3 = new DeviceVariableRate01();
-		devsControl.addVariable(dev3);
+		for(int i=0; i<10; i++){
+			Device dev3 = new DeviceVariableRate01();
+			dev3.setId(String.format("%04d", i));
+			devsControl.addVariable(dev3);
+		}
 		
 		devsControl.forever();
 	}

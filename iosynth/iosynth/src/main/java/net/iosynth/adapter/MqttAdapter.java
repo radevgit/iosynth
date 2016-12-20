@@ -1,5 +1,6 @@
 package net.iosynth.adapter;
 
+import java.util.UUID;
 import java.util.concurrent.BlockingQueue;
 
 import org.eclipse.paho.client.mqttv3.MqttClient;
@@ -15,7 +16,7 @@ public class MqttAdapter extends Thread {
     int qos             = 2;
     //String broker       = "tcp://localhost:1883";
     String broker       = "tcp://iot.eclipse.org:1883";
-    String clientId     = "iosynth-0.0.1";
+    String clientId     = "iosynth-0.0.1 " + UUID.randomUUID().toString();
     MemoryPersistence persistence;
     MqttClient sampleClient;
     MqttConnectOptions connOpts;
