@@ -21,7 +21,7 @@ public class DeviceFromJson {
 
 	
 	public DeviceFromJson(){
-		Device01 dev1 = new Device01();
+		DeviceFixedRate01 dev1 = new DeviceFixedRate01();
 		Map<String,Object> args1 = new HashMap<String, Object>();
 		args1.put(JsonWriter.PRETTY_PRINT, true);
 		args1.put(JsonWriter.TYPE, false);
