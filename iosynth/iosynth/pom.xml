@@ -27,6 +27,7 @@
 	<plugins>
 		<plugin>
 			<artifactId>maven-assembly-plugin</artifactId>
+			<version>3.0.0</version>
 			<executions>
 				<execution>
 					<phase>package</phase>
@@ -41,6 +42,7 @@
 				</descriptorRefs>
 				<archive>
 					<manifest>
+						<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
 						<addClasspath>true</addClasspath>
 						<mainClass>net.iosynth.app.AppMqtt</mainClass>
 					</manifest>
