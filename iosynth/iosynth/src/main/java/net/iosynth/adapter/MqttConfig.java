@@ -10,15 +10,18 @@ import java.util.UUID;
  *
  */
 public class MqttConfig {
-	public static String topic        = "iosynth/device/";
+	public static String topic        = "iosynth/";
 	public static int    qos          = 2;
 	public static String brokerHost   = "localhost";
 	public static int    brokerPort   = 1883;
 	public static String broker;
-	public static String clientId     = "iosynth-0.0.1 " + UUID.randomUUID().toString();
+	public static   UUID uuid         = UUID.randomUUID();
+	public static String session      = Long.toString(uuid.getMostSignificantBits(), 36);
+	public static String clientId     = "iosynth-0.0.1 " + session;
 
 	/**
 	 * Configurations possible:
+	 *     -h hostname -p port -s session
 	 *     -h hostname -p port
 	 *     -h hostname
 	 */
@@ -28,7 +31,7 @@ public class MqttConfig {
 			return;
 		}
 		
-		if (args.length != 2 && args.length != 4) {
+		if (args.length != 2 && args.length != 4 && args.length != 6) {
 			throw new IllegalArgumentException("Invalid arguments");
 		}
 		
@@ -45,7 +48,9 @@ public class MqttConfig {
 				// }
 				brokerPort = Integer.parseInt(args[i + 1]);
 				break;
-
+			case "-s":
+				session  = args[i + 1];
+				break;
 			default:
 				throw new IllegalArgumentException("Invalid argument: " + args[i].substring(0, 2));
 			}

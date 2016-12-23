@@ -50,7 +50,7 @@ public class MqttAdapter extends Thread {
 					System.out.println("Publishing message: " + msg.getId() + " " + msg.getMsg());
 					MqttMessage message = new MqttMessage(msg.getMsg().getBytes());
 					message.setQos(config.qos);
-					sampleClient.publish(config.topic + msg.getId(), message);
+					sampleClient.publish(config.topic + config.session + "/device/" + msg.getId(), message);
 				}
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block

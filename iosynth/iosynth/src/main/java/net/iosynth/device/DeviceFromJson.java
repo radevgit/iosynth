@@ -9,10 +9,6 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-
-import com.cedarsoftware.util.io.JsonReader;
-import com.cedarsoftware.util.io.JsonWriter;
-
 /**
  * @author rradev
  *
@@ -21,6 +17,7 @@ public class DeviceFromJson {
 
 	
 	public DeviceFromJson(){
+		/*
 		DeviceFixedRate01 dev1 = new DeviceFixedRate01();
 		Map<String,Object> args1 = new HashMap<String, Object>();
 		args1.put(JsonWriter.PRETTY_PRINT, true);
@@ -45,7 +42,7 @@ public class DeviceFromJson {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		 */
 	}
 	
 	
