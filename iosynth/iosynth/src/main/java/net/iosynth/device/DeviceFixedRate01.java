@@ -34,7 +34,7 @@ public class DeviceFixedRate01 extends Device {
 		
 		addSensor(new String("temp"), new SensorRandomDouble01(15, 25));
 		
-		String stringVal[] = {new String("red"), new String("yellow"), new String("green")};
+		String stringVal[] = {new String("red"), new String("yellow"), new String("green"), new String("yellow")};
 		addSensor(new String("semafor"), new SensorCycleString01(stringVal));
 		
 		String stringVal2[] = {

@@ -14,17 +14,17 @@ import net.iosynth.util.Message;
  * 
  *
  */
-public class AppMqtt {
+public class App1000 {
 	public BlockingQueue<Message> msgQueue;
 	MqttAdapter mqtt;
 	
-	public AppMqtt(String[] args){
+	public App1000(String[] args){
 		msgQueue = new LinkedBlockingQueue<Message>();
 		MqttAdapter mqtt = null;
 		try {
 			mqtt = new MqttAdapter(args, msgQueue);
 		} catch (IllegalArgumentException e) {
-			System.out.println("\nUsage: java -cp iosynth.jar -h hostname -p port -s session\n");
+			System.out.println("\nUsage: java -cp iosynth.jar App1000 -h hostname -p port -s session\n");
 			System.exit(1);;
 		}
 		mqtt.start();
@@ -33,7 +33,7 @@ public class AppMqtt {
 	public void sensorControl(){
 		DeviceControl devsControl = new DeviceControl(msgQueue);
 		int k=1;
-		for(int i=0; i<5; i++){
+		for(int i=0; i<500; i++){
 			Device dev1 = new DeviceFixedRate01();
 			dev1.setRate(10000);
 			dev1.setId(String.format("%04d", k));
@@ -41,7 +41,7 @@ public class AppMqtt {
 			k++;
 		}
 		
-		for(int i=0; i<5; i++){
+		for(int i=0; i<500; i++){
 			Device dev3 = new DeviceVariableRate01();
 			dev3.setId(String.format("%04d", k));
 			devsControl.addVariable(dev3);
@@ -52,7 +52,8 @@ public class AppMqtt {
 	}
 	
     public static void main( String[] args ){
-    	AppMqtt a = new AppMqtt(args);
+    	App1000 a = new App1000(args);
     	a.sensorControl();
     }
 }
+

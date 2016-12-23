@@ -29,10 +29,10 @@ public class DeviceVariableRate01 extends Device {
 		String stringVal[] = {new String("ON"), new String("OF")};
 		addSensor(new String("door"), new SensorCycleString01(stringVal));
 		
-		String stringVal2[] = {new String("elevator"), new String("elevator_02"), new String("elevator_03"), new String("elevator_04")};
-		addSensor(new String("level"), new SensorCycleString01(stringVal2));
+		String stringVal2[] = {new String("elevator_01"), new String("elevator_02"), new String("elevator_03"), new String("elevator_04")};
+		addSensor(new String("1st floor"), new SensorCycleString01(stringVal2));
 		
-		addSensor(new String("internalState"), new SensorRandomInt01(0, 25));
+		addSensor(new String("state"), new SensorRandomInt01(0, 25));
 		
 		addSensor("count");
 	}

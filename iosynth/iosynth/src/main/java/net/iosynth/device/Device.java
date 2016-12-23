@@ -52,7 +52,7 @@ public abstract class Device implements Runnable {
 		this.uuid = UUID.randomUUID().toString();
 		this.jitter = ThreadLocalRandom.current().nextInt(0, 2000); // At most 2s jitter
 		this.rate   = 1000*10; // Default 10s polling rate
-		this.delay  = 1000*5; // Default delay 5s
+		this.delay  = ThreadLocalRandom.current().nextLong(10*1000)+1000; // Default delay 1-10 s
 		this.sens   = new LinkedHashMap<String, Sensor>(0);   // Ordered Map
 	}
 
