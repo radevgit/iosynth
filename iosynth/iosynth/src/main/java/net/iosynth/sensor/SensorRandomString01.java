@@ -17,7 +17,7 @@ public class SensorRandomString01 extends Sensor {
 	 * 
 	 */
 	public SensorRandomString01(String[] values) {
-		this.state = 0;
+		this.state = ThreadLocalRandom.current().nextInt(values.length);
 		this.values = new String[values.length];
 		for(int i=0; i<values.length; i++){
 			this.values[i] = values[i];
@@ -27,7 +27,7 @@ public class SensorRandomString01 extends Sensor {
 	// Propagate internal state and epoch
 	public void step(long step){
 		for(int i=0; i<step; i++){
-			state = ThreadLocalRandom.current().nextInt(0, values.length);
+			state = ThreadLocalRandom.current().nextInt(values.length);
 		}
 		epoch = epoch + step;
 	}
