@@ -1,5 +1,6 @@
 package net.iosynth.adapter;
 
+import java.io.IOException;
 import java.util.UUID;
 import java.util.concurrent.BlockingQueue;
 
@@ -20,7 +21,12 @@ public class MqttAdapter extends Thread {
     MqttConfig config;
     
 	public MqttAdapter(String[] args, BlockingQueue<Message> msgQueue) {
-		config = new MqttConfig(args);
+		try {
+			config = new MqttConfig(args);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		this.msgQueue = msgQueue;
 		persistence = new MemoryPersistence();
 		try {

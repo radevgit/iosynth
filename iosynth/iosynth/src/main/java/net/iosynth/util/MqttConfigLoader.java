@@ -15,6 +15,8 @@ import java.util.Map;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 
+import net.iosynth.adapter.MqttConfigClass;
+
 /**
  * @author rradev
  *
@@ -38,7 +40,7 @@ public class MqttConfigLoader {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Config cfg = gson.fromJson(json, Config.class);
+		MqttConfigClass cfg = gson.fromJson(json, MqttConfigClass.class);
 		System.out.println(gson.toJson(cfg));
 	}
 	
