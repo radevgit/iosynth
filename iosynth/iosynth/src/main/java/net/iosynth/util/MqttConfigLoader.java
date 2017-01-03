@@ -5,13 +5,15 @@ package net.iosynth.util;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.cedarsoftware.util.io.JsonReader;
-import com.cedarsoftware.util.io.JsonWriter;
-
+import com.google.gson.Gson;
+import com.google.gson.stream.JsonReader;
 
 /**
  * @author rradev
@@ -27,36 +29,16 @@ public class MqttConfigLoader {
 	}
 	
 	public void DeviceFromJson(){
-
-		MqttConfig cfg = new MqttConfig();
-		Map<String,Object> args1 = new HashMap<String, Object>();
-		args1.put(JsonWriter.PRETTY_PRINT, true);
-		//args1.put(JsonWriter.TYPE, false);
-		String json = JsonWriter.objectToJson(cfg, args1);
-		System.out.println(json);
-		System.out.println("end");
-		
-		InputStream inputStream = null;
-		/*
+		//MqttConfig cfg = new MqttConfig();
+		Gson gson = new Gson();
+		String json = null;;
 		try {
-			inputStream = new FileInputStream("/home/ross/tmp/MqttConfig.json");
-			Map<String, Object> args = new HashMap<String, Object>();
-			//args.put(JsonReader.USE_MAPS, true);
-			MqttConfig obj = (MqttConfig) JsonReader.jsonToJava(inputStream, args);
-			int a = 1;
-			obj.show();
-			
-			
-			//Map<String,Object> args1 = new HashMap<String, Object>();
-			//args1.put(JsonWriter.PRETTY_PRINT, true);
-			//String json = JsonWriter.objectToJson(cfg, args1);
-			//System.out.println(json);
-			
-		} catch (FileNotFoundException e) {
+			json = new String(Files.readAllBytes(Paths.get("/home/ross/tmp/MqttConfig.json")));
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		*/
+		Config cfg = gson.fromJson(json, Config.class);
 	}
 	
 	/**

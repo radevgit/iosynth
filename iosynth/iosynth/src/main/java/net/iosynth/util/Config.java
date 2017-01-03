@@ -7,7 +7,7 @@ package net.iosynth.util;
  * @author rradev
  *
  */
-public class MqttConfig {
+public class Config {
 	public String topic        = "iosynth/";
 	public int    qos          = 2;
 	public String brokerHost   = "localhost";
@@ -16,7 +16,7 @@ public class MqttConfig {
 	/**
 	 * 
 	 */
-	public MqttConfig() {
+	public Config() {
 		
 	}
 	
