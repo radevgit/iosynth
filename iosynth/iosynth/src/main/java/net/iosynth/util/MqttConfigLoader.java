@@ -39,6 +39,7 @@ public class MqttConfigLoader {
 			e.printStackTrace();
 		}
 		Config cfg = gson.fromJson(json, Config.class);
+		System.out.println(gson.toJson(cfg));
 	}
 	
 	/**
