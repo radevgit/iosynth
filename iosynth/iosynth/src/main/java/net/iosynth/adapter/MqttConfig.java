@@ -16,7 +16,7 @@ import com.google.gson.Gson;
  */
 public class MqttConfig {
 	public String topic        = "iosynth/";
-	public int    qos          = 2;
+	public int    qos          = 0;
 	public String broker       = "tcp://localhost:1883";
 	public UUID uuid           = UUID.randomUUID();
 	public String session      = Long.toString(uuid.getMostSignificantBits(), 36);
@@ -60,6 +60,7 @@ public class MqttConfig {
 		if(cfg.topic != null){
 			topic = cfg.topic;
 		}
+		qos = cfg.qos;
 		if(cfg.broker != null){
 			broker = cfg.broker;
 		}
