@@ -24,7 +24,7 @@ public class AppMqtt {
 		try {
 			mqtt = new MqttAdapter(args, msgQueue);
 		} catch (IllegalArgumentException e) {
-			System.out.println("\nUsage: java -cp iosynth.jar -h hostname -p port -s session\n");
+			System.out.println("\nUsage: java -cp iosynth.jar -c config.json\n");
 			System.exit(1);;
 		}
 		mqtt.start();
