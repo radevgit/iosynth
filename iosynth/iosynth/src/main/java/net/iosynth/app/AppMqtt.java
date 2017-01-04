@@ -3,6 +3,7 @@ package net.iosynth.app;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import net.iosynth.adapter.Config;
 import net.iosynth.adapter.MqttAdapter;
 import net.iosynth.device.Device;
 import net.iosynth.device.DeviceControl;
@@ -18,15 +19,9 @@ public class AppMqtt {
 	public BlockingQueue<Message> msgQueue;
 	MqttAdapter mqtt;
 	
-	public AppMqtt(String[] args){
+	public AppMqtt(Config cfg){
 		msgQueue = new LinkedBlockingQueue<Message>();
-		MqttAdapter mqtt = null;
-		try {
-			mqtt = new MqttAdapter(args, msgQueue);
-		} catch (IllegalArgumentException e) {
-			System.out.println("\nUsage: java -cp iosynth.jar -c config.json\n");
-			System.exit(1);;
-		}
+		MqttAdapter mqtt = new MqttAdapter(cfg.cfgJson, msgQueue);
 		mqtt.start();
 	}
 	
@@ -35,7 +30,7 @@ public class AppMqtt {
 		int k=1;
 		for(int i=0; i<5; i++){
 			Device dev1 = new DeviceFixedRate01();
-			dev1.setRate(10000);
+			dev1.setRate(10000);  // 10s default rate
 			dev1.setId(String.format("%04d", k));
 			devsControl.addFixed(dev1);
 			k++;
@@ -52,7 +47,8 @@ public class AppMqtt {
 	}
 	
     public static void main( String[] args ){
-    	AppMqtt a = new AppMqtt(args);
+    	Config cfg = new Config(args);
+    	AppMqtt a = new AppMqtt(cfg);
     	a.sensorControl();
     }
 }

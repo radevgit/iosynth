@@ -3,6 +3,7 @@ package net.iosynth.app;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import net.iosynth.adapter.Config;
 import net.iosynth.adapter.MqttAdapter;
 import net.iosynth.device.Device;
 import net.iosynth.device.DeviceControl;
@@ -18,15 +19,9 @@ public class App10000 {
 	public BlockingQueue<Message> msgQueue;
 	MqttAdapter mqtt;
 	
-	public App10000(String[] args){
+	public App10000(Config cfg){
 		msgQueue = new LinkedBlockingQueue<Message>();
-		MqttAdapter mqtt = null;
-		try {
-			mqtt = new MqttAdapter(args, msgQueue);
-		} catch (IllegalArgumentException e) {
-			System.out.println("\nUsage: java -cp iosynth.jar App1000 -h hostname -p port -s session\n");
-			System.exit(1);;
-		}
+		MqttAdapter mqtt = new MqttAdapter(cfg.cfgJson, msgQueue);
 		mqtt.start();
 	}
 	
@@ -52,7 +47,8 @@ public class App10000 {
 	}
 	
     public static void main( String[] args ){
-    	App10000 a = new App10000(args);
+    	Config cfg = new Config(args);
+    	App10000 a = new App10000(cfg);
     	a.sensorControl();
     }
 }

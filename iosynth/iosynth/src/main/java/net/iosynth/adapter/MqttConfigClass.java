@@ -1,5 +1,5 @@
 /**
- * 
+ * Contains configuration for Mqtt connection adapter
  */
 package net.iosynth.adapter;
 
@@ -12,19 +12,4 @@ public class MqttConfigClass {
 	public int    qos;
 	public String broker;
 	public String session;
-
-	/**
-	 * 
-	 */
-	public MqttConfigClass() {
-		
-	}
-	
-	public void show(){
-		System.out.println(topic);
-		System.out.println(qos);
-		System.out.println(broker);
-		System.out.println(session);
-	}
-
 }
