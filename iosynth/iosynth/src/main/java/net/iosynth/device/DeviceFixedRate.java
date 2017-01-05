@@ -1,14 +1,13 @@
 /**
  * 
  */
-package net.iosynth.util;
+package net.iosynth.device;
 
 import java.util.Map;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import net.iosynth.device.Device;
 import net.iosynth.sensor.Sensor;
 
 /**
@@ -36,19 +35,6 @@ public class DeviceFixedRate extends Device {
 		    sensor.step(1);
 		}
 		getQueue().add(toJson());
-	}
-
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		DeviceFixedRate d = new DeviceFixedRate();
-		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		String str = gson.toJson(d);
-		System.out.println(str);
-		
-		Device d2 = gson.fromJson(str, DeviceFixedRate.class);
-		System.out.println(gson.toJson(d2));
 	}
 
 }

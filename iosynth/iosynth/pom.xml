@@ -77,6 +77,7 @@
 			<groupId>org.danilopianini</groupId>
 			<artifactId>gson-extras</artifactId>
 			<version>0.2.1</version>
+			<scope>compile</scope>
 		</dependency>
 	</dependencies>
   
