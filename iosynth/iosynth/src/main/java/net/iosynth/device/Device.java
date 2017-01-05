@@ -41,7 +41,7 @@ public abstract class Device implements Runnable {
 	 */
 	private int delayId;
 
-	protected Map<String, Sensor> sens;
+	protected Map<String, Sensor> sensors;
 	
 	final static private SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
@@ -53,7 +53,7 @@ public abstract class Device implements Runnable {
 		this.jitter = ThreadLocalRandom.current().nextInt(0, 2000); // At most 2s jitter
 		this.rate   = 1000*10; // Default 10s polling rate
 		this.delay  = ThreadLocalRandom.current().nextLong(10*1000)+1000; // Default delay 1-10 s
-		this.sens   = new LinkedHashMap<String, Sensor>(0);   // Ordered Map
+		this.sensors   = new LinkedHashMap<String, Sensor>(0);   // Ordered Map
 	}
 
 	public void setId(String uuid){
@@ -113,16 +113,16 @@ public abstract class Device implements Runnable {
 	}
 	
 	public Map<String, Sensor> getSens() {
-		return sens;
+		return sensors;
 	}
 
 	public void setSens(Map<String, Sensor> sens) {
-		this.sens = sens;
+		this.sensors = sens;
 	}
 
 	
 	public void addSensor(String name, Sensor sen){
-		sens.put(name, sen);
+		sensors.put(name, sen);
 	}
 	
 	
@@ -152,7 +152,7 @@ public abstract class Device implements Runnable {
 	 * @param name
 	 */
 	public void addSensor(String name){
-		sens.put(name, new SensorDefault());
+		sensors.put(name, new SensorDefault());
 	}
 	
 	
@@ -170,7 +170,7 @@ public abstract class Device implements Runnable {
 		m.append("\"time\":\"");
 		m.append(fmt.format(now));
 		m.append("\",");
-		for(Map.Entry<String, Sensor> sen : sens.entrySet()) {
+		for(Map.Entry<String, Sensor> sen : sensors.entrySet()) {
 		    String name = sen.getKey();
 		    Sensor sensor = sen.getValue();
 		    m.append("\"");

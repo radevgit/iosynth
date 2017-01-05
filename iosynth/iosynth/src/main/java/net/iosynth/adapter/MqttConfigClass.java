@@ -12,4 +12,7 @@ public class MqttConfigClass {
 	public int    qos;
 	public String broker;
 	public String session;
+	public MqttConfigClass(){
+		// no-args constructor
+	}
 }

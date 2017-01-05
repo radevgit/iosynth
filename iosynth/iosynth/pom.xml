@@ -73,6 +73,11 @@
 			<version>2.8.0</version>
 			<scope>compile</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.danilopianini</groupId>
+			<artifactId>gson-extras</artifactId>
+			<version>0.2.1</version>
+		</dependency>
 	</dependencies>
   
   <organization>

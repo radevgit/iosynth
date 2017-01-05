@@ -51,7 +51,7 @@ public class DeviceFixedRate01 extends Device {
 	}
 
 	public void run() {
-		for(Map.Entry<String, Sensor> sen : sens.entrySet()) {
+		for(Map.Entry<String, Sensor> sen : sensors.entrySet()) {
 		    String name = sen.getKey();
 		    Sensor sensor = sen.getValue();
 		    sensor.step(1);
