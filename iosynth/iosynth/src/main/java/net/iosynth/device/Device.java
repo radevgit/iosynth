@@ -4,8 +4,10 @@
 package net.iosynth.device;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.BlockingQueue;
@@ -41,7 +43,7 @@ public abstract class Device implements Runnable {
 	 */
 	private int delayId;
 
-	protected Map<String, Sensor> sensors;
+	protected List<Sensor> sensors;
 	
 	final static private SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
@@ -53,7 +55,7 @@ public abstract class Device implements Runnable {
 		this.jitter = ThreadLocalRandom.current().nextInt(0, 2000); // At most 2s jitter
 		this.rate   = 1000*10; // Default 10s polling rate
 		this.delay  = ThreadLocalRandom.current().nextLong(10*1000)+1000; // Default delay 1-10 s
-		this.sensors   = new LinkedHashMap<String, Sensor>(0);   // Ordered Map
+		this.sensors   = new ArrayList<>();
 	}
 
 	public void setId(String uuid){
@@ -112,17 +114,18 @@ public abstract class Device implements Runnable {
 		this.delay = delay;
 	}
 	
-	public Map<String, Sensor> getSens() {
+	public List<Sensor> getSens() {
 		return sensors;
 	}
 
-	public void setSens(Map<String, Sensor> sens) {
+	public void setSens(List<Sensor> sens) {
 		this.sensors = sens;
 	}
 
 	
 	public void addSensor(String name, Sensor sen){
-		sensors.put(name, sen);
+		sen.setName(name);
+		sensors.add(sen);
 	}
 	
 	
@@ -152,7 +155,9 @@ public abstract class Device implements Runnable {
 	 * @param name
 	 */
 	public void addSensor(String name){
-		sensors.put(name, new SensorDefault());
+		SensorDefault sen = new SensorDefault();
+		sen.setName(name);
+		sensors.add(sen);
 	}
 	
 	
@@ -170,9 +175,8 @@ public abstract class Device implements Runnable {
 		m.append("\"time\":\"");
 		m.append(fmt.format(now));
 		m.append("\",");
-		for(Map.Entry<String, Sensor> sen : sensors.entrySet()) {
-		    String name = sen.getKey();
-		    Sensor sensor = sen.getValue();
+		for(final Sensor sensor : sensors) {
+		    String name = sensor.getName();
 		    m.append("\"");
 		    m.append(name);
 		    m.append("\":");

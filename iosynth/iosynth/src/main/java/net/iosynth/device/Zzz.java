@@ -10,6 +10,7 @@ import com.google.gson.typeadapters.RuntimeTypeAdapterFactory;
 import net.iosynth.sensor.Sensor;
 import net.iosynth.sensor.SensorConstantString;
 import net.iosynth.sensor.SensorCycleDouble01;
+import net.iosynth.sensor.SensorCycleInt01;
 import net.iosynth.sensor.SensorDefault;
 
 /**
@@ -34,6 +35,7 @@ public class Zzz {
 		
 		RuntimeTypeAdapterFactory<Sensor> sensorAdapter = RuntimeTypeAdapterFactory.of(Sensor.class, "type");
 		sensorAdapter.registerSubtype(SensorDefault.class, "SensorDefault");
+		sensorAdapter.registerSubtype(SensorCycleInt01.class, "SensorCycleInt01");
 
 		Gson gson = new GsonBuilder()
 				.setPrettyPrinting()

@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import net.iosynth.sensor.Sensor;
+import net.iosynth.sensor.SensorCycleInt01;
 
 /**
  * @author rradev
@@ -21,7 +22,11 @@ public class DeviceFixedRate extends Device {
 	 */
 	public DeviceFixedRate() {
 		deviceType = DeviceFixedRate.class.getSimpleName();
-		addSensor("prime");
+		addSensor("first");
+		addSensor("second");
+		int t[] = {1,2,3,4,5,6,7,8,9};
+		SensorCycleInt01 sen = new SensorCycleInt01(t);
+		addSensor("xxx", sen);
 	}
 
 	/* (non-Javadoc)
@@ -29,9 +34,7 @@ public class DeviceFixedRate extends Device {
 	 */
 	@Override
 	public void run() {
-		for(Map.Entry<String, Sensor> sen : sensors.entrySet()) {
-		    String name = sen.getKey();
-		    Sensor sensor = sen.getValue();
+		for(final Sensor sensor : sensors) {
 		    sensor.step(1);
 		}
 		getQueue().add(toJson());
