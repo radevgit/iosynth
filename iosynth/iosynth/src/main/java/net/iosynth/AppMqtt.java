@@ -1,4 +1,4 @@
-package net.iosynth.app;
+package net.iosynth;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;

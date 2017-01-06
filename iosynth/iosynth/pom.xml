@@ -44,7 +44,7 @@
 					<manifest>
 						<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
 						<addClasspath>true</addClasspath>
-						<mainClass>net.iosynth.app.AppMqtt</mainClass>
+						<mainClass>net.iosynth.AppMqtt</mainClass>
 					</manifest>
 				</archive>
 			</configuration>
