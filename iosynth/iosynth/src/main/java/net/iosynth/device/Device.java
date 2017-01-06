@@ -22,22 +22,24 @@ import net.iosynth.util.Message;
  * @author ross
  *
  */
-public abstract class Device implements Runnable {
+public class Device implements Runnable {
 	private String uuid;
 	private BlockingQueue<Message> msgQueue;
 	private BlockingQueue<Delay>   delayQueue;
 	/**
 	 * Timer jitter in milliseconds
 	 */
-	private long jitter;
+	//private long jitter;
 	/**
 	 * Timer polling rate in milliseconds for fixed rate devices
 	 */
-	private long rate;
+	//private long rate;
 	/**
 	 * Delay for random rate devices
 	 */
-	private long delay;
+	//private long delay;
+	private Arrival arrival;
+
 	/**
 	 * id in the delay devices list
 	 */
@@ -52,9 +54,6 @@ public abstract class Device implements Runnable {
 	 */
 	public Device() {
 		this.uuid = UUID.randomUUID().toString();
-		this.jitter = ThreadLocalRandom.current().nextInt(0, 2000); // At most 2s jitter
-		this.rate   = 1000*10; // Default 10s polling rate
-		this.delay  = ThreadLocalRandom.current().nextLong(10*1000)+1000; // Default delay 1-10 s
 		this.sensors   = new ArrayList<>();
 	}
 
@@ -90,28 +89,18 @@ public abstract class Device implements Runnable {
 		return delayQueue;
 	}
 
-	public void setJitter(long jitter) {
-		this.jitter = jitter;
-	}
-	
-	public long getJitter(){
-		return jitter;
-	}
-	
-	public long getRate() {
-		return rate;
+	/**
+	 * @return the arrival
+	 */
+	public Arrival getArrival() {
+		return arrival;
 	}
 
-	public void setRate(long rate) {
-		this.rate = rate;
-	}
-
-	public long getDelay(){
-		return delay;
-	}
-	
-	public void setDealy(long delay){
-		this.delay = delay;
+	/**
+	 * @param arrival the arrival to set
+	 */
+	public void setArrival(Arrival arrival) {
+		this.arrival = arrival;
 	}
 	
 	public List<Sensor> getSens() {
@@ -143,12 +132,7 @@ public abstract class Device implements Runnable {
 		this.delayId = delayId;
 	}
 
-	/**
-	 * @param delay the delay to set
-	 */
-	public void setDelay(long delay) {
-		this.delay = delay;
-	}
+
 	
 	/**
 	 * Adds default sensor
@@ -165,7 +149,18 @@ public abstract class Device implements Runnable {
 	/* (non-Javadoc)
 	 * @see java.lang.Runnable#run()
 	 */
-	abstract public void run();
+	public void run(){
+		for(final Sensor sensor : sensors) {
+		    sensor.step(1);
+		}
+		getQueue().add(toJson());
+		if (!arrival.isFixed()) {
+			long delay = arrival.getNextInterval();
+			//setDealy(delay);
+			Delay d = new Delay(getDelayId(), delay);
+			getDelayQueue().add(d);
+		}
+	}
 	
 	
 	public Message toJson(){

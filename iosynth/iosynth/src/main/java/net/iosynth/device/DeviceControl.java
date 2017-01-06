@@ -30,30 +30,35 @@ public class DeviceControl {
 		this.delayQueue = new LinkedBlockingQueue<Delay>();
 	}
 	
+	/*
 	public void addFixed(Device r){
 		r.setQueue(msgQueue);
 		devsFixedList.add(r);
-	}
+	}*/
 	
-	public void addVariable(Device r){
+	public void addDevice(Device r){
 		r.setQueue(msgQueue);
-		r.setDelayQueue(delayQueue);
-		int delayId = devsDelayList.size();
-		r.setDelayId(delayId);
-		devsDelayList.add(r);
+		if (r.getArrival().isFixed()) {
+			devsFixedList.add(r);
+		} else {
+			r.setDelayQueue(delayQueue);
+			int delayId = devsDelayList.size();
+			r.setDelayId(delayId);
+			devsDelayList.add(r);
+		}
 	}
 	
 	
 	public void forever() {
 		devsHandleFixedList = new ArrayList<ScheduledFuture<?>>(0);
-		// Devices with fixed rate
+		// Devices with fixed arrival interval
 		for(Runnable dev: devsFixedList){
-			ScheduledFuture<?> devHandle = scheduler.scheduleAtFixedRate(dev, ((Device)dev).getJitter(), ((Device)dev).getRate(), TimeUnit.MILLISECONDS);
+			ScheduledFuture<?> devHandle = scheduler.scheduleAtFixedRate(dev, ((Device)dev).getArrival().getJitter(), ((Device)dev).getArrival().getInterval(), TimeUnit.MILLISECONDS);
 			devsHandleFixedList.add(devHandle);
 		}
-		// Devices with variable delay rate. They have to be re-scheduled each time.
+		// Devices with variable arrival interval. They have to be re-scheduled each time.
 		for(Runnable dev: devsDelayList){
-			ScheduledFuture<?> devHandle = scheduler.schedule(dev, ((Device)dev).getDelay(), TimeUnit.MILLISECONDS);
+			ScheduledFuture<?> devHandle = scheduler.schedule(dev, ((Device)dev).getArrival().getNextInterval(), TimeUnit.MILLISECONDS);
 			//devsHandleDelayList.add(devHandle);
 		}
 		
@@ -61,7 +66,7 @@ public class DeviceControl {
 			while (true) { // reschedule variable rate devices
 				final Delay delay = delayQueue.take();
 				Runnable r = devsDelayList.get(delay.getId());
-				ScheduledFuture<?> devHandle = scheduler.schedule(r, ((Device)r).getDelay(), TimeUnit.MILLISECONDS);
+				ScheduledFuture<?> devHandle = scheduler.schedule(r, ((Device)r).getArrival().getNextInterval(), TimeUnit.MILLISECONDS);
 			}
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block

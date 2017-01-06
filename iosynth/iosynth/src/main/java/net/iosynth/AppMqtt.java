@@ -23,8 +23,12 @@ public class AppMqtt {
 		msgQueue = new LinkedBlockingQueue<Message>();
 		MqttAdapter mqtt = new MqttAdapter(cfg.cfgJson, msgQueue);
 		mqtt.start();
+		
+		DeviceControl devControl = new DeviceControl(msgQueue);
+		
+		devControl.forever();
 	}
-	
+	/*
 	public void sensorControl(){
 		DeviceControl devsControl = new DeviceControl(msgQueue);
 		int k=1;
@@ -45,10 +49,10 @@ public class AppMqtt {
 		
 		devsControl.forever();
 	}
+	*/
 	
     public static void main( String[] args ){
     	Config cfg = new Config(args);
-    	AppMqtt a = new AppMqtt(cfg);
-    	a.sensorControl();
+    	AppMqtt app = new AppMqtt(cfg);
     }
 }

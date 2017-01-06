@@ -43,7 +43,7 @@ public class DeviceVariableRate01 extends Device {
 		}
 		getQueue().add(toJson());
 		long delay = ThreadLocalRandom.current().nextLong(25*1000)+1000;
-		setDealy(delay);
+		//setDealy(delay);
 		Delay d = new Delay(getDelayId(), delay);
 		getDelayQueue().add(d);
 	}

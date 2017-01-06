@@ -28,6 +28,31 @@ public class DevicesFromJson {
 	public DevicesFromJson() {
 		// TODO Auto-generated constructor stub
 	}
+	
+	public Gson getParser(){
+		RuntimeTypeAdapterFactory<Device> deviceAdapter = RuntimeTypeAdapterFactory.of(Device.class, "type");
+		deviceAdapter.registerSubtype(DeviceFixedRate.class, "DeviceFixedRate");
+		
+		
+		RuntimeTypeAdapterFactory<Sensor> sensorAdapter = RuntimeTypeAdapterFactory.of(Sensor.class, "type");
+		sensorAdapter.registerSubtype(SensorDefault.class, "SensorDefault");
+		sensorAdapter.registerSubtype(SensorCycleInt01.class, "SensorCycleInt01");
+
+		Gson gson = new GsonBuilder()
+				.setPrettyPrinting()
+				.registerTypeAdapterFactory(deviceAdapter)
+				.registerTypeAdapterFactory(sensorAdapter)
+				.create();
+		return gson;
+	}
+	
+	public Device[] build(String json){
+		Gson gson = getParser();
+		Device[] devIn = gson.fromJson(json, Device[].class);
+		
+		Device[] devOut = new Device[100];
+		return devOut;
+	}
 
 
 	
