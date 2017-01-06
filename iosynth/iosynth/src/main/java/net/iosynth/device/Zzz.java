@@ -3,8 +3,11 @@
  */
 package net.iosynth.device;
 
+import java.util.List;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.google.gson.typeadapters.RuntimeTypeAdapterFactory;
 
 import net.iosynth.sensor.Sensor;
@@ -43,9 +46,15 @@ public class Zzz {
 				.registerTypeAdapterFactory(sensorAdapter)
 				.create();
 		
-		DeviceFixedRate dev = new DeviceFixedRate();
+		Device devArr[] = new Device[2];
+		devArr[0] = new DeviceFixedRate();
+		devArr[1] = new DeviceFixedRate();
+		String json = gson.toJson(devArr);
+		System.out.println(json);
 		
-		System.out.println(gson.toJson(dev));
+		
+		Device[] devOut = gson.fromJson(json, Device[].class);
+		int a=1;
 	}
 	
 }

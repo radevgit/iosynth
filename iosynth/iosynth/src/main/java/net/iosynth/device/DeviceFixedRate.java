@@ -16,12 +16,10 @@ import net.iosynth.sensor.SensorCycleInt01;
  *
  */
 public class DeviceFixedRate extends Device {
-	String deviceType;
 	/**
 	 * 
 	 */
 	public DeviceFixedRate() {
-		deviceType = DeviceFixedRate.class.getSimpleName();
 		addSensor("first");
 		addSensor("second");
 		int t[] = {1,2,3,4,5,6,7,8,9};
