@@ -9,6 +9,7 @@ import net.iosynth.device.Device;
 import net.iosynth.device.DeviceControl;
 import net.iosynth.device.DeviceFixedRate01;
 import net.iosynth.device.DeviceVariableRate01;
+import net.iosynth.device.DevicesFromJson;
 import net.iosynth.util.Message;
 
 /**
@@ -23,8 +24,12 @@ public class AppMqtt {
 		msgQueue = new LinkedBlockingQueue<Message>();
 		MqttAdapter mqtt = new MqttAdapter(cfg.cfgJson, msgQueue);
 		mqtt.start();
-		
+		DevicesFromJson fromJson = new DevicesFromJson();
+		Device devs[] = fromJson.build(cfg.devJson);
 		DeviceControl devControl = new DeviceControl(msgQueue);
+		for(final Device dev: devs){
+			devControl.addDevice(dev);
+		}
 		
 		devControl.forever();
 	}

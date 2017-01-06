@@ -38,7 +38,7 @@ public class DeviceControl {
 	
 	public void addDevice(Device r){
 		r.setQueue(msgQueue);
-		if (r.getArrival().isFixed()) {
+		if (r.getArrival() instanceof Arrival) {
 			devsFixedList.add(r);
 		} else {
 			r.setDelayQueue(delayQueue);

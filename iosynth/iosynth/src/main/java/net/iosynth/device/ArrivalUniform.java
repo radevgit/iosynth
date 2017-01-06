@@ -16,7 +16,6 @@ public class ArrivalUniform extends Arrival {
 	 * 
 	 */
 	public ArrivalUniform() {
-		this.fixed = false;
 		this.interval  = ThreadLocalRandom.current().nextLong(9*1000)+1000; // Default delay 1-10 s
 	}
 		

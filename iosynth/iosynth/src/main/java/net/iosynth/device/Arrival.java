@@ -10,14 +10,14 @@ import java.util.concurrent.ThreadLocalRandom;
  *
  */
 public class Arrival {
-	protected boolean fixed;
+	//protected boolean fixed;
 	protected long interval;
 	private long jitter;
 	/**
 	 * 
 	 */
 	public Arrival() {
-		this.fixed = true;
+		//this.fixed = true;
 		this.interval = 10000; // default 10s
 		this.jitter = ThreadLocalRandom.current().nextInt(0, 2000); // At most 2s jitter
 	}
@@ -48,8 +48,8 @@ public class Arrival {
 		return interval;
 	}
 	
-	public boolean isFixed(){
-		return fixed;
-	}
+	//public boolean isFixed(){
+	//	return fixed;
+	//}
 
 }

@@ -154,7 +154,7 @@ public class Device implements Runnable {
 		    sensor.step(1);
 		}
 		getQueue().add(toJson());
-		if (!arrival.isFixed()) {
+		if (!(arrival instanceof Arrival)) {
 			long delay = arrival.getNextInterval();
 			//setDealy(delay);
 			Delay d = new Delay(getDelayId(), delay);

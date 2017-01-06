@@ -31,17 +31,23 @@ public class DevicesFromJson {
 	
 	public Gson getParser(){
 		RuntimeTypeAdapterFactory<Device> deviceAdapter = RuntimeTypeAdapterFactory.of(Device.class, "type");
+		deviceAdapter.registerSubtype(Device.class, "Device");
 		deviceAdapter.registerSubtype(DeviceFixedRate.class, "DeviceFixedRate");
 		
 		
 		RuntimeTypeAdapterFactory<Sensor> sensorAdapter = RuntimeTypeAdapterFactory.of(Sensor.class, "type");
 		sensorAdapter.registerSubtype(SensorDefault.class, "SensorDefault");
 		sensorAdapter.registerSubtype(SensorCycleInt01.class, "SensorCycleInt01");
+		
+		RuntimeTypeAdapterFactory<Arrival> arrivalAdapter = RuntimeTypeAdapterFactory.of(Arrival.class, "type");
+		arrivalAdapter.registerSubtype(Arrival.class, "ArrivalFixed");
+		arrivalAdapter.registerSubtype(ArrivalUniform.class, "ArrivalUniform");
 
 		Gson gson = new GsonBuilder()
 				.setPrettyPrinting()
 				.registerTypeAdapterFactory(deviceAdapter)
 				.registerTypeAdapterFactory(sensorAdapter)
+				.registerTypeAdapterFactory(arrivalAdapter)
 				.create();
 		return gson;
 	}
@@ -50,26 +56,19 @@ public class DevicesFromJson {
 		Gson gson = getParser();
 		Device[] devIn = gson.fromJson(json, Device[].class);
 		
-		Device[] devOut = new Device[100];
+		// TODO fix for replication and check the configuration.
+		Device[] devOut = new Device[devIn.length];
+		for(int i=0; i<devIn.length; i++){
+			devOut[i] = devIn[i];
+		}
 		return devOut;
 	}
 
 
 	
 	public static void main(String[] args) {
-		RuntimeTypeAdapterFactory<Device> deviceAdapter = RuntimeTypeAdapterFactory.of(Device.class, "type");
-		deviceAdapter.registerSubtype(DeviceFixedRate.class, "DeviceFixedRate");
-		
-		
-		RuntimeTypeAdapterFactory<Sensor> sensorAdapter = RuntimeTypeAdapterFactory.of(Sensor.class, "type");
-		sensorAdapter.registerSubtype(SensorDefault.class, "SensorDefault");
-		sensorAdapter.registerSubtype(SensorCycleInt01.class, "SensorCycleInt01");
-
-		Gson gson = new GsonBuilder()
-				.setPrettyPrinting()
-				.registerTypeAdapterFactory(deviceAdapter)
-				.registerTypeAdapterFactory(sensorAdapter)
-				.create();
+		DevicesFromJson d = new DevicesFromJson();
+		Gson gson = d.getParser();
 		
 		Device devArr[] = new Device[2];
 		devArr[0] = new DeviceFixedRate();
