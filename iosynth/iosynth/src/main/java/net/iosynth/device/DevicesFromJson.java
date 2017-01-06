@@ -20,12 +20,12 @@ import net.iosynth.sensor.SensorDefault;
  * @author rradev
  *
  */
-public class Zzz {
+public class DevicesFromJson {
 
 	/**
 	 * 
 	 */
-	public Zzz() {
+	public DevicesFromJson() {
 		// TODO Auto-generated constructor stub
 	}
 
