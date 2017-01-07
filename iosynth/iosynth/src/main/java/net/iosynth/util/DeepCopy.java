@@ -17,6 +17,8 @@ public class DeepCopy {
 
 	/**
 	 * Returns a copy of the object, or null if the object cannot be serialized.
+	 * @param orig source object
+	 * @return identical object copy
 	 */
 	public static Object copyObject(Object orig) {
 		Object obj = null;

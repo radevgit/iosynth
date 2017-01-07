@@ -7,20 +7,16 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ThreadLocalRandom;
 
 import net.iosynth.sensor.Sensor;
-import net.iosynth.sensor.SensorDefault;
 import net.iosynth.util.Delay;
 import net.iosynth.util.Message;
 
 /**
- * @author ross
+ * @author rradev
  *
  */
 public abstract class Device implements Runnable, Serializable {
@@ -55,12 +51,21 @@ public abstract class Device implements Runnable, Serializable {
 	 * Check the correctness of instance parameters after deserialization from json
 	 */
 	abstract public void checkParameters();
+	/**
+	 * @return Returns list of replicated devices.
+	 */
 	abstract public List<Device> replicate();
 	
+	/**
+	 * @param uuid
+	 */
 	public void setId(String uuid){
 		this.uuid = uuid;
 	}
 
+	/**
+	 * @return uuid
+	 */
 	public String getId(){
 		return uuid;
 	}
@@ -73,6 +78,9 @@ public abstract class Device implements Runnable, Serializable {
 		this.msgQueue = msgQueue;
 	}
 
+	/**
+	 * @return internal message queue
+	 */
 	public BlockingQueue<Message> getQueue(){
 		return msgQueue;
 	}
@@ -85,6 +93,9 @@ public abstract class Device implements Runnable, Serializable {
 		this.delayQueue = delayQueue;
 	}
 
+	/**
+	 * @return internal delay queue
+	 */
 	public BlockingQueue<Delay> getDelayQueue(){
 		return delayQueue;
 	}
@@ -111,24 +122,34 @@ public abstract class Device implements Runnable, Serializable {
 	}
 
 	/**
-	 * @param deviceCopy the deviceCopy to set
+	 * @param copy
 	 */
 	public void setDeviceCopy(int copy) {
 		this.copy = copy;
 	}
 	
-	public List<Sensor> getSens() {
+	/**
+	 * @return List of sensors
+	 */
+	public List<Sensor> getSensors() {
 		return sensors;
 	}
 
-	public void setSens(List<Sensor> sens) {
-		this.sensors = sens;
+	/**
+	 * @param sensors
+	 */
+	public void setSensors(List<Sensor> sensors) {
+		this.sensors = sensors;
 	}
 
 	
-	public void addSensor(String name, Sensor sen){
-		sen.setName(name);
-		sensors.add(sen);
+	/**
+	 * @param name
+	 * @param sensor
+	 */
+	public void addSensor(String name, Sensor sensor){
+		sensor.setName(name);
+		sensors.add(sensor);
 	}
 	
 	
@@ -165,6 +186,9 @@ public abstract class Device implements Runnable, Serializable {
 	
 
 	
+	/**
+	 * @return Json representation of sensor data
+	 */
 	public Message toJson(){
 		StringBuilder m = new StringBuilder();
 		m.append("{");

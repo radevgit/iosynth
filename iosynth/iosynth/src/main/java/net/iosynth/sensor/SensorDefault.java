@@ -5,10 +5,11 @@ import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Generates random int from predefined set
- * @author ross
+ * @author rradev
  *
  */
 public class SensorDefault extends Sensor {
+	private static final long serialVersionUID = 1L;
 	private static int intVal[] = {
 			  2,      3,      5,      7,     11,     13,     17,     19,     23,     29, 
 		     31,     37,     41,     43,     47,     53,     59,     61,     67,     71, 
@@ -22,10 +23,9 @@ public class SensorDefault extends Sensor {
 		    467,    479,    487,    491,    499,    503,    509,    521,    523,    541 };
 	private int state;
 	private static String FORMAT = "%d";
+
 	/**
 	 * 
-	 * @param min Minimum generated value
-	 * @param max Maximum generated value
 	 */
 	public SensorDefault() {
 	}
@@ -38,6 +38,9 @@ public class SensorDefault extends Sensor {
 		epoch = epoch + step;
 	}
 	
+	/**
+	 * @return Sensor value
+	 */
 	public int getValue(){
 		return state;
 	}

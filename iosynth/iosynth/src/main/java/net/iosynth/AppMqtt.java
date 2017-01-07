@@ -8,8 +8,6 @@ import net.iosynth.adapter.Config;
 import net.iosynth.adapter.MqttAdapter;
 import net.iosynth.device.Device;
 import net.iosynth.device.DeviceControl;
-import net.iosynth.device.DeviceFixedRate01;
-import net.iosynth.device.DeviceVariableRate01;
 import net.iosynth.device.DevicesFromJson;
 import net.iosynth.util.Message;
 
@@ -18,10 +16,10 @@ import net.iosynth.util.Message;
  *
  */
 public class AppMqtt {
-	public BlockingQueue<Message> msgQueue;
-	MqttAdapter mqtt;
+	protected BlockingQueue<Message> msgQueue;
+	protected MqttAdapter mqtt;
 	
-	public AppMqtt(Config cfg){
+	protected AppMqtt(Config cfg){
 		msgQueue = new LinkedBlockingQueue<Message>();
 		MqttAdapter mqtt = new MqttAdapter(cfg.cfgJson, msgQueue);
 		mqtt.start();
@@ -35,8 +33,12 @@ public class AppMqtt {
 		devControl.forever();
 	}
 	
-    public static void main( String[] args ){
-    	Config cfg = new Config(args);
-    	AppMqtt app = new AppMqtt(cfg);
-    }
+	/**
+	 * @param args
+	 */
+	@SuppressWarnings("unused")
+	public static void main(String[] args) {
+		Config cfg = new Config(args);
+		AppMqtt app = new AppMqtt(cfg);
+	}
 }

@@ -6,10 +6,11 @@ package net.iosynth.sensor;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
- * @author ross
+ * @author rradev
  *
  */
 public class SensorCycleInt extends Sensor {
+	private static final long serialVersionUID = 1L;
 	private int values[];
 	private long state;
 	private static String FORMAT = "%d";
@@ -22,11 +23,15 @@ public class SensorCycleInt extends Sensor {
 		init(val);
 	}
 	
+	/**
+	 * @param values
+	 */
 	public SensorCycleInt(int[] values) {
 		init(values);
 	}
 	
 	/**
+	 * @param values 
 	 * 
 	 */
 	public void init(int[] values) {
@@ -62,6 +67,9 @@ public class SensorCycleInt extends Sensor {
 		epoch = epoch + step;
 	}
 	
+	/**
+	 * @return Sensor value
+	 */
 	public int getValue(){
 		return values[(int)state];
 	}

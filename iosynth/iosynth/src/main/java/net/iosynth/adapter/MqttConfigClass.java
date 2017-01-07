@@ -8,11 +8,11 @@ package net.iosynth.adapter;
  *
  */
 public class MqttConfigClass {
-	public String topic;
-	public int    qos;
-	public String broker;
-	public String session;
-	public MqttConfigClass(){
-		// no-args constructor
+	protected String topic;
+	protected int    qos;
+	protected String broker;
+	protected String session;
+	protected MqttConfigClass(){
+		// TODO: default values here
 	}
 }

@@ -4,10 +4,11 @@
 package net.iosynth.sensor;
 
 /**
- * @author ross
+ * @author rradev
  *
  */
 public class SensorConstantString extends Sensor {
+	private static final long serialVersionUID = 1L;
 	private String value;
 	/**
 	 * Just a constant string value
@@ -26,6 +27,9 @@ public class SensorConstantString extends Sensor {
 		}
 	}
 	
+	/**
+	 * @param value
+	 */
 	public SensorConstantString(String value) {
 		this.value = value;
 	}
@@ -35,6 +39,9 @@ public class SensorConstantString extends Sensor {
 		epoch = epoch + step;
 	}
 	
+	/**
+	 * @return Sensor value
+	 */
 	public String getValue(){
 		return value;
 	}

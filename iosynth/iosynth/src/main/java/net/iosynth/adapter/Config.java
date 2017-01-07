@@ -12,13 +12,20 @@ import java.nio.file.Paths;
  *
  */
 public class Config {
+	/**
+	 * Adapter and global configuration json
+	 */
 	public String cfgJson;
+	/**
+	 * Devices configuration json
+	 */
 	public String devJson;
 	private String cfgFile;
 	private String devFile;
 	
 	/**
 	 * Usage: java -cp iosynth.jar -c config.json -d devices.json
+	 * @param args command line args[]
 	 */
 	public Config(String[] args) {
 		

@@ -11,6 +11,7 @@ import java.util.List;
  *
  */
 public class DeviceCopySimple extends DeviceCopy {
+	private static final long serialVersionUID = 1L;
 	private final static String F1 = "%1d";
 	private final static String F2 = "%02d";
 	private final static String F3 = "%03d";
@@ -32,7 +33,7 @@ public class DeviceCopySimple extends DeviceCopy {
 	 */
 	@Override
 	public List<Device> replicate(Device dev) {
-		List<Device> devList = new ArrayList();
+		List<Device> devList = new ArrayList<Device>();
 		String format = getFormat(count);
 		for(int i=0; i<count; i++){
 			Device devNew = (Device) copyObject(dev);

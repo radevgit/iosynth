@@ -10,6 +10,7 @@ import java.util.concurrent.ThreadLocalRandom;
  *
  */
 public class ArrivalFixed extends Arrival {
+	private static final long serialVersionUID = 1L;
 	private long jitter;
 	/**
 	 * 
@@ -55,10 +56,16 @@ public class ArrivalFixed extends Arrival {
 		this.interval = interval;
 	}
 	
+	/**
+	 * @param jitter Jitter to displace fixed inter-arrival intervals.
+	 */
 	public void setJitter(long jitter) {
 		this.jitter = jitter;
 	}
 	
+	/**
+	 * @return Jitter to displace fixed inter-arrival intervals.
+	 */
 	public long getJitter(){
 		return jitter;
 	}

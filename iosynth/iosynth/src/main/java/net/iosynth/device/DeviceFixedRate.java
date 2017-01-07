@@ -3,12 +3,6 @@
  */
 package net.iosynth.device;
 
-import java.util.Map;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import net.iosynth.sensor.Sensor;
 import net.iosynth.sensor.SensorCycleInt;
 
 /**
@@ -16,6 +10,8 @@ import net.iosynth.sensor.SensorCycleInt;
  *
  */
 public class DeviceFixedRate extends DeviceSimple {
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * 
 	 */

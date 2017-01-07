@@ -25,10 +25,17 @@ public abstract class DeviceCopy implements Serializable{
 		this.count = 1;
 	}
 	
+	/**
+	 * @param count
+	 */
 	public DeviceCopy(int count){
 		this.count = count;
 	}
 	
+	/**
+	 * @param dev
+	 * @return List of replicated devices
+	 */
 	abstract public List<Device> replicate(Device dev);
 	
 	/**
@@ -47,6 +54,8 @@ public abstract class DeviceCopy implements Serializable{
 	
 	/**
 	 * Returns a copy of the object, or null if the object cannot be serialized.
+	 * @param orig source
+	 * @return new object
 	 */
 	public static Object copyObject(Object orig) {
 		Object obj = null;

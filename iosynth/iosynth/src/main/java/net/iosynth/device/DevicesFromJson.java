@@ -8,7 +8,6 @@ import java.util.List;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 import com.google.gson.typeadapters.RuntimeTypeAdapterFactory;
 
 import net.iosynth.sensor.Sensor;
@@ -20,7 +19,7 @@ import net.iosynth.sensor.SensorDefault;
 import net.iosynth.sensor.SensorRandomDouble;
 import net.iosynth.sensor.SensorRandomInt;
 import net.iosynth.sensor.SensorRandomString;
-import net.iosynth.util.DeepCopy;
+
 
 /**
  * @author rradev
@@ -32,10 +31,10 @@ public class DevicesFromJson {
 	 * 
 	 */
 	public DevicesFromJson() {
-		// TODO Auto-generated constructor stub
+		
 	}
 	
-	public Gson getParser(){
+	private Gson getParser(){
 		RuntimeTypeAdapterFactory<Device> deviceAdapter = RuntimeTypeAdapterFactory.of(Device.class, "type");
 		//deviceAdapter.registerSubtype(Device.class, "Device");
 		deviceAdapter.registerSubtype(DeviceFixedRate.class, "DeviceSimple");
@@ -71,6 +70,10 @@ public class DevicesFromJson {
 		return gson;
 	}
 	
+	/**
+	 * @param json
+	 * @return List of devices from json definition
+	 */
 	public List<Device> build(String json){
 		Gson gson = getParser();
 		Device[] devIn = gson.fromJson(json, Device[].class);
@@ -92,6 +95,9 @@ public class DevicesFromJson {
 
 
 	
+	/**
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		DevicesFromJson d = new DevicesFromJson();
 		Gson gson = d.getParser();
@@ -108,7 +114,6 @@ public class DevicesFromJson {
 			devOut.addAll(devList);
 		}
 		
-		DeepCopy deep = new DeepCopy();
 		System.out.println(gson.toJson(devIn));
 		System.out.println("___________________");
 		System.out.println(gson.toJson(devOut));

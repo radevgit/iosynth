@@ -12,16 +12,23 @@ import java.util.concurrent.TimeUnit;
 import net.iosynth.util.Delay;
 import net.iosynth.util.Message;
 
+/**
+ * @author rradev
+ *
+ */
 public class DeviceControl {
-	public BlockingQueue<Message> msgQueue;
-	public BlockingQueue<Delay>   delayQueue;
-	public List<Runnable> devsFixedList;
-	public List<Runnable> devsDelayList;
-	public List<ScheduledFuture<?>> devsHandleFixedList;
-	public List<ScheduledFuture<?>> devsHandleDelayList;
+	protected BlockingQueue<Message> msgQueue;
+	protected BlockingQueue<Delay>   delayQueue;
+	protected List<Runnable> devsFixedList;
+	protected List<Runnable> devsDelayList;
+	protected List<ScheduledFuture<?>> devsHandleFixedList;
+	protected List<ScheduledFuture<?>> devsHandleDelayList;
 
-	public ScheduledExecutorService scheduler;
+	protected ScheduledExecutorService scheduler;
 	
+	/**
+	 * @param msgQueue
+	 */
 	public DeviceControl(BlockingQueue<Message> msgQueue){
 		scheduler = Executors.newScheduledThreadPool(5);
 		devsFixedList = new ArrayList<Runnable>(0);
@@ -30,25 +37,25 @@ public class DeviceControl {
 		this.delayQueue = new LinkedBlockingQueue<Delay>();
 	}
 	
-	/*
-	public void addFixed(Device r){
-		r.setQueue(msgQueue);
-		devsFixedList.add(r);
-	}*/
-	
-	public void addDevice(Device r){
-		r.setQueue(msgQueue);
-		if (r.getArrival().getClass() == ArrivalFixed.class) {
-			devsFixedList.add(r);
+	/**
+	 * @param dev
+	 */
+	public void addDevice(Device dev){
+		dev.setQueue(msgQueue);
+		if (dev.getArrival().getClass() == ArrivalFixed.class) {
+			devsFixedList.add(dev);
 		} else {
-			r.setDelayQueue(delayQueue);
+			dev.setDelayQueue(delayQueue);
 			int delayId = devsDelayList.size();
-			r.setDelayId(delayId);
-			devsDelayList.add(r);
+			dev.setDelayId(delayId);
+			devsDelayList.add(dev);
 		}
 	}
 	
 	
+	/**
+	 * 
+	 */
 	public void forever() {
 		devsHandleFixedList = new ArrayList<ScheduledFuture<?>>(0);
 		// Devices with fixed arrival interval
@@ -76,8 +83,4 @@ public class DeviceControl {
 
 	}
 	
-	
-	public static void main(String[] args) {
-	}
-
 }

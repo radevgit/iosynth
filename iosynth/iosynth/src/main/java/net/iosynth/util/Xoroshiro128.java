@@ -8,8 +8,16 @@ import java.util.Random;
  * Original License: http://creativecommons.org/publicdomain/zero/1.0/
  */
 
+/**
+ * @author rradev
+ *
+ */
 public class Xoroshiro128 extends Random {   
-    private static final long DOUBLE_MASK = (1L << 53) - 1;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private static final long DOUBLE_MASK = (1L << 53) - 1;
     private static final double NORM_53 = 1. / (1L << 53);
     private long state0, state1;
 
@@ -29,6 +37,10 @@ public class Xoroshiro128 extends Random {
         return result;
     }
    
+    /**
+     * @param max
+     * @return next random long
+     */
     public long nextLong(final long max) {
         long threshold = (0x7fffffffffffffffL - max + 1) % max;
         while (true) {
@@ -103,13 +115,19 @@ public class Xoroshiro128 extends Random {
     }
 
    
-     public Xoroshiro128 copy() {
+     /**
+     * @return copy of generator
+     */
+    public Xoroshiro128 copy() {
              Xoroshiro128 gen = new Xoroshiro128(state0);
             gen.state0 = state0;
             gen.state1 = state1;
             return gen;
     }
    
+    /**
+     * @param args
+     */
     public static void main(String[] args) {
         Xoroshiro128 gen = new Xoroshiro128(123);
         long s0 = System.currentTimeMillis();

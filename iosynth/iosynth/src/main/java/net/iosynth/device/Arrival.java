@@ -4,7 +4,6 @@
 package net.iosynth.device;
 
 import java.io.Serializable;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * @author rradev
@@ -20,7 +19,16 @@ public abstract class Arrival implements Serializable{
 		
 	}
 	
+	/**
+	 * 
+	 */
 	abstract public void checkParameters();
+	/**
+	 * @return inter-arrival interval value
+	 */
 	abstract public long getInterval();
+	/**
+	 * 
+	 */
 	abstract public void replicate();
 }

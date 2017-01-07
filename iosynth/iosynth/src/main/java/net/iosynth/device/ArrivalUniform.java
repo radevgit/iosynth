@@ -10,6 +10,7 @@ import java.util.concurrent.ThreadLocalRandom;
  *
  */
 public class ArrivalUniform extends Arrival {
+	private static final long serialVersionUID = 1L;
 	private long min;
 	private long max;
 	/**

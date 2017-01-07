@@ -3,24 +3,20 @@
  */
 package net.iosynth.device;
 
-import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 import net.iosynth.sensor.Sensor;
-import net.iosynth.sensor.SensorCycleDouble;
-import net.iosynth.sensor.SensorCycleInt;
 import net.iosynth.sensor.SensorCycleString;
-import net.iosynth.sensor.SensorRandomDouble;
 import net.iosynth.sensor.SensorRandomInt;
 import net.iosynth.util.Delay;
-import net.iosynth.util.Message;
 
 /**
  * Example Device class
- * @author ross
+ * @author rradev
  *
  */
 public class DeviceVariableRate01 extends DeviceSimple {
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * 

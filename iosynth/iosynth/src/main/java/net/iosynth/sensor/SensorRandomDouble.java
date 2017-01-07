@@ -7,18 +7,26 @@ import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Generates random walk with 0.1 step
- * @author ross
+ * @author rradev
  *
  */
 public class SensorRandomDouble extends Sensor {
+	private static final long serialVersionUID = 1L;
 	private double state;
 	private double min, max;
 	private static String FORMAT = "%.4f";
 	
+	/**
+	 * 
+	 */
 	public SensorRandomDouble() {
 		init(1, 10);
 	}
 
+	/**
+	 * @param min
+	 * @param max
+	 */
 	public SensorRandomDouble(double min, double max){
 		init(min, max);
 	}
@@ -67,6 +75,9 @@ public class SensorRandomDouble extends Sensor {
 		epoch = epoch + step;
 	}
 	
+	/**
+	 * @return Sensor value
+	 */
 	public double getValue(){
 		return state;
 	}

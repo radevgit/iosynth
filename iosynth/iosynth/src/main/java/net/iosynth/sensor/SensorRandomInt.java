@@ -10,15 +10,23 @@ import java.util.concurrent.ThreadLocalRandom;
  *
  */
 public class SensorRandomInt extends Sensor {
+	private static final long serialVersionUID = 1L;
 	private int state;
 	private int min, max;
 	private static String FORMAT = "%d";
 	
 	
+	/**
+	 * 
+	 */
 	public SensorRandomInt(){
 		init(1, 10);
 	}
 	
+	/**
+	 * @param min
+	 * @param max
+	 */
 	public SensorRandomInt(int min, int max){
 		init(min, max);
 	}
@@ -68,6 +76,9 @@ public class SensorRandomInt extends Sensor {
 		epoch = epoch + step;
 	}
 	
+	/**
+	 * @return Sensor value
+	 */
 	public int getValue(){
 		return state;
 	}
