@@ -12,6 +12,20 @@ public class SensorConstantString extends Sensor {
 	/**
 	 * Just a constant string value
 	 */
+	public SensorConstantString() {
+		this.value = new String("constant");
+	}
+
+	/* (non-Javadoc)
+	 * @see net.iosynth.sensor.Sensor#checkParameters()
+	 */
+	@Override
+	public void checkParameters() {	
+		if(value==null){
+			value = new String("");
+		}
+	}
+	
 	public SensorConstantString(String value) {
 		this.value = value;
 	}
@@ -29,4 +43,5 @@ public class SensorConstantString extends Sensor {
 	public String getString() {
 		return "\"" + getValue() + "\"";
 	}
+
 }

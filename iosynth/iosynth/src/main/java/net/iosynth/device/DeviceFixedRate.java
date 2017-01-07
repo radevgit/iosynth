@@ -15,12 +15,12 @@ import net.iosynth.sensor.SensorCycleInt01;
  * @author rradev
  *
  */
-public class DeviceFixedRate extends Device {
+public class DeviceFixedRate extends DeviceSimple {
 	/**
 	 * 
 	 */
 	public DeviceFixedRate() {
-		Arrival fixed = new Arrival();
+		ArrivalFixed fixed = new ArrivalFixed();
 		this.setArrival(fixed);
 		addSensor("first");
 		addSensor("second");

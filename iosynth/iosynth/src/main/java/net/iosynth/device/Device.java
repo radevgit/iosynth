@@ -22,41 +22,36 @@ import net.iosynth.util.Message;
  * @author ross
  *
  */
-public class Device implements Runnable {
-	private String uuid;
-	private BlockingQueue<Message> msgQueue;
-	private BlockingQueue<Delay>   delayQueue;
-	/**
-	 * Timer jitter in milliseconds
-	 */
-	//private long jitter;
-	/**
-	 * Timer polling rate in milliseconds for fixed rate devices
-	 */
-	//private long rate;
-	/**
-	 * Delay for random rate devices
-	 */
-	//private long delay;
-	private Arrival arrival;
+public abstract class Device implements Runnable {
+	protected String uuid;
+	protected BlockingQueue<Message> msgQueue;
+	protected BlockingQueue<Delay>   delayQueue;
+
+	protected Arrival arrival;
 
 	/**
 	 * id in the delay devices list
 	 */
-	private int delayId;
+	protected int delayId;
 
 	protected List<Sensor> sensors;
 	
-	final static private SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+	final static protected SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
 	/**
 	 * 
 	 */
 	public Device() {
 		this.uuid = UUID.randomUUID().toString();
+		this.arrival = new ArrivalFixed();
 		this.sensors   = new ArrayList<>();
 	}
 
+	/**
+	 * Check the correctness of instance parameters after deserialization from json
+	 */
+	abstract public void checkParameters();
+	
 	public void setId(String uuid){
 		this.uuid = uuid;
 	}
@@ -131,19 +126,6 @@ public class Device implements Runnable {
 	public void setDelayId(int delayId) {
 		this.delayId = delayId;
 	}
-
-
-	
-	/**
-	 * Adds default sensor
-	 * @param name
-	 */
-	public void addSensor(String name){
-		SensorDefault sen = new SensorDefault();
-		sen.setName(name);
-		sensors.add(sen);
-	}
-	
 	
 	
 	/* (non-Javadoc)
@@ -154,14 +136,15 @@ public class Device implements Runnable {
 		    sensor.step(1);
 		}
 		getQueue().add(toJson());
-		if (!(arrival instanceof Arrival)) {
-			long delay = arrival.getNextInterval();
+		if (arrival.getClass() != ArrivalFixed.class) {
+			long delay = arrival.getInterval();
 			//setDealy(delay);
 			Delay d = new Delay(getDelayId(), delay);
 			getDelayQueue().add(d);
 		}
 	}
 	
+
 	
 	public Message toJson(){
 		StringBuilder m = new StringBuilder();

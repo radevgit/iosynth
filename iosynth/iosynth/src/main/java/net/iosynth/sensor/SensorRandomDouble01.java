@@ -14,16 +14,39 @@ public class SensorRandomDouble01 extends Sensor {
 	private double state;
 	private double min, max;
 	private static String FORMAT = "%.4f";
+	
+	public SensorRandomDouble01() {
+		init(1, 10);
+	}
 
+	public SensorRandomDouble01(double min, double max){
+		init(min, max);
+	}
+	
 	/**
 	 * 
 	 * @param min Minimum generated value
 	 * @param max Maximum generated value
 	 */
-	public SensorRandomDouble01(double min, double max) {
+	public void init(double min, double max) {
 		this.state = ThreadLocalRandom.current().nextDouble()*(max-min)+min;
 		this.min = min;
 		this.max = max;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see net.iosynth.sensor.Sensor#checkParameters()
+	 */
+	@Override
+	public void checkParameters() {
+		if (min > max) {
+			max = min + 1;
+		}
+		if (state < min || state > max) {
+			state = min;
+		}
 	}
 	
 	// Propagate internal state and epoch
@@ -44,4 +67,6 @@ public class SensorRandomDouble01 extends Sensor {
 	public String getString() {
 		return String.format(FORMAT, getValue());
 	}
+
+
 }

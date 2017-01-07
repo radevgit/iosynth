@@ -20,7 +20,7 @@ import net.iosynth.util.Message;
  * @author ross
  *
  */
-public class DeviceVariableRate01 extends Device {
+public class DeviceVariableRate01 extends DeviceSimple {
 
 	/**
 	 * 

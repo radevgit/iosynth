@@ -46,4 +46,13 @@ public class SensorDefault extends Sensor {
 	public String getString() {
 		return String.format(FORMAT, getValue());
 	}
+
+	/* (non-Javadoc)
+	 * @see net.iosynth.sensor.Sensor#checkParameters()
+	 */
+	@Override
+	public void checkParameters() {
+		// TODO Auto-generated method stub
+		
+	}
 }

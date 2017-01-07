@@ -35,8 +35,8 @@ public class DevicesFromJson {
 	
 	public Gson getParser(){
 		RuntimeTypeAdapterFactory<Device> deviceAdapter = RuntimeTypeAdapterFactory.of(Device.class, "type");
-		deviceAdapter.registerSubtype(Device.class, "Device");
-		deviceAdapter.registerSubtype(DeviceFixedRate.class, "DeviceFixedRate");
+		//deviceAdapter.registerSubtype(Device.class, "Device");
+		deviceAdapter.registerSubtype(DeviceFixedRate.class, "DeviceSimple");
 		
 		
 		RuntimeTypeAdapterFactory<Sensor> sensorAdapter = RuntimeTypeAdapterFactory.of(Sensor.class, "type");
@@ -50,7 +50,8 @@ public class DevicesFromJson {
 		sensorAdapter.registerSubtype(SensorRandomString01.class, "SensorRandomString01");
 		
 		RuntimeTypeAdapterFactory<Arrival> arrivalAdapter = RuntimeTypeAdapterFactory.of(Arrival.class, "type");
-		arrivalAdapter.registerSubtype(Arrival.class, "ArrivalFixed");
+		//arrivalAdapter.registerSubtype(Arrival.class, "Arrival");
+		arrivalAdapter.registerSubtype(ArrivalFixed.class, "ArrivalFixed");
 		arrivalAdapter.registerSubtype(ArrivalUniform.class, "ArrivalUniform");
 
 		Gson gson = new GsonBuilder()
@@ -66,6 +67,10 @@ public class DevicesFromJson {
 		Gson gson = getParser();
 		Device[] devIn = gson.fromJson(json, Device[].class);
 		
+		for(final Device dev: devIn){
+			dev.checkParameters();
+		}
+		
 		// TODO fix for replication and check the configuration.
 		Device[] devOut = new Device[devIn.length];
 		for(int i=0; i<devIn.length; i++){
@@ -80,15 +85,15 @@ public class DevicesFromJson {
 		DevicesFromJson d = new DevicesFromJson();
 		Gson gson = d.getParser();
 		
-		Device devArr[] = new Device[2];
-		devArr[0] = new DeviceFixedRate();
-		devArr[1] = new DeviceFixedRate();
-		String json = gson.toJson(devArr);
-		System.out.println(json);
 		
+		Device[] devOut = gson.fromJson(test, Device[].class);
+		for(final Device dev: devOut){
+			dev.checkParameters();
+		}
 		
-		Device[] devOut = gson.fromJson(json, Device[].class);
-		int a=1;
+		System.out.println(gson.toJson(devOut));
 	}
+	
+	static String test = "[{'type':'DeviceSimple','uuid':'', 'sensors':[{'type':'SensorRandomDouble01', 'min':5}]   }]";
 	
 }

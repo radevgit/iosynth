@@ -38,7 +38,7 @@ public class DeviceControl {
 	
 	public void addDevice(Device r){
 		r.setQueue(msgQueue);
-		if (r.getArrival() instanceof Arrival) {
+		if (r.getArrival().getClass() == ArrivalFixed.class) {
 			devsFixedList.add(r);
 		} else {
 			r.setDelayQueue(delayQueue);
@@ -52,21 +52,22 @@ public class DeviceControl {
 	public void forever() {
 		devsHandleFixedList = new ArrayList<ScheduledFuture<?>>(0);
 		// Devices with fixed arrival interval
-		for(Runnable dev: devsFixedList){
-			ScheduledFuture<?> devHandle = scheduler.scheduleAtFixedRate(dev, ((Device)dev).getArrival().getJitter(), ((Device)dev).getArrival().getInterval(), TimeUnit.MILLISECONDS);
+		for(final Runnable devR: devsFixedList){
+			final Device dev = (Device)devR;
+			ScheduledFuture<?> devHandle = scheduler.scheduleAtFixedRate(dev, ((ArrivalFixed)dev.getArrival()).getJitter(), dev.getArrival().getInterval(), TimeUnit.MILLISECONDS);
 			devsHandleFixedList.add(devHandle);
 		}
 		// Devices with variable arrival interval. They have to be re-scheduled each time.
 		for(Runnable dev: devsDelayList){
-			ScheduledFuture<?> devHandle = scheduler.schedule(dev, ((Device)dev).getArrival().getNextInterval(), TimeUnit.MILLISECONDS);
+			ScheduledFuture<?> devHandle = scheduler.schedule(dev, ((Device)dev).getArrival().getInterval(), TimeUnit.MILLISECONDS);
 			//devsHandleDelayList.add(devHandle);
 		}
 		
 		try {
 			while (true) { // reschedule variable rate devices
 				final Delay delay = delayQueue.take();
-				Runnable r = devsDelayList.get(delay.getId());
-				ScheduledFuture<?> devHandle = scheduler.schedule(r, ((Device)r).getArrival().getNextInterval(), TimeUnit.MILLISECONDS);
+				final Runnable r = devsDelayList.get(delay.getId());
+				ScheduledFuture<?> devHandle = scheduler.schedule(r, ((Device)r).getArrival().getInterval(), TimeUnit.MILLISECONDS);
 			}
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block

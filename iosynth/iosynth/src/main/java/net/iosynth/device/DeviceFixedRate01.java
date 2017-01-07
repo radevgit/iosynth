@@ -19,7 +19,7 @@ import net.iosynth.util.Message;
  * @author ross
  *
  */
-public class DeviceFixedRate01 extends Device {
+public class DeviceFixedRate01 extends DeviceSimple {
 
 	/**
 	 * 

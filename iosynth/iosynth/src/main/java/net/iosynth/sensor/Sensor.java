@@ -5,6 +5,7 @@ public abstract class Sensor {
 	protected long epoch;
 	
 	public Sensor(){
+		this.name  = new String("sensor");
 		this.epoch = 0L;
 	}
 	
@@ -19,6 +20,7 @@ public abstract class Sensor {
 		return epoch;
 	}
 	
-	public abstract void step(long step);
-	public abstract String getString();
+	abstract public void step(long step);
+	abstract public String getString();
+	abstract public void checkParameters();
 }

@@ -13,16 +13,39 @@ public class SensorRandomInt01 extends Sensor {
 	private int state;
 	private int min, max;
 	private static String FORMAT = "%d";
-
+	
+	
+	public SensorRandomInt01(){
+		init(1, 10);
+	}
+	
+	public SensorRandomInt01(int min, int max){
+		init(min, max);
+	}
 	/**
 	 * 
 	 * @param min Minimum generated value
 	 * @param max Maximum generated value
 	 */
-	public SensorRandomInt01(int min, int max) {
+	public void init(int min, int max) {
 		this.state = ThreadLocalRandom.current().nextInt(min, max);
 		this.min = min;
 		this.max = max;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see net.iosynth.sensor.Sensor#checkParameters()
+	 */
+	@Override
+	public void checkParameters() {
+		if (min > max) {
+			max = min + 1;
+		}
+		if (state < min || state > max) {
+			state = min;
+		}
 	}
 	
 	// Propagate internal state and epoch
