@@ -1,6 +1,13 @@
 package net.iosynth.sensor;
 
-public abstract class Sensor {
+import java.io.Serializable;
+
+/**
+ * @author rradev
+ *
+ */
+public abstract class Sensor implements Serializable{
+	private static final long serialVersionUID = 1L;
 	protected String name;
 	protected long epoch;
 	

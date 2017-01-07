@@ -3,6 +3,7 @@
  */
 package net.iosynth.device;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,13 +23,15 @@ import net.iosynth.util.Message;
  * @author ross
  *
  */
-public abstract class Device implements Runnable {
+public abstract class Device implements Runnable, Serializable {
+	private static final long serialVersionUID = 1L;
 	protected String uuid;
+	protected long   seed;
 	protected BlockingQueue<Message> msgQueue;
 	protected BlockingQueue<Delay>   delayQueue;
 
 	protected Arrival arrival;
-
+	protected DeviceCopy copy;
 	/**
 	 * id in the delay devices list
 	 */
@@ -44,13 +47,15 @@ public abstract class Device implements Runnable {
 	public Device() {
 		this.uuid = UUID.randomUUID().toString();
 		this.arrival = new ArrivalFixed();
+		this.copy = new DeviceCopySimple();
 		this.sensors   = new ArrayList<>();
 	}
-
+	
 	/**
 	 * Check the correctness of instance parameters after deserialization from json
 	 */
 	abstract public void checkParameters();
+	abstract public List<Device> replicate();
 	
 	public void setId(String uuid){
 		this.uuid = uuid;
@@ -96,6 +101,20 @@ public abstract class Device implements Runnable {
 	 */
 	public void setArrival(Arrival arrival) {
 		this.arrival = arrival;
+	}
+	
+	/**
+	 * @return the deviceCopy
+	 */
+	public DeviceCopy getDeviceCopy() {
+		return copy;
+	}
+
+	/**
+	 * @param deviceCopy the deviceCopy to set
+	 */
+	public void setDeviceCopy(DeviceCopy deviceCopy) {
+		this.copy = deviceCopy;
 	}
 	
 	public List<Sensor> getSens() {

@@ -3,6 +3,7 @@
  */
 package net.iosynth.device;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -19,6 +20,7 @@ import net.iosynth.sensor.SensorDefault;
 import net.iosynth.sensor.SensorRandomDouble01;
 import net.iosynth.sensor.SensorRandomInt01;
 import net.iosynth.sensor.SensorRandomString01;
+import net.iosynth.util.DeepCopy;
 
 /**
  * @author rradev
@@ -53,17 +55,23 @@ public class DevicesFromJson {
 		//arrivalAdapter.registerSubtype(Arrival.class, "Arrival");
 		arrivalAdapter.registerSubtype(ArrivalFixed.class, "ArrivalFixed");
 		arrivalAdapter.registerSubtype(ArrivalUniform.class, "ArrivalUniform");
+		
+		RuntimeTypeAdapterFactory<DeviceCopy> copyAdapter = RuntimeTypeAdapterFactory.of(DeviceCopy.class, "type");
+		copyAdapter.registerSubtype(DeviceCopySimple.class, "CopySimple");
+		
+
 
 		Gson gson = new GsonBuilder()
 				.setPrettyPrinting()
 				.registerTypeAdapterFactory(deviceAdapter)
 				.registerTypeAdapterFactory(sensorAdapter)
 				.registerTypeAdapterFactory(arrivalAdapter)
+				.registerTypeAdapterFactory(copyAdapter)
 				.create();
 		return gson;
 	}
 	
-	public Device[] build(String json){
+	public List<Device> build(String json){
 		Gson gson = getParser();
 		Device[] devIn = gson.fromJson(json, Device[].class);
 		
@@ -71,10 +79,11 @@ public class DevicesFromJson {
 			dev.checkParameters();
 		}
 		
-		// TODO fix for replication and check the configuration.
-		Device[] devOut = new Device[devIn.length];
+		// TODO fix for replication.
+		List<Device> devOut = new ArrayList();
 		for(int i=0; i<devIn.length; i++){
-			devOut[i] = devIn[i];
+			List<Device> devList = devIn[i].replicate(); 
+			devOut.addAll(devList);
 		}
 		return devOut;
 	}
@@ -86,14 +95,23 @@ public class DevicesFromJson {
 		Gson gson = d.getParser();
 		
 		
-		Device[] devOut = gson.fromJson(test, Device[].class);
-		for(final Device dev: devOut){
+		Device[] devIn = gson.fromJson(test, Device[].class);
+		for(final Device dev: devIn){
 			dev.checkParameters();
 		}
 		
+		List<Device> devOut = new ArrayList();
+		for(int i=0; i<devIn.length; i++){
+			List<Device> devList = devIn[i].replicate(); 
+			devOut.addAll(devList);
+		}
+		
+		DeepCopy deep = new DeepCopy();
+		System.out.println(gson.toJson(devIn));
+		System.out.println("___________________");
 		System.out.println(gson.toJson(devOut));
 	}
 	
-	static String test = "[{'type':'DeviceSimple','uuid':'', 'sensors':[{'type':'SensorRandomDouble01', 'min':5}]   }]";
+	static String test = "[{'type':'DeviceSimple','uuid':'xxx', 'copy':{'type': 'CopySimple', 'count': 2}, 'sensors':[{'type':'SensorRandomDouble01', 'min':5}]   }]";
 	
 }

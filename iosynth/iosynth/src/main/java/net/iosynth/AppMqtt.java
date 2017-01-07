@@ -1,5 +1,6 @@
 package net.iosynth;
 
+import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -25,7 +26,7 @@ public class AppMqtt {
 		MqttAdapter mqtt = new MqttAdapter(cfg.cfgJson, msgQueue);
 		mqtt.start();
 		DevicesFromJson fromJson = new DevicesFromJson();
-		Device devs[] = fromJson.build(cfg.devJson);
+		List<Device> devs = fromJson.build(cfg.devJson);
 		DeviceControl devControl = new DeviceControl(msgQueue);
 		for(final Device dev: devs){
 			devControl.addDevice(dev);
@@ -33,28 +34,6 @@ public class AppMqtt {
 		
 		devControl.forever();
 	}
-	/*
-	public void sensorControl(){
-		DeviceControl devsControl = new DeviceControl(msgQueue);
-		int k=1;
-		for(int i=0; i<5; i++){
-			Device dev1 = new DeviceFixedRate01();
-			dev1.setRate(10000);  // 10s default rate
-			dev1.setId(String.format("%04d", k));
-			devsControl.addFixed(dev1);
-			k++;
-		}
-		
-		for(int i=0; i<5; i++){
-			Device dev3 = new DeviceVariableRate01();
-			dev3.setId(String.format("%04d", k));
-			devsControl.addVariable(dev3);
-			k++;
-		}
-		
-		devsControl.forever();
-	}
-	*/
 	
     public static void main( String[] args ){
     	Config cfg = new Config(args);

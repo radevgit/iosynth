@@ -3,8 +3,10 @@
  */
 package net.iosynth.device;
 
+import java.util.List;
 import java.util.UUID;
 
+import net.iosynth.sensor.Sensor;
 import net.iosynth.sensor.SensorDefault;
 
 /**
@@ -28,6 +30,18 @@ public class DeviceSimple extends Device {
 		if(uuid.length()<1){
 			uuid = UUID.randomUUID().toString();
 		}
+		arrival.checkParameters();
+		for(final Sensor sen: sensors){
+			sen.checkParameters();
+		}
+	}
+	
+	/* (non-Javadoc)
+	 * @see net.iosynth.device.Device#replicate()
+	 */
+	@Override
+	public List<Device> replicate() {
+		return copy.replicate(this);
 	}
 	
 	/**
@@ -39,5 +53,7 @@ public class DeviceSimple extends Device {
 		sen.setName(name);
 		sensors.add(sen);
 	}
+
+
 
 }
