@@ -78,28 +78,28 @@ public class DeviceSimple extends Device {
 	}
 
 	private String getFormat(int count){
-		if(count<10){
+		if(count<=10){
 			return F1;
 		}
-		if(count<100){
+		if(count<=100){
 			return F2;
 		}
-		if(count<1000){
+		if(count<=1000){
 			return F3;
 		}
-		if(count<10000){
+		if(count<=10000){
 			return F4;
 		}
-		if(count<100000){
+		if(count<=100000){
 			return F5;
 		}
-		if(count<1000000){
+		if(count<=1000000){
 			return F6;
 		}
-		if(count<10000000){
+		if(count<=10000000){
 			return F7;
 		}
-		if(count<100000000){
+		if(count<=100000000){
 			return F8;
 		}
 		return null;
