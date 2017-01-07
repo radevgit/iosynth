@@ -3,13 +3,11 @@
  */
 package net.iosynth.device;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import net.iosynth.sensor.Sensor;
 import net.iosynth.sensor.SensorDefault;
-import net.iosynth.util.DeepCopy;
 
 /**
  * @author rradev
@@ -47,9 +45,9 @@ public class DeviceSimple extends Device {
 		}
 	}
 	
-	/* (non-Javadoc)
+/*	 (non-Javadoc)
 	 * @see net.iosynth.device.Device#replicate()
-	 */
+	 
 	@Override
 	public List<Device> replicate() {
 		List<Device> devList = new ArrayList<Device>();
@@ -62,6 +60,26 @@ public class DeviceSimple extends Device {
 				sen.replicate();
 			}
 			devList.add(devNew);
+		}
+		
+		return devList;
+	}*/
+	
+
+	@Override
+	public List<Device> replicate() {
+		List<Device> devList;
+		String format = getFormat(copy);
+		Device devA[] = {this};
+		devList = DevicesFromJson.copyDevice(devA, copy);
+		int i = 0;
+		for(final Device dev: devList){
+			dev.setId(this.getId() + String.format(format, i));
+			dev.getArrival().replicate();
+			for(final Sensor sen: dev.sensors){
+				sen.replicate();
+			}
+			i = i + 1;
 		}
 		
 		return devList;

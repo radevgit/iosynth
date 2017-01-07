@@ -3,6 +3,11 @@
  */
 package net.iosynth.device;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,23 +25,42 @@ import net.iosynth.sensor.SensorRandomDouble;
 import net.iosynth.sensor.SensorRandomInt;
 import net.iosynth.sensor.SensorRandomString;
 
-
 /**
  * @author rradev
  *
  */
-public class DevicesFromJson {
+public class DeepCopy {
 
 	/**
-	 * 
+	 * Returns a copy of the object, or null if the object cannot be serialized.
+	 * @param orig source object
+	 * @return identical object copy
 	 */
-	public DevicesFromJson() {
-		
+	public static Object copyObject(Object orig) {
+		Object obj = null;
+		try {
+			// Write the object out to a byte array
+			ByteArrayOutputStream bos = new ByteArrayOutputStream();
+			ObjectOutputStream out = new ObjectOutputStream(bos);
+			out.writeObject(orig);
+			out.flush();
+			out.close();
+
+			// Make an input stream from the byte array and read
+			// a copy of the object back in.
+			ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(bos.toByteArray()));
+			obj = in.readObject();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return obj;
 	}
 	
 	private static Gson getParser(){
 		final RuntimeTypeAdapterFactory<Device> deviceAdapter = RuntimeTypeAdapterFactory.of(Device.class, "type");
-		//deviceAdapter.registerSubtype(Device.class, "Device");
+		deviceAdapter.registerSubtype(Device.class, "Device");
 		deviceAdapter.registerSubtype(DeviceFixedRate.class, "DeviceSimple");
 		
 		
@@ -60,7 +84,7 @@ public class DevicesFromJson {
 		
 
 
-		final Gson gson = new GsonBuilder()
+		Gson gson = new GsonBuilder()
 				.setPrettyPrinting()
 				.registerTypeAdapterFactory(deviceAdapter)
 				.registerTypeAdapterFactory(sensorAdapter)
@@ -70,70 +94,17 @@ public class DevicesFromJson {
 		return gson;
 	}
 	
-	/**
-	 * @param json
-	 * @return List of devices from json definition
-	 */
-	public List<Device> build(String json){
-		final Gson gson = getParser();
-		Device[] devIn = gson.fromJson(json, Device[].class);
-		
-		for(final Device dev: devIn){
-			dev.checkParameters();
-		}
-		
-		int devCount = 0;
-		List<Device> devOut = new ArrayList<Device>();
-		for(int i=0; i<devIn.length; i++){
-			List<Device> devList = devIn[i].replicate(); 
-			devOut.addAll(devList);
-			devCount = devCount + devList.size();
-		}
-		System.out.println("Devices created: " + String.valueOf(devCount));
-		return devOut;
-	}
-
-	/** 
-	 * Hack to parse. If in array it is ok, if single object parse err.
-	 * @param dev 
-	 * @param count 
-	 * @return List of replica devices
-	 */
-	public static List<Device> copyDevice(Device dev[], int count){
+	public static List<Device> copyDevice(Device dev, int count){
 		List<Device> devList = new ArrayList<Device>();
 		final Gson gson = getParser();
 		final String json = gson.toJson(dev);
+		System.out.println("___________________");
+		System.out.println(json);
 		for(int i=0; i<count; i++){
-			Device[] devT = gson.fromJson(json, Device[].class);
-			devList.add(devT[0]);
+			Device devT = gson.fromJson(json, Device.class);
+			devList.add(devT);
 		}
 		
 		return devList;
 	}
-	
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		Gson gson = getParser();
-		
-		
-		Device[] devIn = gson.fromJson(test, Device[].class);
-		for(final Device dev: devIn){
-			dev.checkParameters();
-		}
-		
-		List<Device> devOut = new ArrayList<Device>();
-		//for(int i=0; i<devIn.length; i++){
-		//	List<Device> devList = devIn[i].replicate(); 
-		//	devOut.addAll(devList);
-		//}
-		
-		System.out.println(gson.toJson(devIn));
-		System.out.println("___________________");
-		System.out.println(gson.toJson(devOut));
-	}
-	
-	static String test = "[{'type':'DeviceSimple','uuid':'xxx', 'copy':2, 'sensors':[{'type':'SensorRandomDouble', 'min':5}]   }]";
-	
 }
