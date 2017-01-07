@@ -10,16 +10,16 @@ import java.util.concurrent.ThreadLocalRandom;
  * @author ross
  *
  */
-public class SensorRandomDouble01 extends Sensor {
+public class SensorRandomDouble extends Sensor {
 	private double state;
 	private double min, max;
 	private static String FORMAT = "%.4f";
 	
-	public SensorRandomDouble01() {
+	public SensorRandomDouble() {
 		init(1, 10);
 	}
 
-	public SensorRandomDouble01(double min, double max){
+	public SensorRandomDouble(double min, double max){
 		init(min, max);
 	}
 	
@@ -32,6 +32,14 @@ public class SensorRandomDouble01 extends Sensor {
 		this.state = ThreadLocalRandom.current().nextDouble()*(max-min)+min;
 		this.min = min;
 		this.max = max;
+	}
+	
+	/* (non-Javadoc)
+	 * @see net.iosynth.sensor.Sensor#replicate()
+	 */
+	@Override
+	public void replicate() {
+		state = ThreadLocalRandom.current().nextDouble()*(max-min)+min;
 	}
 	
 	/*
@@ -67,6 +75,8 @@ public class SensorRandomDouble01 extends Sensor {
 	public String getString() {
 		return String.format(FORMAT, getValue());
 	}
+
+
 
 
 }

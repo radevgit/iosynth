@@ -9,7 +9,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import net.iosynth.sensor.Sensor;
-import net.iosynth.sensor.SensorCycleInt01;
+import net.iosynth.sensor.SensorCycleInt;
 
 /**
  * @author rradev
@@ -25,7 +25,7 @@ public class DeviceFixedRate extends DeviceSimple {
 		addSensor("first");
 		addSensor("second");
 		int t[] = {1,2,3,4,5,6,7,8,9};
-		SensorCycleInt01 sen = new SensorCycleInt01(t);
+		SensorCycleInt sen = new SensorCycleInt(t);
 		addSensor("xxx", sen);
 	}
 

@@ -9,18 +9,38 @@ import java.util.concurrent.ThreadLocalRandom;
  * @author ross
  *
  */
-public class SensorRandomString01 extends Sensor {
+public class SensorRandomString extends Sensor {
 	private String values[];
 	private int state;
 	
-	public SensorRandomString01(){
+	public SensorRandomString(){
 		String val[] = {new String("on"), new String("off")};
 		init(val);
 	}
 	
-	public SensorRandomString01(String values[]){
+	public SensorRandomString(String values[]){
 		init(values);
 	}
+	
+	/**
+	 * 
+	 */
+	public void init(String values[]) {
+		this.state = ThreadLocalRandom.current().nextInt(values.length);
+		this.values = new String[values.length];
+		for(int i=0; i<values.length; i++){
+			this.values[i] = values[i];
+		}
+	}
+	
+	/* (non-Javadoc)
+	 * @see net.iosynth.sensor.Sensor#replicate()
+	 */
+	@Override
+	public void replicate() {
+		state = ThreadLocalRandom.current().nextInt(values.length);
+	}
+
 	
 	/*
 	 * (non-Javadoc)
@@ -32,17 +52,6 @@ public class SensorRandomString01 extends Sensor {
 		if (values == null) {
 			values = new String[1];
 			values[0] = new String("");
-		}
-	}
-	
-	/**
-	 * 
-	 */
-	public void init(String values[]) {
-		this.state = ThreadLocalRandom.current().nextInt(values.length);
-		this.values = new String[values.length];
-		for(int i=0; i<values.length; i++){
-			this.values[i] = values[i];
 		}
 	}
 	
@@ -62,6 +71,5 @@ public class SensorRandomString01 extends Sensor {
 	public String getString() {
 		return "\"" + getValue() + "\"";
 	}
-
 
 }

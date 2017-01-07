@@ -31,7 +31,7 @@ public abstract class Device implements Runnable, Serializable {
 	protected BlockingQueue<Delay>   delayQueue;
 
 	protected Arrival arrival;
-	protected DeviceCopy copy;
+	protected int copy;
 	/**
 	 * id in the delay devices list
 	 */
@@ -47,8 +47,8 @@ public abstract class Device implements Runnable, Serializable {
 	public Device() {
 		this.uuid = UUID.randomUUID().toString();
 		this.arrival = new ArrivalFixed();
-		this.copy = new DeviceCopySimple();
-		this.sensors   = new ArrayList<>();
+		this.copy    = 1;
+		this.sensors = new ArrayList<>();
 	}
 	
 	/**
@@ -106,15 +106,15 @@ public abstract class Device implements Runnable, Serializable {
 	/**
 	 * @return the deviceCopy
 	 */
-	public DeviceCopy getDeviceCopy() {
+	public int getDeviceCopy() {
 		return copy;
 	}
 
 	/**
 	 * @param deviceCopy the deviceCopy to set
 	 */
-	public void setDeviceCopy(DeviceCopy deviceCopy) {
-		this.copy = deviceCopy;
+	public void setDeviceCopy(int copy) {
+		this.copy = copy;
 	}
 	
 	public List<Sensor> getSens() {

@@ -13,13 +13,13 @@ import com.google.gson.typeadapters.RuntimeTypeAdapterFactory;
 
 import net.iosynth.sensor.Sensor;
 import net.iosynth.sensor.SensorConstantString;
-import net.iosynth.sensor.SensorCycleDouble01;
-import net.iosynth.sensor.SensorCycleInt01;
-import net.iosynth.sensor.SensorCycleString01;
+import net.iosynth.sensor.SensorCycleDouble;
+import net.iosynth.sensor.SensorCycleInt;
+import net.iosynth.sensor.SensorCycleString;
 import net.iosynth.sensor.SensorDefault;
-import net.iosynth.sensor.SensorRandomDouble01;
-import net.iosynth.sensor.SensorRandomInt01;
-import net.iosynth.sensor.SensorRandomString01;
+import net.iosynth.sensor.SensorRandomDouble;
+import net.iosynth.sensor.SensorRandomInt;
+import net.iosynth.sensor.SensorRandomString;
 import net.iosynth.util.DeepCopy;
 
 /**
@@ -43,21 +43,21 @@ public class DevicesFromJson {
 		
 		RuntimeTypeAdapterFactory<Sensor> sensorAdapter = RuntimeTypeAdapterFactory.of(Sensor.class, "type");
 		sensorAdapter.registerSubtype(SensorConstantString.class, "SensorConstantString");
-		sensorAdapter.registerSubtype(SensorCycleDouble01.class,  "SensorCycleDouble01");
-		sensorAdapter.registerSubtype(SensorCycleInt01.class,     "SensorCycleInt01");
-		sensorAdapter.registerSubtype(SensorCycleString01.class,  "SensorCycleString01");
+		sensorAdapter.registerSubtype(SensorCycleDouble.class,    "SensorCycleDouble");
+		sensorAdapter.registerSubtype(SensorCycleInt.class,       "SensorCycleInt");
+		sensorAdapter.registerSubtype(SensorCycleString.class,    "SensorCycleString");
 		sensorAdapter.registerSubtype(SensorDefault.class,        "SensorDefault");
-		sensorAdapter.registerSubtype(SensorRandomDouble01.class, "SensorRandomDouble01");
-		sensorAdapter.registerSubtype(SensorRandomInt01.class,    "SensorRandomInt01");
-		sensorAdapter.registerSubtype(SensorRandomString01.class, "SensorRandomString01");
+		sensorAdapter.registerSubtype(SensorRandomDouble.class,   "SensorRandomDouble");
+		sensorAdapter.registerSubtype(SensorRandomInt.class,      "SensorRandomInt");
+		sensorAdapter.registerSubtype(SensorRandomString.class,   "SensorRandomString");
 		
 		RuntimeTypeAdapterFactory<Arrival> arrivalAdapter = RuntimeTypeAdapterFactory.of(Arrival.class, "type");
 		//arrivalAdapter.registerSubtype(Arrival.class, "Arrival");
 		arrivalAdapter.registerSubtype(ArrivalFixed.class, "ArrivalFixed");
 		arrivalAdapter.registerSubtype(ArrivalUniform.class, "ArrivalUniform");
 		
-		RuntimeTypeAdapterFactory<DeviceCopy> copyAdapter = RuntimeTypeAdapterFactory.of(DeviceCopy.class, "type");
-		copyAdapter.registerSubtype(DeviceCopySimple.class, "CopySimple");
+		//RuntimeTypeAdapterFactory<DeviceCopy> copyAdapter = RuntimeTypeAdapterFactory.of(DeviceCopy.class, "type");
+		//copyAdapter.registerSubtype(DeviceCopySimple.class, "CopySimple");
 		
 
 
@@ -66,7 +66,7 @@ public class DevicesFromJson {
 				.registerTypeAdapterFactory(deviceAdapter)
 				.registerTypeAdapterFactory(sensorAdapter)
 				.registerTypeAdapterFactory(arrivalAdapter)
-				.registerTypeAdapterFactory(copyAdapter)
+				//.registerTypeAdapterFactory(copyAdapter)
 				.create();
 		return gson;
 	}
@@ -79,12 +79,14 @@ public class DevicesFromJson {
 			dev.checkParameters();
 		}
 		
-		// TODO fix for replication.
-		List<Device> devOut = new ArrayList();
+		int devCount = 0;
+		List<Device> devOut = new ArrayList<Device>();
 		for(int i=0; i<devIn.length; i++){
 			List<Device> devList = devIn[i].replicate(); 
 			devOut.addAll(devList);
+			devCount = devCount + devList.size();
 		}
+		System.out.println("Devices created: " + String.valueOf(devCount));
 		return devOut;
 	}
 
@@ -100,7 +102,7 @@ public class DevicesFromJson {
 			dev.checkParameters();
 		}
 		
-		List<Device> devOut = new ArrayList();
+		List<Device> devOut = new ArrayList<Device>();
 		for(int i=0; i<devIn.length; i++){
 			List<Device> devList = devIn[i].replicate(); 
 			devOut.addAll(devList);
@@ -112,6 +114,6 @@ public class DevicesFromJson {
 		System.out.println(gson.toJson(devOut));
 	}
 	
-	static String test = "[{'type':'DeviceSimple','uuid':'xxx', 'copy':{'type': 'CopySimple', 'count': 2}, 'sensors':[{'type':'SensorRandomDouble01', 'min':5}]   }]";
+	static String test = "[{'type':'DeviceSimple','uuid':'xxx', 'copy':2, 'sensors':[{'type':'SensorRandomDouble01', 'min':5}]   }]";
 	
 }

@@ -18,7 +18,7 @@ public class DeepCopy {
 	/**
 	 * Returns a copy of the object, or null if the object cannot be serialized.
 	 */
-	public static Object copy(Object orig) {
+	public static Object copyObject(Object orig) {
 		Object obj = null;
 		try {
 			// Write the object out to a byte array

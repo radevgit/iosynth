@@ -9,17 +9,17 @@ import java.util.concurrent.ThreadLocalRandom;
  * @author rradev
  *
  */
-public class SensorRandomInt01 extends Sensor {
+public class SensorRandomInt extends Sensor {
 	private int state;
 	private int min, max;
 	private static String FORMAT = "%d";
 	
 	
-	public SensorRandomInt01(){
+	public SensorRandomInt(){
 		init(1, 10);
 	}
 	
-	public SensorRandomInt01(int min, int max){
+	public SensorRandomInt(int min, int max){
 		init(min, max);
 	}
 	/**
@@ -31,6 +31,14 @@ public class SensorRandomInt01 extends Sensor {
 		this.state = ThreadLocalRandom.current().nextInt(min, max);
 		this.min = min;
 		this.max = max;
+	}
+	
+	/* (non-Javadoc)
+	 * @see net.iosynth.sensor.Sensor#replicate()
+	 */
+	@Override
+	public void replicate() {
+		state = ThreadLocalRandom.current().nextInt(min, max);
 	}
 	
 	/*
@@ -50,11 +58,12 @@ public class SensorRandomInt01 extends Sensor {
 	
 	// Propagate internal state and epoch
 	public void step(long step) {
-		int incr=0;
-		for(int i=0; i<step; i++){
-			state = state + ThreadLocalRandom.current().nextInt(-1, 2); 
-			if(state>max) state = max;
-			if(state<min) state = min;
+		for (int i = 0; i < step; i++) {
+			state = state + ThreadLocalRandom.current().nextInt(-1, 2);
+			if (state > max)
+				state = max;
+			if (state < min)
+				state = min;
 		}
 		epoch = epoch + step;
 	}
@@ -67,4 +76,5 @@ public class SensorRandomInt01 extends Sensor {
 	public String getString() {
 		return String.format(FORMAT, getValue());
 	}
+
 }

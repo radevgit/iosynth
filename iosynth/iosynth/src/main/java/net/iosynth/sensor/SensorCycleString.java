@@ -9,16 +9,16 @@ import java.util.concurrent.ThreadLocalRandom;
  * @author ross
  *
  */
-public class SensorCycleString01 extends Sensor {
+public class SensorCycleString extends Sensor {
 	private String values[];
 	private long state;
 	
-	public SensorCycleString01(){
+	public SensorCycleString(){
 		String val[] = {new String("on"), new String("off")};
 		init(val);
 	}
 	
-	public SensorCycleString01(String[] values){
+	public SensorCycleString(String[] values){
 		init(values);
 	}
 	
@@ -31,6 +31,14 @@ public class SensorCycleString01 extends Sensor {
 		for(int i=0; i<values.length; i++){
 			this.values[i] = values[i];
 		}
+	}
+	
+	/* (non-Javadoc)
+	 * @see net.iosynth.sensor.Sensor#replicate()
+	 */
+	@Override
+	public void replicate() {
+		state = ThreadLocalRandom.current().nextInt(values.length);
 	}
 	
 	/*

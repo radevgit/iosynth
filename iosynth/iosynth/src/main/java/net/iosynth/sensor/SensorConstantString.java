@@ -44,4 +44,12 @@ public class SensorConstantString extends Sensor {
 		return "\"" + getValue() + "\"";
 	}
 
+	/* (non-Javadoc)
+	 * @see net.iosynth.sensor.Sensor#replicate()
+	 */
+	@Override
+	public void replicate() {
+		// nothing to do
+	}
+
 }

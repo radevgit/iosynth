@@ -30,4 +30,5 @@ public abstract class Sensor implements Serializable{
 	abstract public void step(long step);
 	abstract public String getString();
 	abstract public void checkParameters();
+	abstract public void replicate();
 }

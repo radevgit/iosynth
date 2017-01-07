@@ -59,6 +59,14 @@ public class ArrivalUniform extends Arrival {
 		interval  = ThreadLocalRandom.current().nextLong(max-min)+min;
 		return interval;
 	}
+
+	/* (non-Javadoc)
+	 * @see net.iosynth.device.Arrival#replicate()
+	 */
+	@Override
+	public void replicate() {
+		// nothing to do
+	}
 	
 
 }

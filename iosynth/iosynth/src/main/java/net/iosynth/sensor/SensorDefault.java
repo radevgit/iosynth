@@ -55,4 +55,12 @@ public class SensorDefault extends Sensor {
 		// TODO Auto-generated method stub
 		
 	}
+
+	/* (non-Javadoc)
+	 * @see net.iosynth.sensor.Sensor#replicate()
+	 */
+	@Override
+	public void replicate() {
+		// nothing to do
+	}
 }

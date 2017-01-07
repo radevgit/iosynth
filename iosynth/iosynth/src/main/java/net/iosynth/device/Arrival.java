@@ -22,5 +22,5 @@ public abstract class Arrival implements Serializable{
 	
 	abstract public void checkParameters();
 	abstract public long getInterval();
-	
+	abstract public void replicate();
 }

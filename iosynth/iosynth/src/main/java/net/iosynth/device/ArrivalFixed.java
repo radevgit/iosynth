@@ -17,7 +17,7 @@ public class ArrivalFixed extends Arrival {
 	public ArrivalFixed() {
 		//this.fixed = true;
 		this.interval = 10000; // default 10s
-		this.jitter = ThreadLocalRandom.current().nextInt(0, 2000); // At most 2s jitter
+		this.jitter = ThreadLocalRandom.current().nextInt(0, 1000); // At most 1s jitter
 	}
 	
 	/* (non-Javadoc)
@@ -36,6 +36,16 @@ public class ArrivalFixed extends Arrival {
 		if(interval<100){
 			interval=100;
 		}
+	}
+	
+	/* (non-Javadoc)
+	 * @see net.iosynth.device.Arrival#replicate()
+	 */
+	@Override
+	public void replicate() {
+		// Normal distribution jitter
+		jitter = jitter + (long)(ThreadLocalRandom.current().nextGaussian()*2240+5000); // sig=sqrt(mean) mean=5 s jitter
+		jitter = jitter<0? 0: jitter;  // only possitive values.
 	}
 	
 	/**
