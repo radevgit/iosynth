@@ -26,7 +26,7 @@ import net.iosynth.sensor.SensorRandomString;
  *
  */
 public class DevicesFromJson {
-
+	private static Gson gson;
 	/**
 	 * 
 	 */
@@ -35,6 +35,9 @@ public class DevicesFromJson {
 	}
 	
 	private static Gson getParser(){
+		if(gson!=null){
+			return gson;
+		}
 		final RuntimeTypeAdapterFactory<Device> deviceAdapter = RuntimeTypeAdapterFactory.of(Device.class, "type");
 		//deviceAdapter.registerSubtype(Device.class, "Device");
 		deviceAdapter.registerSubtype(DeviceFixedRate.class, "DeviceSimple");

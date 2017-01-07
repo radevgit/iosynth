@@ -73,14 +73,18 @@ public class MqttAdapter extends Thread {
 			System.out.println("Connecting to broker: " + broker);
 			sampleClient.connect(connOpts);
 			System.out.println("Connected");
-			
+			long k = 0;
 			try {
 				while (true) {
 					final Message msg = msgQueue.take();
+					if(k%10000==0){
+						System.out.println(msgQueue.size());
+					}
 					//System.out.println("Publishing message: " + msg.getId() + " " + msg.getMsg());
 					MqttMessage message = new MqttMessage(msg.getMsg().getBytes());
 					message.setQos(qos);
 					sampleClient.publish(topic + session + "/" + msg.getId(), message);
+					k++;
 				}
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
