@@ -71,10 +71,15 @@ public class DeviceControl {
 		}
 		
 		try {
+			long k = 0;
 			while (true) { // reschedule variable rate devices
 				final Delay delay = delayQueue.take();
 				final Runnable r = devsDelayList.get(delay.getId());
+				if(k%100000==0){
+					System.out.println("arrival queue: " + 	msgQueue.size());
+				}
 				ScheduledFuture<?> devHandle = scheduler.schedule(r, ((Device)r).getArrival().getInterval(), TimeUnit.MILLISECONDS);
+				k++;
 			}
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block

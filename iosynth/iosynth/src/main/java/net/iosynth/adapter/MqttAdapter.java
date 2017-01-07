@@ -77,8 +77,8 @@ public class MqttAdapter extends Thread {
 			try {
 				while (true) {
 					final Message msg = msgQueue.take();
-					if(k%10000==0){
-						System.out.println(msgQueue.size());
+					if(k%100000==0){
+						System.out.println("queue: " + 	msgQueue.size());
 					}
 					//System.out.println("Publishing message: " + msg.getId() + " " + msg.getMsg());
 					MqttMessage message = new MqttMessage(msg.getMsg().getBytes());
