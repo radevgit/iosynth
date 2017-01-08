@@ -94,7 +94,7 @@ Device configuration is a Json file containing list of device definitions:
 	{ "uuid":"device1", "type":"..."},
 	{ "uuid":"device2", "type":"..."},
 	{ "uuid":"device3", "type":"..."},
-	...
+
 ]
 ```
 
@@ -109,7 +109,7 @@ Each device definition contains set of parameters and list of sensors:
 		{"name":"sensor1", "type":"..."},
 		{"name":"sensor2", "type":"..."},
 		{"name":"sensor3", "type":"..."},
-		...
+
 	]
 }
 ```
