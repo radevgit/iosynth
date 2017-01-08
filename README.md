@@ -1,0 +1,2 @@
+# iosynth
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/5f02d80575024b728b628c8ccd29a358)](https://www.codacy.com/app/rossen-radev/iosynth?utm_source=github.com&utm_medium=referral&utm_content=rradev/iosynth&utm_campaign=badger)
