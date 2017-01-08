@@ -1,0 +1,10 @@
+We use following external components:
+
+MQTT client library PAHO:
+	Licenses: 
+	Eclipse Distribution License 1.0 (BSD)
+	Eclipse Public License 1.0
+
+GSON:
+	Apache License 2.0 
+	https://www.apache.org/licenses/LICENSE-2.0
