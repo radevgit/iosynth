@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.BlockingQueue;
 
@@ -19,10 +20,8 @@ import net.iosynth.util.Message;
  * @author rradev
  *
  */
-public abstract class Device implements Runnable, Serializable {
-	private static final long serialVersionUID = 1L;
+public abstract class Device implements Runnable {
 	protected String uuid;
-	protected long   seed;
 	protected BlockingQueue<Message> msgQueue;
 	protected BlockingQueue<Delay>   delayQueue;
 
@@ -34,6 +33,8 @@ public abstract class Device implements Runnable, Serializable {
 	protected int delayId;
 
 	protected List<Sensor> sensors;
+	
+	protected Random rnd;
 	
 	final static protected SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
