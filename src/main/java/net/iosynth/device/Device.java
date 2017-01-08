@@ -3,12 +3,10 @@
  */
 package net.iosynth.device;
 
-import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.BlockingQueue;
 
@@ -54,6 +52,7 @@ public abstract class Device implements Runnable {
 	 */
 	abstract public void checkParameters();
 	/**
+	 * @param rnd 
 	 * @return Returns list of replicated devices.
 	 */
 	abstract public List<Device> replicate(Xoroshiro128 rnd);

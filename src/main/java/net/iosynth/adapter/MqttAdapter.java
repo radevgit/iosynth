@@ -1,6 +1,5 @@
 package net.iosynth.adapter;
 
-import java.util.UUID;
 import java.util.concurrent.BlockingQueue;
 
 import org.eclipse.paho.client.mqttv3.MqttClient;
@@ -9,7 +8,6 @@ import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
-import com.google.gson.Gson;
 
 import net.iosynth.util.Message;
 

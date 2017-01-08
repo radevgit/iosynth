@@ -10,8 +10,6 @@ import net.iosynth.sensor.SensorCycleInt;
  *
  */
 public class DeviceFixedRate extends DeviceSimple {
-	private static final long serialVersionUID = 1L;
-
 	/**
 	 * 
 	 */

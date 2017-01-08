@@ -14,8 +14,6 @@ import net.iosynth.util.Delay;
  *
  */
 public class DeviceVariableRate01 extends DeviceSimple {
-	private static final long serialVersionUID = 1L;
-
 	/**
 	 * 
 	 */

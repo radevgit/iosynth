@@ -8,7 +8,6 @@ package net.iosynth.sensor;
  *
  */
 public class SensorConstantString extends Sensor {
-	private static final long serialVersionUID = 1L;
 	private String value;
 	/**
 	 * Just a constant string value

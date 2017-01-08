@@ -9,7 +9,6 @@ package net.iosynth.sensor;
  *
  */
 public class SensorCycleString extends Sensor {
-	private static final long serialVersionUID = 1L;
 	private String values[];
 	private long state;
 	

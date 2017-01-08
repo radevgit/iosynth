@@ -8,7 +8,6 @@ package net.iosynth.sensor;
  *
  */
 public class SensorCycleDouble extends Sensor {
-	private static final long serialVersionUID = 1L;
 	private double values[];
 	private long state;
 	private static String FORMAT = "%.4f";

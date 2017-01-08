@@ -9,7 +9,6 @@ package net.iosynth.sensor;
  *
  */
 public class SensorRandomDouble extends Sensor {
-	private static final long serialVersionUID = 1L;
 	private double state;
 	private double min, max;
 	private static String FORMAT = "%.4f";

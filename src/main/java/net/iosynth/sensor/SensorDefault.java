@@ -8,7 +8,6 @@ package net.iosynth.sensor;
  *
  */
 public class SensorDefault extends Sensor {
-	private static final long serialVersionUID = 1L;
 	private static int intVal[] = {
 			  2,      3,      5,      7,     11,     13,     17,     19,     23,     29, 
 		     31,     37,     41,     43,     47,     53,     59,     61,     67,     71, 

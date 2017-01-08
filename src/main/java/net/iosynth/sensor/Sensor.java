@@ -1,16 +1,12 @@
 package net.iosynth.sensor;
 
-import java.io.Serializable;
-import java.util.Random;
-
 import net.iosynth.util.Xoroshiro128;
 
 /**
  * @author rradev
  *
  */
-public abstract class Sensor implements Serializable{
-	private static final long serialVersionUID = 1L;
+public abstract class Sensor {
 	protected String name;
 	protected long epoch;
 	protected Xoroshiro128 rnd;

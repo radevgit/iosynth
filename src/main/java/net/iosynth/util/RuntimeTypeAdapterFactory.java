@@ -36,7 +36,7 @@ import com.google.gson.stream.JsonWriter;
  * Adapts values whose runtime type may differ from their declaration type. This
  * is necessary when a field's type is not the same type that GSON should create
  * when deserializing that field. For example, consider these types:
- * <pre>   {@code
+ * <pre>   {@code}
  *   abstract class Shape {
  *     int x;
  *     int y;
@@ -58,7 +58,7 @@ import com.google.gson.stream.JsonWriter;
  *   }
  * }</pre>
  * <p>Without additional type information, the serialized JSON is ambiguous. Is
- * the bottom shape in this drawing a rectangle or a diamond? <pre>   {@code
+ * the bottom shape in this drawing a rectangle or a diamond? <pre>   {@code}
  *   {
  *     "bottomShape": {
  *       "width": 10,
@@ -74,7 +74,7 @@ import com.google.gson.stream.JsonWriter;
  *   }}</pre>
  * This class addresses this problem by adding type information to the
  * serialized JSON and honoring that type information when the JSON is
- * deserialized: <pre>   {@code
+ * deserialized: <pre>   {@code}
  *   {
  *     "bottomShape": {
  *       "type": "Diamond",
@@ -120,6 +120,7 @@ import com.google.gson.stream.JsonWriter;
  *       .registerSubtype(Circle.class)
  *       .registerSubtype(Diamond.class);
  * }</pre>
+ * @param <T> 
  */
 public final class RuntimeTypeAdapterFactory<T> implements TypeAdapterFactory {
   private final Class<?> baseType;
@@ -138,6 +139,9 @@ public final class RuntimeTypeAdapterFactory<T> implements TypeAdapterFactory {
   /**
    * Creates a new runtime type adapter using for {@code baseType} using {@code
    * typeFieldName} as the type field name. Type field names are case sensitive.
+ * @param baseType 
+ * @param typeFieldName 
+ * @return x
    */
   public static <T> RuntimeTypeAdapterFactory<T> of(Class<T> baseType, String typeFieldName) {
     return new RuntimeTypeAdapterFactory<T>(baseType, typeFieldName);
@@ -146,6 +150,8 @@ public final class RuntimeTypeAdapterFactory<T> implements TypeAdapterFactory {
   /**
    * Creates a new runtime type adapter for {@code baseType} using {@code "type"} as
    * the type field name.
+ * @param baseType 
+ * @return x
    */
   public static <T> RuntimeTypeAdapterFactory<T> of(Class<T> baseType) {
     return new RuntimeTypeAdapterFactory<T>(baseType, "type");
@@ -154,6 +160,9 @@ public final class RuntimeTypeAdapterFactory<T> implements TypeAdapterFactory {
   /**
    * Registers {@code type} identified by {@code label}. Labels are case
    * sensitive.
+ * @param type 
+ * @param label 
+ * @return x
    *
    * @throws IllegalArgumentException if either {@code type} or {@code label}
    *     have already been registered on this type adapter.
@@ -173,6 +182,8 @@ public final class RuntimeTypeAdapterFactory<T> implements TypeAdapterFactory {
   /**
    * Registers {@code type} identified by its {@link Class#getSimpleName simple
    * name}. Labels are case sensitive.
+ * @param type 
+ * @return x
    *
    * @throws IllegalArgumentException if either {@code type} or its simple name
    *     have already been registered on this type adapter.

@@ -10,6 +10,9 @@ import java.util.UUID;
  *
  */
 public class MqttConfig {
+    /**
+     * 
+     */
     public long seed;
     protected String topic;
     protected int qos;
@@ -17,6 +20,9 @@ public class MqttConfig {
     protected UUID uuid;
     protected String session;
 
+	/**
+	 * 
+	 */
 	public MqttConfig(){
     	// Global configuration
     	this.seed         = 2052703995999047696L; // magic number

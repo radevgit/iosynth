@@ -15,7 +15,6 @@ import net.iosynth.util.Xoroshiro128;
  *
  */
 public class DeviceSimple extends Device {
-	private static final long serialVersionUID = 1L;
 	private final static String F1 = "%1d";
 	private final static String F2 = "%02d";
 	private final static String F3 = "%03d";

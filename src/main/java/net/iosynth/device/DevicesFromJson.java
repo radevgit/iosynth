@@ -76,6 +76,7 @@ public class DevicesFromJson {
 	
 	/**
 	 * @param json
+	 * @param seed 
 	 * @return List of devices from json definition
 	 */
 	public List<Device> build(String json, long seed){

@@ -94,6 +94,11 @@ public class DeepCopy {
 		return gson;
 	}
 	
+	/**
+	 * @param dev
+	 * @param count
+	 * @return list of devices
+	 */
 	public static List<Device> copyDevice(Device dev, int count){
 		List<Device> devList = new ArrayList<Device>();
 		final Gson gson = getParser();

@@ -1,6 +1,5 @@
 package net.iosynth.util;
 
-import java.util.Random;
 
 /*
  * Original C version at http://xoroshiro.di.unimi.it/xoroshiro128plus.c
@@ -13,18 +12,20 @@ import java.util.Random;
  *
  */
 public class Xoroshiro128 {   
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private static final long DOUBLE_MASK = (1L << 53) - 1;
     private static final double NORM_53 = 1. / (1L << 53);
     private long state0, state1;
 
+    /**
+     * @param seed
+     */
     public Xoroshiro128(final long seed) {
         setSeed(seed);
     }
    
+    /**
+     * @return long
+     */
     public long nextLong() {
         final long s0 = state0;
         long       s1 = state1;
@@ -51,6 +52,10 @@ public class Xoroshiro128 {
         }
     }
 
+    /**
+     * @param max
+     * @return int
+     */
     public int nextInt(final int max) {
         int threshold = (0x7fffffff - max + 1) % max;
         while(true) {
@@ -61,10 +66,16 @@ public class Xoroshiro128 {
         }
     }
    
+    /**
+     * @return double
+     */
     public double nextDouble() {
         return (nextLong() & DOUBLE_MASK) * NORM_53;
     }
    
+    /**
+     * @return double
+     */
     public boolean nextBoolean() {
         return nextLong() < 0L;
     }
@@ -102,6 +113,9 @@ public class Xoroshiro128 {
         state1 = s1;
     }
    
+    /**
+     * @param seed
+     */
     public void setSeed(final long seed) {
         long state = seed + 0x9E3779B97F4A7C15L, z = state;
         z = (z ^ (z >>> 30)) * 0xBF58476D1CE4E5B9L;
