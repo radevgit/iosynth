@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import net.iosynth.sensor.Sensor;
 import net.iosynth.sensor.SensorDefault;
+import net.iosynth.util.Xoroshiro128;
 
 /**
  * @author rradev
@@ -67,7 +68,7 @@ public class DeviceSimple extends Device {
 	
 
 	@Override
-	public List<Device> replicate() {
+	public List<Device> replicate(Xoroshiro128 rnd) {
 		List<Device> devList;
 		String format = getFormat(copy);
 		Device devA[] = {this};
@@ -75,10 +76,15 @@ public class DeviceSimple extends Device {
 		int i = 0;
 		for(final Device dev: devList){
 			dev.setId(this.getId() + String.format(format, i));
+			dev.getArrival().setRnd(rnd);
 			dev.getArrival().replicate();
 			for(final Sensor sen: dev.sensors){
+				sen.setRnd(rnd);
 				sen.replicate();
 			}
+			// new generator
+			rnd = rnd.copy();
+			rnd.jump();
 			i = i + 1;
 		}
 		

@@ -3,8 +3,6 @@
  */
 package net.iosynth.sensor;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 /**
  * @author rradev
  *
@@ -34,7 +32,7 @@ public class SensorCycleDouble extends Sensor {
 	 * 
 	 */
 	public void init(double[] values) {
-		this.state = ThreadLocalRandom.current().nextInt(values.length);
+		this.state = 0;
 		this.values = new double[values.length];
 		for(int i=0; i<values.length; i++){
 			this.values[i] = values[i];
@@ -46,7 +44,7 @@ public class SensorCycleDouble extends Sensor {
 	 */
 	@Override
 	public void replicate() {
-		state = ThreadLocalRandom.current().nextInt(values.length);
+		state = rnd.nextInt(values.length);
 	}
 	
 	/* (non-Javadoc)

@@ -3,8 +3,6 @@
  */
 package net.iosynth.sensor;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 /**
  * Generates random walk with 0.1 step
  * @author rradev
@@ -37,7 +35,7 @@ public class SensorRandomDouble extends Sensor {
 	 * @param max Maximum generated value
 	 */
 	public void init(double min, double max) {
-		this.state = ThreadLocalRandom.current().nextDouble()*(max-min)+min;
+		this.state = 0;
 		this.min = min;
 		this.max = max;
 	}
@@ -47,7 +45,7 @@ public class SensorRandomDouble extends Sensor {
 	 */
 	@Override
 	public void replicate() {
-		state = ThreadLocalRandom.current().nextDouble()*(max-min)+min;
+		state = rnd.nextDouble()*(max-min)+min;
 	}
 	
 	/*
@@ -68,7 +66,7 @@ public class SensorRandomDouble extends Sensor {
 	// Propagate internal state and epoch
 	public void step(long step) {
 		for(int i=0; i<step; i++){
-			state = state + ThreadLocalRandom.current().nextDouble()*0.2 - 0.1;
+			state = state + rnd.nextDouble()*0.2 - 0.1;
 			if(state>max) state = max;
 			if(state<min) state = min;
 		}
@@ -86,8 +84,5 @@ public class SensorRandomDouble extends Sensor {
 	public String getString() {
 		return String.format(FORMAT, getValue());
 	}
-
-
-
 
 }

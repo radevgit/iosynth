@@ -12,7 +12,7 @@ import java.util.Random;
  * @author rradev
  *
  */
-public class Xoroshiro128 extends Random {   
+public class Xoroshiro128 {   
     /**
 	 * 
 	 */
@@ -21,7 +21,7 @@ public class Xoroshiro128 extends Random {
     private static final double NORM_53 = 1. / (1L << 53);
     private long state0, state1;
 
-    Xoroshiro128(final long seed) {
+    public Xoroshiro128(final long seed) {
         setSeed(seed);
     }
    
@@ -118,12 +118,12 @@ public class Xoroshiro128 extends Random {
      /**
      * @return copy of generator
      */
-    public Xoroshiro128 copy() {
-             Xoroshiro128 gen = new Xoroshiro128(state0);
-            gen.state0 = state0;
-            gen.state1 = state1;
-            return gen;
-    }
+	public Xoroshiro128 copy() {
+		Xoroshiro128 gen = new Xoroshiro128(state0);
+		gen.state0 = state0;
+		gen.state1 = state1;
+		return gen;
+	}
    
     /**
      * @param args
@@ -132,7 +132,7 @@ public class Xoroshiro128 extends Random {
         Xoroshiro128 gen = new Xoroshiro128(123);
         long s0 = System.currentTimeMillis();
         for(int i=0; i<10e7; i++){
-            gen.nextGaussian();
+            gen.nextLong();
         }
         long s1 = System.currentTimeMillis();
         System.out.println(String.valueOf(s1-s0));

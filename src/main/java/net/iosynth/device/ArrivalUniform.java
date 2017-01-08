@@ -3,8 +3,6 @@
  */
 package net.iosynth.device;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 /**
  * @author rradev
  *
@@ -17,9 +15,9 @@ public class ArrivalUniform extends Arrival {
 	 * 
 	 */
 	public ArrivalUniform() {
-		this.interval  = ThreadLocalRandom.current().nextLong(9*1000)+1000; // Default delay 1-10 s
-		this.min = 1000;
-		this.max = 10000;
+		this.interval  = 0;
+		this.min       = 1000;
+		this.max       = 10000;
 	}
 	
 	/* (non-Javadoc)
@@ -57,7 +55,7 @@ public class ArrivalUniform extends Arrival {
 	 */
 	@Override
 	public long getInterval() {
-		interval  = ThreadLocalRandom.current().nextLong(max-min)+min;
+		interval  = rnd.nextLong(max-min)+min;
 		return interval;
 	}
 
@@ -66,7 +64,7 @@ public class ArrivalUniform extends Arrival {
 	 */
 	@Override
 	public void replicate() {
-		// nothing to do
+		interval = rnd.nextLong(max-min)+min;
 	}
 	
 

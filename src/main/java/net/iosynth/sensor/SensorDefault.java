@@ -1,7 +1,6 @@
 
 package net.iosynth.sensor;
 
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Generates random int from predefined set
@@ -33,7 +32,7 @@ public class SensorDefault extends Sensor {
 	// Propagate internal state and epoch
 	public void step(long step) {
 		for(int i=0; i<step; i++){
-			state = intVal[ThreadLocalRandom.current().nextInt(0, intVal.length)];
+			state = intVal[rnd.nextInt(intVal.length)];
 		}
 		epoch = epoch + step;
 	}

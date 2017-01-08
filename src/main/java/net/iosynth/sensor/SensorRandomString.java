@@ -3,8 +3,6 @@
  */
 package net.iosynth.sensor;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 /**
  * @author rradev
  *
@@ -34,7 +32,7 @@ public class SensorRandomString extends Sensor {
 	 * 
 	 */
 	public void init(String values[]) {
-		this.state = ThreadLocalRandom.current().nextInt(values.length);
+		this.state = 0;
 		this.values = new String[values.length];
 		for(int i=0; i<values.length; i++){
 			this.values[i] = values[i];
@@ -46,7 +44,7 @@ public class SensorRandomString extends Sensor {
 	 */
 	@Override
 	public void replicate() {
-		state = ThreadLocalRandom.current().nextInt(values.length);
+		state = rnd.nextInt(values.length);
 	}
 
 	
@@ -66,7 +64,7 @@ public class SensorRandomString extends Sensor {
 	// Propagate internal state and epoch
 	public void step(long step){
 		for(int i=0; i<step; i++){
-			state = ThreadLocalRandom.current().nextInt(values.length);
+			state = rnd.nextInt(values.length);
 		}
 		epoch = epoch + step;
 	}

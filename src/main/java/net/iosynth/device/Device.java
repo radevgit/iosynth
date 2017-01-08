@@ -15,6 +15,7 @@ import java.util.concurrent.BlockingQueue;
 import net.iosynth.sensor.Sensor;
 import net.iosynth.util.Delay;
 import net.iosynth.util.Message;
+import net.iosynth.util.Xoroshiro128;
 
 /**
  * @author rradev
@@ -34,7 +35,7 @@ public abstract class Device implements Runnable {
 
 	protected List<Sensor> sensors;
 	
-	protected Random rnd;
+	protected Xoroshiro128 rnd;
 	
 	final static protected SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
@@ -55,7 +56,7 @@ public abstract class Device implements Runnable {
 	/**
 	 * @return Returns list of replicated devices.
 	 */
-	abstract public List<Device> replicate();
+	abstract public List<Device> replicate(Xoroshiro128 rnd);
 	
 	/**
 	 * @param uuid
@@ -143,6 +144,22 @@ public abstract class Device implements Runnable {
 		this.sensors = sensors;
 	}
 
+	/**
+	 * @return the rnd
+	 */
+	public Xoroshiro128 getRnd() {
+		return rnd;
+	}
+
+	/**
+	 * @param rnd the rnd to set
+	 */
+	public void setRnd(Xoroshiro128 rnd) {
+		this.rnd = rnd;
+		for(final Sensor sen: sensors){
+			sen.setRnd(rnd);
+		}
+	}
 	
 	/**
 	 * @param name

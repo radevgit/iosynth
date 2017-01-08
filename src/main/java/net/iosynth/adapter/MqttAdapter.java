@@ -22,10 +22,8 @@ public class MqttAdapter extends Thread {
 	private String topic;
 	private int    qos;
 	private String broker;
-	private UUID uuid;
 	private String session;
 	private String clientId;
-	private long   seed;
 	
     private MemoryPersistence persistence;
     private MqttClient sampleClient;
@@ -34,17 +32,18 @@ public class MqttAdapter extends Thread {
     
     /**
      * For json deserialization
+     * @param cfg 
+     * @param msgQueue 
      */
-    public MqttAdapter(){
-    	// Global configuration
-    	this.seed         = 2052703995999047696L; // magic number
+    public MqttAdapter(MqttConfig cfg, BlockingQueue<Message> msgQueue){
     	// Adapter default configuration
-    	this.topic        = "iosynth/";
-    	this.qos          = 2;
-    	this.broker       = "tcp://localhost:1883";
-    	this.uuid         = UUID.randomUUID();
-    	this.session      = Long.toString(uuid.getMostSignificantBits(), 36);
+    	this.topic        = cfg.topic;
+    	this.qos          = cfg.qos;
+    	this.broker       = cfg.broker;
+    	this.session      = cfg.session;	
     	this.clientId     = "iosynth-0.0.1 " + session;
+    	setOptions(msgQueue);
+    	start();
     }
     
 	/**

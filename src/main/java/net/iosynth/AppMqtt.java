@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 
 import net.iosynth.adapter.Config;
 import net.iosynth.adapter.MqttAdapter;
+import net.iosynth.adapter.MqttConfig;
 import net.iosynth.device.Device;
 import net.iosynth.device.DeviceControl;
 import net.iosynth.device.DevicesFromJson;
@@ -25,11 +26,11 @@ public class AppMqtt {
 		msgQueue = new LinkedBlockingQueue<Message>();
 		// set configuration from Json file
 		Gson gson = new Gson();
-		MqttAdapter mqtt = gson.fromJson(cfg.cfgJson, MqttAdapter.class);
-		mqtt.setOptions(msgQueue);
-		mqtt.start();
+		MqttConfig mqttCfg = gson.fromJson(cfg.cfgJson, MqttConfig.class);
+		mqtt = new MqttAdapter(mqttCfg, msgQueue);
+		long seed = mqttCfg.seed;
 		DevicesFromJson fromJson = new DevicesFromJson();
-		List<Device> devs = fromJson.build(cfg.devJson);
+		List<Device> devs = fromJson.build(cfg.devJson, seed);
 		DeviceControl devControl = new DeviceControl(msgQueue);
 		for (final Device dev : devs) {
 			devControl.addDevice(dev);

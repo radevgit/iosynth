@@ -3,8 +3,6 @@
  */
 package net.iosynth.device;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 /**
  * @author rradev
  *
@@ -18,7 +16,7 @@ public class ArrivalFixed extends Arrival {
 	public ArrivalFixed() {
 		//this.fixed = true;
 		this.interval = 10000; // default 10s
-		this.jitter = ThreadLocalRandom.current().nextInt(0, 1000); // At most 1s jitter
+		this.jitter   = 0;
 	}
 	
 	/* (non-Javadoc)
@@ -45,17 +43,9 @@ public class ArrivalFixed extends Arrival {
 	@Override
 	public void replicate() {
 		// Normal distribution jitter
-		jitter = jitter + (long)(ThreadLocalRandom.current().nextGaussian()*2240+5000); // sig=sqrt(mean) mean=5 s jitter
-		jitter = jitter<0? 0: jitter;  // only possitive values.
+		jitter = rnd.nextLong(10000);
 	}
-	
-	/**
-	 * @param interval the interval to set
-	 */
-	public void setInterval(long interval) {
-		this.interval = interval;
-	}
-	
+		
 	/**
 	 * @param jitter Jitter to displace fixed inter-arrival intervals.
 	 */

@@ -3,8 +3,6 @@
  */
 package net.iosynth.device;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 import net.iosynth.sensor.Sensor;
 import net.iosynth.sensor.SensorCycleString;
 import net.iosynth.sensor.SensorRandomInt;
@@ -38,7 +36,7 @@ public class DeviceVariableRate01 extends DeviceSimple {
 		    sensor.step(1);
 		}
 		getQueue().add(toJson());
-		long delay = ThreadLocalRandom.current().nextLong(25*1000)+1000;
+		long delay = rnd.nextLong(25*1000L)+1000;
 		//setDealy(delay);
 		Delay d = new Delay(getDelayId(), delay);
 		getDelayQueue().add(d);

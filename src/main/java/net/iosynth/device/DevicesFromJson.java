@@ -19,6 +19,7 @@ import net.iosynth.sensor.SensorRandomDouble;
 import net.iosynth.sensor.SensorRandomInt;
 import net.iosynth.sensor.SensorRandomString;
 import net.iosynth.util.RuntimeTypeAdapterFactory;
+import net.iosynth.util.Xoroshiro128;
 
 
 /**
@@ -77,7 +78,7 @@ public class DevicesFromJson {
 	 * @param json
 	 * @return List of devices from json definition
 	 */
-	public List<Device> build(String json){
+	public List<Device> build(String json, long seed){
 		final Gson gson = getParser();
 		Device[] devIn = gson.fromJson(json, Device[].class);
 		
@@ -85,10 +86,15 @@ public class DevicesFromJson {
 			dev.checkParameters();
 		}
 		
+		Xoroshiro128 rnd = new Xoroshiro128(seed);
+		if(seed == 2052703995999047696L){ // magic number
+			seed = System.currentTimeMillis();
+		}
+		
 		int devCount = 0;
 		List<Device> devOut = new ArrayList<Device>();
 		for(int i=0; i<devIn.length; i++){
-			List<Device> devList = devIn[i].replicate(); 
+			List<Device> devList = devIn[i].replicate(rnd); 
 			devOut.addAll(devList);
 			devCount = devCount + devList.size();
 		}

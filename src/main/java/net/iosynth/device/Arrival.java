@@ -5,6 +5,8 @@ package net.iosynth.device;
 
 import java.io.Serializable;
 
+import net.iosynth.util.Xoroshiro128;
+
 /**
  * @author rradev
  *
@@ -12,6 +14,7 @@ import java.io.Serializable;
 public abstract class Arrival implements Serializable{
 	private static final long serialVersionUID = 1L;
 	protected long interval;
+	protected Xoroshiro128 rnd;
 	/**
 	 * 
 	 */
@@ -31,4 +34,25 @@ public abstract class Arrival implements Serializable{
 	 * 
 	 */
 	abstract public void replicate();
+	
+	/**
+	 * @param interval the interval to set
+	 */
+	public void setInterval(long interval) {
+		this.interval = interval;
+	}
+
+	/**
+	 * @return the rnd
+	 */
+	public Xoroshiro128 getRnd() {
+		return rnd;
+	}
+
+	/**
+	 * @param rnd the rnd to set
+	 */
+	public void setRnd(Xoroshiro128 rnd) {
+		this.rnd = rnd;
+	}
 }

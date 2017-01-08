@@ -2,6 +2,7 @@ package net.iosynth.device;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -11,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 import net.iosynth.util.Delay;
 import net.iosynth.util.Message;
+import net.iosynth.util.Xoroshiro128;
 
 /**
  * @author rradev

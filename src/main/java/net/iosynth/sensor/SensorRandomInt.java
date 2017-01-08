@@ -3,8 +3,6 @@
  */
 package net.iosynth.sensor;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 /**
  * @author rradev
  *
@@ -36,7 +34,7 @@ public class SensorRandomInt extends Sensor {
 	 * @param max Maximum generated value
 	 */
 	public void init(int min, int max) {
-		this.state = ThreadLocalRandom.current().nextInt(min, max);
+		this.state = 0;
 		this.min = min;
 		this.max = max;
 	}
@@ -46,7 +44,7 @@ public class SensorRandomInt extends Sensor {
 	 */
 	@Override
 	public void replicate() {
-		state = ThreadLocalRandom.current().nextInt(min, max);
+		state = rnd.nextInt(max-min)+min;
 	}
 	
 	/*
@@ -67,7 +65,7 @@ public class SensorRandomInt extends Sensor {
 	// Propagate internal state and epoch
 	public void step(long step) {
 		for (int i = 0; i < step; i++) {
-			state = state + ThreadLocalRandom.current().nextInt(-1, 2);
+			state = state + rnd.nextInt(2)-1;
 			if (state > max)
 				state = max;
 			if (state < min)
