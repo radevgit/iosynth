@@ -8,7 +8,6 @@ import java.util.List;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.typeadapters.RuntimeTypeAdapterFactory;
 
 import net.iosynth.sensor.Sensor;
 import net.iosynth.sensor.SensorConstantString;
@@ -19,6 +18,7 @@ import net.iosynth.sensor.SensorDefault;
 import net.iosynth.sensor.SensorRandomDouble;
 import net.iosynth.sensor.SensorRandomInt;
 import net.iosynth.sensor.SensorRandomString;
+import net.iosynth.util.RuntimeTypeAdapterFactory;
 
 
 /**
@@ -38,7 +38,7 @@ public class DevicesFromJson {
 		if(gson!=null){
 			return gson;
 		}
-		final RuntimeTypeAdapterFactory<Device> deviceAdapter = RuntimeTypeAdapterFactory.of(Device.class, "type");
+		final net.iosynth.util.RuntimeTypeAdapterFactory<Device> deviceAdapter = RuntimeTypeAdapterFactory.of(Device.class, "type");
 		//deviceAdapter.registerSubtype(Device.class, "Device");
 		deviceAdapter.registerSubtype(DeviceFixedRate.class, "DeviceSimple");
 		
