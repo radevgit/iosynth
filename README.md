@@ -1,4 +1,4 @@
-# IoSynth
+# IoSynth [![Build Status](https://travis-ci.org/rradev/iosynth.svg?branch=master)](https://travis-ci.org/rradev/iosynth)
 
 IoSynth is IoT device/sensor simulator and synthetic data generator.
 
