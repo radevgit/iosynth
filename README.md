@@ -14,7 +14,9 @@ The MQTT protocol is based on the principle of publishing messages and subscribi
  ```sh
  java -cp iosynth.jar net.iosynth.AppMqtt -c config.json -d devices.json
  ```
-The above command line assumes you have iosynth.jar, mqtt-config.json and devices.json in the same directory and Java 1.7 installed. To obtain the iosynth.jar get the [**latest snapshot**]().
+To run the above command get the [**latest release of iosynth.jar**](https://github.com/rradev/iosynth/releases).
+It is also assumed that you have mqtt-config.json and devices.json in the same directory and Java 1.7 installed. 
+
  
 You can check the published data by subscribing to MQTT topics using the [Mosquitto](http://mosquitto.org) client:
 
