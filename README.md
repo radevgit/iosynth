@@ -14,7 +14,7 @@ Currently 2 applications are available:
 -	MQTT client
 -	RabbitMQ client
 	
-The MQTT protocol is based on the principle of publishing messages and subscribing to topics using MQTT broker. The AppMqtt client application connects to MQTT broker and publishes device/sensor data. 
+The MQTT protocol is based on the principle of publishing messages and subscribing to topics using MQTT broker. The Mqtt client application connects to MQTT broker and publishes device/sensor data. 
 ```sh
 java -cp iosynth.jar net.iosynth.Mqtt -c mqtt-config.json -d devices.json
 ```
@@ -65,14 +65,14 @@ For RabbitMQ server, run the following command:
 ```sh
 java -cp iosynth.jar net.iosynth.RabbitMQ -c rabbit-config.json -d devices.json
 ```
-**rabbit-config.json** - Configuration for the MQTT connection and global parameters.
+**rabbit-config.json** - Configuration for the RabbitMQ connection and global parameters.
 ```json
 {
   "topic":"iosynth",
   "broker":"localhost",
   "seed":123456
 }
-
+```
 
 
 **devices.json** - Example configuration describing the devices and sensors.
