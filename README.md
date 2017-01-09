@@ -10,10 +10,14 @@ What is it useful for:
 -	You frequently change experiment configurations and want to do it in cost and time effective way. 
 
 ### Usage
+Currently applications are available:
+	- MQTT client
+	- RabbitMQ client
+	
 The MQTT protocol is based on the principle of publishing messages and subscribing to topics using MQTT broker. The AppMqtt client application connects to MQTT broker and publishes device/sensor data. 
- ```sh
- java -cp iosynth.jar net.iosynth.AppMqtt -c config.json -d devices.json
- ```
+```sh
+java -cp iosynth.jar net.iosynth.Mqtt -c mqtt-config.json -d devices.json
+```
 To run the above command get the [**latest release of iosynth.jar**](https://github.com/rradev/iosynth/releases).
 It is also assumed that you have mqtt-config.json and devices.json in the same directory and Java 1.7 installed. 
 
@@ -36,7 +40,7 @@ iosynth/lkjhgfdsa/device-x-03 {"time":"2017-01-07 10:20:55.074","count":131,"tem
 iosynth/lkjhgfdsa/device-y-03 {"time":"2017-01-07 10:20:56.150","command":"Alfa","state":4,"level":2,"switch":"on"}
 ```
 
-**config.json** - Configuration for the MQTT connection and global parameters.
+**mqtt-config.json** - Configuration for the MQTT connection and global parameters.
 ```json
 {
   "topic":"iosynth/",
@@ -55,6 +59,21 @@ iosynth/lkjhgfdsa/device-y-03 {"time":"2017-01-07 10:20:56.150","command":"Alfa"
 | broker   | MQTT broker address: *tcp://host:port*   |
 | session  | Unique string representing the session name used to create unique topics. If this parameter is omitted, session string is generated automatically on each run.|
 | seed | Random Generator seed used to create reproducible scenarios. It can be ommited in other cases.
+
+
+For RabbitMQ server, run the following command:
+```sh
+java -cp iosynth.jar net.iosynth.RabbitMQ -c rabbit-config.json -d devices.json
+```
+**rabbit-config.json** - Configuration for the MQTT connection and global parameters.
+```json
+{
+  "topic":"iosynth",
+  "broker":"localhost",
+  "seed":123456
+}
+
+
 
 **devices.json** - Example configuration describing the devices and sensors.
 ```json
