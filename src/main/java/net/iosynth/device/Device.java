@@ -52,7 +52,6 @@ public abstract class Device implements Runnable {
 	 */
 	abstract public void checkParameters();
 	/**
-	 * @param rnd 
 	 * @return Returns list of replicated devices.
 	 */
 	abstract public List<Device> replicate();
