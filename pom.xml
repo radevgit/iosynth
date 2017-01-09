@@ -65,6 +65,11 @@
 			<artifactId>org.eclipse.paho.client.mqttv3</artifactId>
 			<version>1.0.2</version>
 		</dependency>
+		<dependency>
+			<groupId>com.rabbitmq</groupId>
+			<artifactId>amqp-client</artifactId>
+			<version>4.0.1</version>
+		</dependency>
 
 		<!-- Gson: Java to Json conversion -->
 		<dependency>
