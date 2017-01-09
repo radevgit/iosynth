@@ -1,0 +1,5 @@
+{
+  "topic":"iosynth",
+  "broker":"localhost",
+  "seed":123456
+}

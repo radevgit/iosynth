@@ -1,6 +1,8 @@
 package net.iosynth.adapter;
 
+import java.io.IOException;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.TimeoutException;
 
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
@@ -8,13 +10,17 @@ import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.ConnectionFactory;
+
 /**
  * @author rradev
  *
  */
 public class RabbitAdapter extends Thread {
 	// Adapter default configuration
-	private String topic;
+	private String queue;
 	private int    qos;
 	private String broker;
 	private String session;
@@ -23,6 +29,11 @@ public class RabbitAdapter extends Thread {
     private MemoryPersistence persistence;
     private MqttClient sampleClient;
     private MqttConnectOptions connOpts;
+    
+    private ConnectionFactory factory;
+    private Connection connection;
+    Channel channel;
+    
     private BlockingQueue<Message> msgQueue;
     
     /**
@@ -32,7 +43,7 @@ public class RabbitAdapter extends Thread {
      */
     public RabbitAdapter(RabbitConfig cfg, BlockingQueue<Message> msgQueue){
 		// Adapter default configuration
-		this.topic = cfg.topic;
+		this.queue = cfg.queue;
 		this.qos = cfg.qos > 2 || cfg.qos < 0 ? 0 : cfg.qos;
 		this.broker = cfg.broker;
 		this.session = cfg.session;
@@ -46,58 +57,44 @@ public class RabbitAdapter extends Thread {
 	 */
 	public void setOptions(BlockingQueue<Message> msgQueue) {
 		this.msgQueue = msgQueue;
-		persistence = new MemoryPersistence();
-		try {
-			sampleClient = new MqttClient(broker, clientId, persistence);
-			connOpts = new MqttConnectOptions();
-			connOpts.setCleanSession(true);
-		} catch (MqttException me) {
-			System.out.println("reason " + me.getReasonCode());
-			System.out.println("msg " + me.getMessage());
-			System.out.println("loc " + me.getLocalizedMessage());
-			System.out.println("cause " + me.getCause());
-			System.out.println("excep " + me);
-			me.printStackTrace();
-		}
+		factory = new ConnectionFactory();
+		factory.setHost(broker);
+		
 	}
 
 	@Override
 	public void run() {
 		try {
 			System.out.println("Connecting to broker: " + broker);
-			sampleClient.connect(connOpts);
+			connection = factory.newConnection();
 			System.out.println("Connected");
-			long k = 0;
+			channel = connection.createChannel();
+			channel.queueDeclare(queue, false, false, false, null);
+
+			while (true) {
+				final Message msg = msgQueue.take();
+				channel.basicPublish("", queue, null, msg.getMsg().getBytes());
+
+			}
+		} catch (IOException ie) {
+			ie.printStackTrace();
+		} catch (TimeoutException te) {
+			te.printStackTrace();
+		} catch (InterruptedException ine) {
+			ine.printStackTrace();
+		}
+		finally {
 			try {
-				while (true) {
-					final Message msg = msgQueue.take();
-					if(k%100000==0){
-						System.out.println("queue: " + 	msgQueue.size());
-					}
-					//System.out.println("Publishing message: " + msg.getId() + " " + msg.getMsg());
-					MqttMessage message = new MqttMessage(msg.getMsg().getBytes());
-					message.setQos(qos);
-					sampleClient.publish(topic + session + "/" + msg.getId(), message);
-					k++;
-				}
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
+				channel.close();
+				connection.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (TimeoutException e) {
 				e.printStackTrace();
 			}
-
-			sampleClient.disconnect();
 			System.out.println("Disconnected");
-		} catch (MqttException me) {
-			System.out.println("reason " + me.getReasonCode());
-			System.out.println("msg " + me.getMessage());
-			System.out.println("loc " + me.getLocalizedMessage());
-			System.out.println("cause " + me.getCause());
-			System.out.println("excep " + me);
-			me.printStackTrace();
-		} finally {
-
 		}
-		
+
 	}
 	
 }

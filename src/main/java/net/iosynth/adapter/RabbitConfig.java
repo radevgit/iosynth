@@ -14,7 +14,7 @@ public class RabbitConfig {
      * 
      */
     public long seed;
-    protected String topic;
+    protected String queue;
     protected int qos;
     protected String broker;
     protected UUID uuid;
@@ -27,9 +27,9 @@ public class RabbitConfig {
     	// Global configuration
     	this.seed         = 2052703995999047696L; // magic number
     	// Adapter default configuration
-    	this.topic        = "iosynth/";
+    	this.queue        = "iosynth";
     	this.qos          = 0;
-    	this.broker       = "tcp://localhost:1883";
+    	this.broker       = "localhost";
     	UUID uuid         = UUID.randomUUID();
     	this.session      = Long.toString(uuid.getMostSignificantBits(), 36);
     }
