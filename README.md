@@ -10,7 +10,7 @@ What is it useful for:
 -	You frequently change experiment configurations and want to do it in cost and time effective way. 
 
 ### Usage
-Currently applications are available:
+Currently 2 applications are available:
 -	MQTT client
 -	RabbitMQ client
 	
