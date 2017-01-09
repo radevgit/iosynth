@@ -11,8 +11,8 @@ What is it useful for:
 
 ### Usage
 Currently applications are available:
-	- MQTT client
-	- RabbitMQ client
+-	MQTT client
+-	RabbitMQ client
 	
 The MQTT protocol is based on the principle of publishing messages and subscribing to topics using MQTT broker. The AppMqtt client application connects to MQTT broker and publishes device/sensor data. 
 ```sh
