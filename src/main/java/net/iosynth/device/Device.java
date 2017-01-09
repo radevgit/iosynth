@@ -55,7 +55,7 @@ public abstract class Device implements Runnable {
 	 * @param rnd 
 	 * @return Returns list of replicated devices.
 	 */
-	abstract public List<Device> replicate(Xoroshiro128 rnd);
+	abstract public List<Device> replicate();
 	
 	/**
 	 * @param uuid

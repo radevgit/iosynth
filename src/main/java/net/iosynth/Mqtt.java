@@ -18,11 +18,11 @@ import net.iosynth.util.Message;
  * 
  *
  */
-public class AppMqtt {
+public class Mqtt {
 	protected BlockingQueue<Message> msgQueue;
 	protected MqttAdapter mqtt;
 	
-	protected AppMqtt(Config cfg) {
+	protected Mqtt(Config cfg) {
 		msgQueue = new LinkedBlockingQueue<Message>();
 		// set configuration from Json file
 		Gson gson = new Gson();
@@ -45,6 +45,6 @@ public class AppMqtt {
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		Config cfg = new Config(args);
-		AppMqtt app = new AppMqtt(cfg);
+		Mqtt app = new Mqtt(cfg);
 	}
 }

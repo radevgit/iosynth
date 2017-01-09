@@ -42,7 +42,6 @@ public class ArrivalFixed extends Arrival {
 	 */
 	@Override
 	public void replicate() {
-		// Normal distribution jitter
 		jitter = rnd.nextLong(10000);
 	}
 		

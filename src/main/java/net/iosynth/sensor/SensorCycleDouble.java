@@ -16,7 +16,7 @@ public class SensorCycleDouble extends Sensor {
 	 * 
 	 */
 	public SensorCycleDouble() {
-		double val[] = {1.1, 2.2, 3.3};
+		final double val[] = {1.234567};
 		init(val);
 	}
 	

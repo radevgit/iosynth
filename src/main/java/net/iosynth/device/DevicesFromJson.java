@@ -36,7 +36,7 @@ public class DevicesFromJson {
 	}
 	
 	private static Gson getParser(){
-		if(gson!=null){
+		if (gson != null) {
 			return gson;
 		}
 		final net.iosynth.util.RuntimeTypeAdapterFactory<Device> deviceAdapter = RuntimeTypeAdapterFactory.of(Device.class, "type");
@@ -87,16 +87,19 @@ public class DevicesFromJson {
 			dev.checkParameters();
 		}
 		
-		Xoroshiro128 rnd = new Xoroshiro128(seed);
 		if(seed == 2052703995999047696L){ // magic number
 			seed = System.currentTimeMillis();
 		}
+		Xoroshiro128 rnd = new Xoroshiro128(seed);
 		
 		int devCount = 0;
 		List<Device> devOut = new ArrayList<Device>();
 		for(int i=0; i<devIn.length; i++){
-			List<Device> devList = devIn[i].replicate(rnd); 
+			devIn[i].setRnd(rnd);
+			List<Device> devList = devIn[i].replicate(); 
 			devOut.addAll(devList);
+			rnd = devList.get(devList.size() - 1).getRnd().copy();  // get the last generated rnd
+			rnd.jump();
 			devCount = devCount + devList.size();
 		}
 		System.out.println("Devices created: " + String.valueOf(devCount));
@@ -113,11 +116,11 @@ public class DevicesFromJson {
 		List<Device> devList = new ArrayList<Device>();
 		final Gson gson = getParser();
 		final String json = gson.toJson(dev);
-		for(int i=0; i<count; i++){
+		for (int i = 0; i < count; i++) {
 			Device[] devT = gson.fromJson(json, Device[].class);
 			devList.add(devT[0]);
 		}
-		
+
 		return devList;
 	}
 	

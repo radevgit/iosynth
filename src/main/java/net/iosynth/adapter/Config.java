@@ -30,7 +30,7 @@ public class Config {
 	public Config(String[] args) {
 		
 		if (args.length != 4) {
-			System.out.println("\nUsage: java -cp iosynth.jar net.iosynth.AppMqtt -c config.json -d devices.json\n");
+			System.out.println("\nUsage: java -cp iosynth.jar net.iosynth.Mqtt -c config.json -d devices.json\n");
 			System.exit(1);
 		}
 		

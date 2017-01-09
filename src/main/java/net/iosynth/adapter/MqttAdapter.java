@@ -8,7 +8,6 @@ import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
-
 import net.iosynth.util.Message;
 
 /**
@@ -34,14 +33,14 @@ public class MqttAdapter extends Thread {
      * @param msgQueue 
      */
     public MqttAdapter(MqttConfig cfg, BlockingQueue<Message> msgQueue){
-    	// Adapter default configuration
-    	this.topic        = cfg.topic;
-    	this.qos          = cfg.qos;
-    	this.broker       = cfg.broker;
-    	this.session      = cfg.session;	
-    	this.clientId     = "iosynth-0.0.1 " + session;
-    	setOptions(msgQueue);
-    	start();
+		// Adapter default configuration
+		this.topic = cfg.topic;
+		this.qos = cfg.qos > 2 || cfg.qos < 0 ? 0 : cfg.qos;
+		this.broker = cfg.broker;
+		this.session = cfg.session;
+		this.clientId = "iosynth-0.0.1 " + session;
+		setOptions(msgQueue);
+		start();
     }
     
 	/**

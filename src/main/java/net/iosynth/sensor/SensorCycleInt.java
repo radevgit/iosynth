@@ -16,7 +16,7 @@ public class SensorCycleInt extends Sensor {
 	 * 
 	 */
 	public SensorCycleInt() {
-		int val[] = {1, 2, 3};
+		final int val[] = {1};
 		init(val);
 	}
 	
@@ -54,7 +54,7 @@ public class SensorCycleInt extends Sensor {
 	public void checkParameters() {
 		if (values == null) {
 			values = new int[1];
-			values[0] = 0;
+			values[0] = 1;
 		}
 	}
 

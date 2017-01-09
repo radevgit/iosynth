@@ -67,23 +67,26 @@ public class DeviceSimple extends Device {
 	
 
 	@Override
-	public List<Device> replicate(Xoroshiro128 rnd) {
+	public List<Device> replicate() {
+		Xoroshiro128 rndT = this.rnd;
 		List<Device> devList;
 		String format = getFormat(copy);
 		Device devA[] = {this};
 		devList = DevicesFromJson.copyDevice(devA, copy);
 		int i = 0;
-		for(final Device dev: devList){
+		for(Device dev: devList){
+			dev.setRnd(rndT);
 			dev.setId(this.getId() + String.format(format, i));
-			dev.getArrival().setRnd(rnd);
+			dev.getArrival().setRnd(dev.getRnd());
 			dev.getArrival().replicate();
-			for(final Sensor sen: dev.sensors){
-				sen.setRnd(rnd);
+			final List<Sensor> sens = dev.getSensors();
+			for(Sensor sen: sens){
+				sen.setRnd(dev.getRnd());
 				sen.replicate();
 			}
 			// new generator
-			rnd = rnd.copy();
-			rnd.jump();
+			rndT = rndT.copy();
+			rndT.jump();
 			i = i + 1;
 		}
 		
