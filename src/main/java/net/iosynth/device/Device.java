@@ -10,9 +10,9 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.BlockingQueue;
 
+import net.iosynth.adapter.Message;
 import net.iosynth.sensor.Sensor;
 import net.iosynth.util.Delay;
-import net.iosynth.util.Message;
 import net.iosynth.util.Xoroshiro128;
 
 /**

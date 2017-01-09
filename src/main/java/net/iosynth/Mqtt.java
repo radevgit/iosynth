@@ -7,12 +7,12 @@ import java.util.concurrent.LinkedBlockingQueue;
 import com.google.gson.Gson;
 
 import net.iosynth.adapter.Config;
+import net.iosynth.adapter.Message;
 import net.iosynth.adapter.MqttAdapter;
 import net.iosynth.adapter.MqttConfig;
 import net.iosynth.device.Device;
 import net.iosynth.device.DeviceControl;
 import net.iosynth.device.DevicesFromJson;
-import net.iosynth.util.Message;
 
 /**
  * 

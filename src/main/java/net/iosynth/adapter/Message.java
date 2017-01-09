@@ -1,4 +1,4 @@
-package net.iosynth.util;
+package net.iosynth.adapter;
 
 /**
  * @author rradev

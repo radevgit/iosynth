@@ -8,9 +8,6 @@ import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
-import net.iosynth.RabbitMQ;
-import net.iosynth.util.Message;
-
 /**
  * @author rradev
  *
@@ -33,7 +30,7 @@ public class RabbitAdapter extends Thread {
      * @param cfg 
      * @param msgQueue 
      */
-    public RabbitAdapter(RabbitMQ cfg, BlockingQueue<Message> msgQueue){
+    public RabbitAdapter(RabbitConfig cfg, BlockingQueue<Message> msgQueue){
 		// Adapter default configuration
 		this.topic = cfg.topic;
 		this.qos = cfg.qos > 2 || cfg.qos < 0 ? 0 : cfg.qos;

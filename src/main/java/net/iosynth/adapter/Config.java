@@ -1,5 +1,5 @@
 /**
- * Parse command line arguments and loads configuration data in strings.
+ * Parse command line arguments and load configuration and devices settings.
  */
 package net.iosynth.adapter;
 

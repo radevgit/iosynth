@@ -9,8 +9,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
+import net.iosynth.adapter.Message;
 import net.iosynth.util.Delay;
-import net.iosynth.util.Message;
 
 /**
  * @author rradev
