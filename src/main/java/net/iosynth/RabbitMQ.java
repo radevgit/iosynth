@@ -20,15 +20,15 @@ import net.iosynth.util.Message;
  */
 public class RabbitMQ {
 	protected BlockingQueue<Message> msgQueue;
-	protected RabbitAdapter mqtt;
+	protected RabbitAdapter rabbit;
 	
 	protected RabbitMQ(Config cfg) {
 		msgQueue = new LinkedBlockingQueue<Message>();
 		// set configuration from Json file
 		Gson gson = new Gson();
-		RabbitConfig mqttCfg = gson.fromJson(cfg.cfgJson, RabbitConfig.class);
-		mqtt = new RabbitAdapter(mqttCfg, msgQueue);
-		long seed = mqttCfg.seed;
+		RabbitConfig rabbitCfg = gson.fromJson(cfg.cfgJson, RabbitConfig.class);
+		rabbit = new RabbitAdapter(rabbitCfg, msgQueue);
+		long seed = rabbitCfg.seed;
 		DevicesFromJson fromJson = new DevicesFromJson();
 		List<Device> devs = fromJson.build(cfg.devJson, seed);
 		DeviceControl devControl = new DeviceControl(msgQueue);
