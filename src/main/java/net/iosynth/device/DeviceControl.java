@@ -8,8 +8,11 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import net.iosynth.adapter.Message;
+import net.iosynth.adapter.MqttAdapter;
 import net.iosynth.util.Delay;
 
 /**
@@ -25,6 +28,7 @@ public class DeviceControl {
 	protected List<ScheduledFuture<?>> devsHandleDelayList;
 
 	protected ScheduledExecutorService scheduler;
+	private final Logger logger = Logger.getLogger(DeviceControl.class.getName());
 	
 	/**
 	 * @param msgQueue
@@ -76,14 +80,13 @@ public class DeviceControl {
 				final Delay delay = delayQueue.take();
 				final Runnable r = devsDelayList.get(delay.getId());
 				if(k%100000==0){
-					System.out.println("arrival queue: " + 	msgQueue.size());
+					logger.info("arrival queue: " + 	msgQueue.size());
 				}
 				ScheduledFuture<?> devHandle = scheduler.schedule(r, ((Device)r).getArrival().getInterval(), TimeUnit.MILLISECONDS);
 				k++;
 			}
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (InterruptedException ie) {
+			logger.log(Level.SEVERE, ie.toString(), ie);
 		}
 
 	}

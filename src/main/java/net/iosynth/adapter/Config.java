@@ -6,6 +6,8 @@ package net.iosynth.adapter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author rradev
@@ -22,6 +24,8 @@ public class Config {
 	public String devJson;
 	private String cfgFile;
 	private String devFile;
+	private static String usage = "\nUsage: java -cp iosynth.jar net.iosynth.Mqtt -c config.json -d devices.json\n";
+	Logger logger = Logger.getLogger(Config.class.getName());
 	
 	/**
 	 * Usage: java -cp iosynth.jar -c config.json -d devices.json
@@ -30,7 +34,7 @@ public class Config {
 	public Config(String[] args) {
 		
 		if (args.length != 4) {
-			System.out.println("\nUsage: java -cp iosynth.jar net.iosynth.Mqtt -c config.json -d devices.json\n");
+			logger.warning(usage);
 			System.exit(1);
 		}
 		
@@ -43,20 +47,22 @@ public class Config {
 				devFile = args[i + 1];
 				break;
 			default:
-				System.out.println("\nUsage: java -cp iosynth.jar net.iosynth.app.App -c config.json -d devices.json\n");
+				logger.warning(usage);
 				System.exit(1);
 			}
 		}
 		
 		try {
 			cfgJson = new String(Files.readAllBytes(Paths.get(cfgFile)));
-		} catch (IOException e) {
-			// TODO
+		} catch (IOException ie) {
+			logger.log(Level.SEVERE, ie.toString(), ie);
+			System.exit(1);
 		}
 		try {
 			devJson = new String(Files.readAllBytes(Paths.get(devFile)));
-		} catch (IOException e) {
-			// TODO
+		} catch (IOException ie) {
+			logger.log(Level.SEVERE, ie.toString(), ie);
+			System.exit(1);
 		}
 	}
 

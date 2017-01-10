@@ -1,6 +1,8 @@
 package net.iosynth.adapter;
 
 import java.util.concurrent.BlockingQueue;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
@@ -24,6 +26,8 @@ public class MqttAdapter extends Thread {
     private MqttClient sampleClient;
     private MqttConnectOptions connOpts;
     private BlockingQueue<Message> msgQueue;
+    
+    private final Logger logger = Logger.getLogger(MqttAdapter.class.getName());
     
     /**
      * For json deserialization
@@ -52,52 +56,43 @@ public class MqttAdapter extends Thread {
 			connOpts = new MqttConnectOptions();
 			connOpts.setCleanSession(true);
 		} catch (MqttException me) {
-			System.out.println("reason " + me.getReasonCode());
-			System.out.println("msg " + me.getMessage());
-			System.out.println("loc " + me.getLocalizedMessage());
-			System.out.println("cause " + me.getCause());
-			System.out.println("excep " + me);
-			me.printStackTrace();
+			logger.log(Level.SEVERE, me.toString(), me);
+			System.exit(1);
 		}
 	}
 
 	@Override
 	public void run() {
 		try {
-			System.out.println("Connecting to broker: " + broker);
+			logger.info("Connecting to broker: " + broker);
 			sampleClient.connect(connOpts);
-			System.out.println("Connected");
+			logger.info("Connected");
 			long k = 0;
 			try {
+				final String prefix = topic + session + "/";
 				while (true) {
 					final Message msg = msgQueue.take();
-					if(k%100000==0){
-						System.out.println("queue: " + 	msgQueue.size());
+					if (k % 100000 == 0) {
+						logger.info("queue: " + msgQueue.size());
 					}
-					//System.out.println("Publishing message: " + msg.getId() + " " + msg.getMsg());
 					MqttMessage message = new MqttMessage(msg.getMsg().getBytes());
 					message.setQos(qos);
-					sampleClient.publish(topic + session + "/" + msg.getId(), message);
+					sampleClient.publish(prefix + msg.getId(), message);
 					k++;
 				}
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} catch (InterruptedException ex) {
+				logger.log(Level.SEVERE, ex.toString(), ex);
 			}
 
 			sampleClient.disconnect();
-			System.out.println("Disconnected");
+			logger.info("Disconnected");
 		} catch (MqttException me) {
-			System.out.println("reason " + me.getReasonCode());
-			System.out.println("msg " + me.getMessage());
-			System.out.println("loc " + me.getLocalizedMessage());
-			System.out.println("cause " + me.getCause());
-			System.out.println("excep " + me);
-			me.printStackTrace();
+			logger.log(Level.SEVERE, me.toString(), me);
+			System.exit(1);
 		} finally {
 
 		}
-		
+
 	}
 	
 }

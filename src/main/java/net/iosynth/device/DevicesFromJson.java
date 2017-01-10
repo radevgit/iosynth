@@ -5,10 +5,12 @@ package net.iosynth.device;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import net.iosynth.adapter.MqttAdapter;
 import net.iosynth.sensor.Sensor;
 import net.iosynth.sensor.SensorConstantString;
 import net.iosynth.sensor.SensorCycleDouble;
@@ -28,6 +30,8 @@ import net.iosynth.util.Xoroshiro128;
  */
 public class DevicesFromJson {
 	private static Gson gson;
+	
+	private final Logger logger = Logger.getLogger(DevicesFromJson.class.getName());
 	/**
 	 * 
 	 */
@@ -102,7 +106,7 @@ public class DevicesFromJson {
 			rnd.jump();
 			devCount = devCount + devList.size();
 		}
-		System.out.println("Devices created: " + String.valueOf(devCount));
+		logger.info("Devices created: " + String.valueOf(devCount));
 		return devOut;
 	}
 

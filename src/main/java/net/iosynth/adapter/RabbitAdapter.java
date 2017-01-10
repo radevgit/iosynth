@@ -3,6 +3,8 @@ package net.iosynth.adapter;
 import java.io.IOException;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeoutException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
@@ -35,6 +37,7 @@ public class RabbitAdapter extends Thread {
     Channel channel;
     
     private BlockingQueue<Message> msgQueue;
+    private final Logger logger = Logger.getLogger(RabbitAdapter.class.getName());
     
     /**
      * For json deserialization
@@ -65,9 +68,9 @@ public class RabbitAdapter extends Thread {
 	@Override
 	public void run() {
 		try {
-			System.out.println("Connecting to broker: " + broker);
+			logger.info("Connecting to broker: " + broker);
 			connection = factory.newConnection();
-			System.out.println("Connected");
+			logger.info("Connected");
 			channel = connection.createChannel();
 			channel.queueDeclare(queue, false, false, false, null);
 
@@ -77,22 +80,23 @@ public class RabbitAdapter extends Thread {
 
 			}
 		} catch (IOException ie) {
-			ie.printStackTrace();
+			logger.log(Level.SEVERE, ie.toString(), ie);
 		} catch (TimeoutException te) {
-			te.printStackTrace();
+			logger.log(Level.SEVERE, te.toString(), te);
 		} catch (InterruptedException ine) {
-			ine.printStackTrace();
+			logger.log(Level.SEVERE, ine.toString(), ine);
 		}
 		finally {
 			try {
 				channel.close();
 				connection.close();
 			} catch (IOException e) {
-				e.printStackTrace();
+				//
 			} catch (TimeoutException e) {
-				e.printStackTrace();
+				//
 			}
-			System.out.println("Disconnected");
+			logger.info("Disconnected");
+			System.exit(1);
 		}
 
 	}

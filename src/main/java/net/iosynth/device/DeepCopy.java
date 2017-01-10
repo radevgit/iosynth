@@ -103,8 +103,6 @@ public class DeepCopy {
 		List<Device> devList = new ArrayList<Device>();
 		final Gson gson = getParser();
 		final String json = gson.toJson(dev);
-		System.out.println("___________________");
-		System.out.println(json);
 		for(int i=0; i<count; i++){
 			Device devT = gson.fromJson(json, Device.class);
 			devList.add(devT);
