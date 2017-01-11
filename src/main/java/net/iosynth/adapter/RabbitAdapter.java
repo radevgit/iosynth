@@ -66,11 +66,15 @@ public class RabbitAdapter extends Thread {
 			channel = connection.createChannel();
 			channel.exchangeDeclare(exchange, "topic");
 			//channel.queueDeclare(queue, false, false, false, null);
-
+			
+			long k = 0;
 			while (true) {
 				final Message msg = msgQueue.take();
+				if (k % 100000 == 0) {
+					logger.info("queue: " + msgQueue.size());
+				}
 				channel.basicPublish(exchange, topic + "." + msg.getId(), null, msg.getMsg().getBytes());
-				//logger.info(topic + "." + msg.getId());
+				k++;
 			}
 		} catch (IOException ie) {
 			logger.log(Level.SEVERE, ie.toString(), ie);
