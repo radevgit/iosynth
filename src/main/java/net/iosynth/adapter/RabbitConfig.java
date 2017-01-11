@@ -28,7 +28,7 @@ public class RabbitConfig {
     	// Global configuration
     	this.seed         = 2052703995999047696L; // magic number
     	// Adapter default configuration
-    	this.topic        = "iosynth";
+    	this.topic        = "device";
     	this.exchange     = "iosynth";
     	this.broker       = "localhost";
     	UUID uuid         = UUID.randomUUID();

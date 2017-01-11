@@ -25,12 +25,6 @@ public class RabbitAdapter extends Thread {
 	private String topic;
 	private String exchange;
 	private String broker;
-	private String session;
-	private String clientId;
-	
-    private MemoryPersistence persistence;
-    private MqttClient sampleClient;
-    private MqttConnectOptions connOpts;
     
     private ConnectionFactory factory;
     private Connection connection;
@@ -49,8 +43,6 @@ public class RabbitAdapter extends Thread {
 		this.topic = cfg.topic;
 		this.exchange = cfg.exchange;
 		this.broker = cfg.broker;
-		this.session = cfg.session;
-		this.clientId = "iosynth-0.0.1 " + session;
 		setOptions(msgQueue);
 		start();
     }
