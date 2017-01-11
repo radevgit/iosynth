@@ -70,7 +70,7 @@ public class RabbitAdapter extends Thread {
 			while (true) {
 				final Message msg = msgQueue.take();
 				channel.basicPublish(exchange, topic + "." + msg.getId(), null, msg.getMsg().getBytes());
-				logger.info(topic + "." + msg.getId());
+				//logger.info(topic + "." + msg.getId());
 			}
 		} catch (IOException ie) {
 			logger.log(Level.SEVERE, ie.toString(), ie);

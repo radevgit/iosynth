@@ -43,10 +43,10 @@ iosynth/lkjhgfdsa/device-y-03 {"time":"2017-01-07 10:20:56.150","command":"Alfa"
 **mqtt-config.json** - Configuration for the MQTT connection and global parameters.
 ```json
 {
-  "topic":"iosynth/",
-  "qos":2,
   "broker":"tcp://localhost:1883",
+  "topic":"iosynth",
   "session":"mdejsighzne",
+  "qos":2,
   "seed":123456
 }
 ```
@@ -68,8 +68,9 @@ java -cp iosynth.jar net.iosynth.RabbitMQ -c rabbit-config.json -d devices.json
 **rabbit-config.json** - Configuration for the RabbitMQ connection and global parameters.
 ```json
 {
-  "topic":"iosynth",
   "broker":"localhost",
+  "exchange":"iosynth",
+  "topic":"device",
   "seed":123456
 }
 ```
@@ -80,7 +81,7 @@ java -cp iosynth.jar net.iosynth.RabbitMQ -c rabbit-config.json -d devices.json
 [
     {
         "type":"DeviceSimple",
-        "uuid":"device-x-",
+        "uuid":"xxx.",
         "arrival":{"type":"ArrivalFixed", "interval":10000},
         "copy":10,
         "sensors":[
@@ -91,7 +92,7 @@ java -cp iosynth.jar net.iosynth.RabbitMQ -c rabbit-config.json -d devices.json
     },
     {
         "type":"DeviceSimple",
-        "uuid":"device-y-",
+        "uuid":"yyy.",
         "arrival":{"type":"ArrivalUniform", "min":10000, "max":30000},
         "copy":10,
         "sensors":[
