@@ -4,6 +4,10 @@ MQTT client library PAHO:
 	Licenses: 
 	Eclipse Distribution License 1.0 (BSD)
 	Eclipse Public License 1.0
+	
+RabbitMQ client library:
+	MOZILLA PUBLIC LICENSE 1.1
+	https://www.mozilla.org/en-US/MPL/1.1/
 
 GSON:
 	Apache License 2.0 
