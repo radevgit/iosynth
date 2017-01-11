@@ -1,7 +1,7 @@
 [
     {
         "type":"DeviceSimple",
-        "uuid":"device-x-",
+        "uuid":"xxx.",
         "arrival":{"type":"ArrivalFixed", "interval":10000},
         "copy":10,
         "sensors":[
@@ -12,7 +12,7 @@
     },
     {
         "type":"DeviceSimple",
-        "uuid":"device-y-",
+        "uuid":"yyy.",
         "arrival":{"type":"ArrivalUniform", "min":10000, "max":30000},
         "copy":10,
         "sensors":[

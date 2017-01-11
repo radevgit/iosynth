@@ -1,5 +1,5 @@
 {
-  "topic":"iosynth/",
+  "topic":"iosynth",
   "qos":2,
   "broker":"tcp://localhost:1883",
   "session":"mdejsighzne",

@@ -69,7 +69,7 @@ public class MqttAdapter extends Thread {
 			logger.info("Connected");
 			long k = 0;
 			try {
-				final String prefix = topic + session + "/";
+				final String prefix = topic + "/" + session + "/";
 				while (true) {
 					final Message msg = msgQueue.take();
 					if (k % 100000 == 0) {

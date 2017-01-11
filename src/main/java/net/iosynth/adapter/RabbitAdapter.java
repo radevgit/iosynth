@@ -22,8 +22,8 @@ import com.rabbitmq.client.ConnectionFactory;
  */
 public class RabbitAdapter extends Thread {
 	// Adapter default configuration
-	private String queue;
-	private int    qos;
+	private String topic;
+	private String exchange;
 	private String broker;
 	private String session;
 	private String clientId;
@@ -46,8 +46,8 @@ public class RabbitAdapter extends Thread {
      */
     public RabbitAdapter(RabbitConfig cfg, BlockingQueue<Message> msgQueue){
 		// Adapter default configuration
-		this.queue = cfg.queue;
-		this.qos = cfg.qos > 2 || cfg.qos < 0 ? 0 : cfg.qos;
+		this.topic = cfg.topic;
+		this.exchange = cfg.exchange;
 		this.broker = cfg.broker;
 		this.session = cfg.session;
 		this.clientId = "iosynth-0.0.1 " + session;
@@ -72,12 +72,13 @@ public class RabbitAdapter extends Thread {
 			connection = factory.newConnection();
 			logger.info("Connected");
 			channel = connection.createChannel();
-			channel.queueDeclare(queue, false, false, false, null);
+			channel.exchangeDeclare(exchange, "topic");
+			//channel.queueDeclare(queue, false, false, false, null);
 
 			while (true) {
 				final Message msg = msgQueue.take();
-				channel.basicPublish("", queue, null, msg.getMsg().getBytes());
-
+				channel.basicPublish(exchange, topic + "." + msg.getId(), null, msg.getMsg().getBytes());
+				logger.info(topic + "." + msg.getId());
 			}
 		} catch (IOException ie) {
 			logger.log(Level.SEVERE, ie.toString(), ie);

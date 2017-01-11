@@ -1,5 +1,6 @@
 {
-  "topic":"iosynth",
   "broker":"localhost",
+  "exchange":"iosynth",
+  "topic":"devices",
   "seed":123456
 }
