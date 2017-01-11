@@ -22,7 +22,7 @@ import net.iosynth.util.Xoroshiro128;
 public abstract class Device implements Runnable {
 	protected String uuid;
 	protected BlockingQueue<Message> msgQueue;
-	protected BlockingQueue<Delay>   delayQueue;
+	protected BlockingQueue<Device>  delayQueue;
 
 	protected Arrival arrival;
 	protected int copy;
@@ -89,14 +89,14 @@ public abstract class Device implements Runnable {
 	 * Sets delay queue for variable rate devices. 
 	 * @param delayQueue
 	 */
-	public void setDelayQueue(BlockingQueue<Delay> delayQueue){
+	public void setDelayQueue(BlockingQueue<Device> delayQueue){
 		this.delayQueue = delayQueue;
 	}
 
 	/**
 	 * @return internal delay queue
 	 */
-	public BlockingQueue<Delay> getDelayQueue(){
+	public BlockingQueue<Device> getDelayQueue(){
 		return delayQueue;
 	}
 
@@ -195,8 +195,8 @@ public abstract class Device implements Runnable {
 		if (arrival.getClass() != ArrivalFixed.class) {
 			long delay = arrival.getInterval();
 			//setDealy(delay);
-			Delay d = new Delay(getDelayId(), delay);
-			getDelayQueue().add(d);
+			//Delay d = new Delay(getDelayId(), delay);
+			getDelayQueue().add(this);
 		}
 	}
 	

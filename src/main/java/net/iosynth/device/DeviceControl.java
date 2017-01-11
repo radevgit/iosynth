@@ -21,7 +21,7 @@ import net.iosynth.util.Delay;
  */
 public class DeviceControl {
 	protected BlockingQueue<Message> msgQueue;
-	protected BlockingQueue<Delay>   delayQueue;
+	protected BlockingQueue<Device>   delayQueue;
 	protected List<Runnable> devsFixedList;
 	protected List<Runnable> devsDelayList;
 	protected List<ScheduledFuture<?>> devsHandleFixedList;
@@ -38,7 +38,7 @@ public class DeviceControl {
 		devsFixedList = new ArrayList<Runnable>(0);
 		devsDelayList = new ArrayList<Runnable>(0);
 		this.msgQueue = msgQueue;
-		this.delayQueue = new LinkedBlockingQueue<Delay>();
+		this.delayQueue = new LinkedBlockingQueue<Device>();
 	}
 	
 	/**
@@ -61,7 +61,6 @@ public class DeviceControl {
 	 * 
 	 */
 	public void forever() {
-		devsHandleFixedList = new ArrayList<ScheduledFuture<?>>(0);
 		// Devices with fixed arrival interval
 		for(final Runnable devR: devsFixedList){
 			final Device dev = (Device)devR;
@@ -77,12 +76,11 @@ public class DeviceControl {
 		try {
 			long k = 0;
 			while (true) { // reschedule variable rate devices
-				final Delay delay = delayQueue.take();
-				final Runnable r = devsDelayList.get(delay.getId());
+				final Device dev = delayQueue.take();
 				if(k%100000==0){
 					logger.info("arrival queue: " + 	msgQueue.size());
 				}
-				ScheduledFuture<?> devHandle = scheduler.schedule(r, ((Device)r).getArrival().getInterval(), TimeUnit.MILLISECONDS);
+				ScheduledFuture<?> devHandle = scheduler.schedule(dev, dev.getArrival().getInterval(), TimeUnit.MILLISECONDS);
 				k++;
 			}
 		} catch (InterruptedException ie) {
