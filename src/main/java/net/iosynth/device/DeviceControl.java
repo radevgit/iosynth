@@ -61,11 +61,14 @@ public class DeviceControl {
 	 * 
 	 */
 	public void forever() {
+		devsHandleFixedList = new ArrayList<>();
+		devsHandleDelayList = new ArrayList<>();
+		
 		// Devices with fixed arrival interval
 		for(final Runnable devR: devsFixedList){
 			final Device dev = (Device)devR;
 			ScheduledFuture<?> devHandle = scheduler.scheduleAtFixedRate(dev, ((ArrivalFixed)dev.getArrival()).getJitter(), dev.getArrival().getInterval(), TimeUnit.MILLISECONDS);
-			devsHandleFixedList.add(devHandle);
+			//devsHandleFixedList.add(devHandle);
 		}
 		// Devices with variable arrival interval. They have to be re-scheduled each time.
 		for(Runnable dev: devsDelayList){
