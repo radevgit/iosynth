@@ -12,7 +12,7 @@ import com.google.gson.GsonBuilder;
 
 import net.iosynth.adapter.MqttAdapter;
 import net.iosynth.sensor.Sensor;
-import net.iosynth.sensor.SensorConstantString;
+import net.iosynth.sensor.SensorLabel;
 import net.iosynth.sensor.SensorCycleDouble;
 import net.iosynth.sensor.SensorCycleInt;
 import net.iosynth.sensor.SensorCycleString;
@@ -20,6 +20,7 @@ import net.iosynth.sensor.SensorDefault;
 import net.iosynth.sensor.SensorRandomDouble;
 import net.iosynth.sensor.SensorRandomInt;
 import net.iosynth.sensor.SensorRandomString;
+import net.iosynth.sensor.SensorTimestamp;
 import net.iosynth.util.RuntimeTypeAdapterFactory;
 import net.iosynth.util.Xoroshiro128;
 
@@ -49,7 +50,8 @@ public class DevicesFromJson {
 		
 		
 		final RuntimeTypeAdapterFactory<Sensor> sensorAdapter = RuntimeTypeAdapterFactory.of(Sensor.class, "type");
-		sensorAdapter.registerSubtype(SensorConstantString.class, "SensorConstantString");
+		sensorAdapter.registerSubtype(SensorLabel.class,          "SensorLabel");
+		sensorAdapter.registerSubtype(SensorTimestamp.class,      "SensorTimestamp");
 		sensorAdapter.registerSubtype(SensorCycleDouble.class,    "SensorCycleDouble");
 		sensorAdapter.registerSubtype(SensorCycleInt.class,       "SensorCycleInt");
 		sensorAdapter.registerSubtype(SensorCycleString.class,    "SensorCycleString");
@@ -151,6 +153,6 @@ public class DevicesFromJson {
 		System.out.println(gson.toJson(devOut));
 	}
 	
-	static String test = "[{'type':'DeviceSimple','uuid':'xxx', 'copy':2, 'sensors':[{'type':'SensorRandomDouble', 'min':5}]   }]";
+	static String test = "[{'type':'DeviceSimple','uuid':'xxx', 'copy':2, 'sensors':[{'type':'SensorTimestamp'}, {'type':'SensorRandomDouble', 'min':5}]   }]";
 	
 }

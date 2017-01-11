@@ -12,7 +12,6 @@ import java.util.concurrent.BlockingQueue;
 
 import net.iosynth.adapter.Message;
 import net.iosynth.sensor.Sensor;
-import net.iosynth.util.Delay;
 import net.iosynth.util.Xoroshiro128;
 
 /**
@@ -208,10 +207,10 @@ public abstract class Device implements Runnable {
 	public Message toJson(){
 		StringBuilder m = new StringBuilder();
 		m.append("{");
-		Date now = new Date(System.currentTimeMillis());
-		m.append("\"time\":\"");
-		m.append(fmt.format(now));
-		m.append("\",");
+		//Date now = new Date(System.currentTimeMillis());
+		//m.append("\"time\":\"");
+		//m.append(fmt.format(now));
+		//m.append("\",");
 		for(final Sensor sensor : sensors) {
 		    String name = sensor.getName();
 		    m.append("\"");

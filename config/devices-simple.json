@@ -5,9 +5,10 @@
         "arrival":{"type":"ArrivalFixed", "interval":10000},
         "copy":10,
         "sensors":[
-            {"type": "SensorDefault", "name": "count"},
-            {"type": "SensorRandomDouble", "name": "temp", "min":-15, "max":3},
-            {"type": "SensorCycleDouble", "name": "level", "values": [1.1,3.2,8.3,9.4]}
+            {"type":"SensorTimestamp"}, 
+            {"type":"SensorDefault",      "name":"count"},
+            {"type":"SensorRandomDouble", "name":"temp", "min":-15, "max":3},
+            {"type":"SensorCycleDouble",  "name":"level", "values": [1.1,3.2,8.3,9.4]}
         ]
     },
     {
@@ -16,10 +17,11 @@
         "arrival":{"type":"ArrivalUniform", "min":10000, "max":30000},
         "copy":10,
         "sensors":[
-            {"type": "SensorCycleString", "name":"command", "values":["Alfa","Bravo","Charlie","Delta","Echo","Foxtrot"]},
-            {"type": "SensorRandomInt", "name": "state", "min":0, "max":5},
-            {"type": "SensorCycleInt", "name": "level", "values": [1,2,8,9,11,2,3,4]},
-            {"type": "SensorCycleString", "name":"switch", "values":["on", "off"]}
+            {"type":"SensorTimestamp"},
+            {"type":"SensorCycleString", "name":"command", "values":["Alfa","Bravo","Charlie","Delta","Echo","Foxtrot"]},
+            {"type":"SensorRandomInt",   "name":"state", "min":0, "max":5},
+            {"type":"SensorCycleInt",    "name":"level", "values": [1,2,8,9,11,2,3,4]},
+            {"type":"SensorCycleString", "name":"switch", "values":["on", "off"]}
         ]
     }
 ]

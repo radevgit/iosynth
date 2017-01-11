@@ -15,7 +15,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import net.iosynth.sensor.Sensor;
-import net.iosynth.sensor.SensorConstantString;
+import net.iosynth.sensor.SensorLabel;
 import net.iosynth.sensor.SensorCycleDouble;
 import net.iosynth.sensor.SensorCycleInt;
 import net.iosynth.sensor.SensorCycleString;
@@ -65,7 +65,7 @@ public class DeepCopy {
 		
 		
 		final RuntimeTypeAdapterFactory<Sensor> sensorAdapter = RuntimeTypeAdapterFactory.of(Sensor.class, "type");
-		sensorAdapter.registerSubtype(SensorConstantString.class, "SensorConstantString");
+		sensorAdapter.registerSubtype(SensorLabel.class, "SensorLabel");
 		sensorAdapter.registerSubtype(SensorCycleDouble.class,    "SensorCycleDouble");
 		sensorAdapter.registerSubtype(SensorCycleInt.class,       "SensorCycleInt");
 		sensorAdapter.registerSubtype(SensorCycleString.class,    "SensorCycleString");
