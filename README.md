@@ -10,17 +10,30 @@ What is it useful for:
 -	You frequently change experiment configurations and want to do it in cost and time effective way. 
 
 ### Usage
-Currently 2 applications are available:
--	MQTT client
--	RabbitMQ client
-	
-The MQTT protocol is based on the principle of publishing messages and subscribing to topics using MQTT broker. The Mqtt client application connects to MQTT broker and publishes device/sensor data. 
+Currently supported protocols:
+-	MQTT
+-	RabbitMQ
+-	CoAP
+
+For MQTT protocol:	
 ```sh
 java -cp iosynth.jar net.iosynth.Mqtt -c mqtt-config.json -d devices.json
 ```
-To run the above command get the [**latest release of iosynth.jar**](https://github.com/rradev/iosynth/releases).
-It is also assumed that you have mqtt-config.json and devices.json in the same directory and Java 1.7 installed. 
+For RabbitMQ protocol:
+```sh
+java -cp iosynth.jar net.iosynth.RabbitMQ -c rabbit-config.json -d devices.json
+```
+For CoAP protocol:
+```sh
+java -cp iosynth.jar net.iosynth.CoAP -c coap-config.json -d devices.json
+```
 
+To run the above commands get the [**latest release of iosynth.jar**](https://github.com/rradev/iosynth/releases).
+It is also assumed that you have config.json and devices.json in the same directory and Java 1.7 installed. 
+
+
+The MQTT protocol is based on the principle of publishing messages and subscribing to topics using MQTT broker. 
+The MQTT client application connects to MQTT broker and publishes device/sensor data. 
  
 You can check the published data by subscribing to MQTT topics using the [Mosquitto](http://mosquitto.org) client:
 
@@ -43,7 +56,7 @@ iosynth/lkjhgfdsa/device-y-03 {"time":"2017-01-07 10:20:56.150","command":"Alfa"
 **mqtt-config.json** - Configuration for the MQTT connection and global parameters.
 ```json
 {
-  "broker":"tcp://localhost:1883",
+  "uri":"tcp://localhost:1883",
   "topic":"iosynth",
   "session":"mdejsighzne",
   "qos":2,
@@ -54,24 +67,37 @@ iosynth/lkjhgfdsa/device-y-03 {"time":"2017-01-07 10:20:56.150","command":"Alfa"
 
 |  Parameter    |  Description  |
 | ------------:|:-------------|
+| uri   | **mqtt://[user][:password]@host[:port]**   |
 | topic  | Prefix of the *MQTT topic*. Session string and device/sensor names create the rest part of the topic name. |
-| qos      | Quality of Service: 0, 1, 2    |
-| broker   | MQTT broker address: *tcp://host:port*   |
 | session  | Unique string representing the session name used to create unique topics. If this parameter is omitted, session string is generated automatically on each run.|
-| seed | Random Generator seed used to create reproducible scenarios. It can be ommited in other cases.
+| qos      | Quality of Service: 0, 1, 2    |
+| seed | Random Generator seed used to create reproducible scenarios. It can be omitted in other cases.
 
 
-For RabbitMQ server, run the following command:
-```sh
-java -cp iosynth.jar net.iosynth.RabbitMQ -c rabbit-config.json -d devices.json
-```
+
 **rabbit-config.json** - Configuration for the RabbitMQ connection and global parameters.
 ```json
 {
-  "broker":"localhost",
+  "uri":"amqp://localhost:5672",
   "exchange":"iosynth",
   "topic":"device",
   "seed":123456
+}
+```
+
+|  Parameter    |  Description  |
+| ------------:|:-------------|
+| uri   | **amqp://[user]:[password]@host[:port]/vhost**   |
+| exchange  | AMQP exchange |
+| topic  | routing key |
+| seed | Random Generator seed used to create reproducible scenarios. It can be omitted in other cases.
+
+
+
+**coap-config.json** - Configuration for the CoAP connection and global parameters.
+```json
+{
+
 }
 ```
 
@@ -85,9 +111,10 @@ java -cp iosynth.jar net.iosynth.RabbitMQ -c rabbit-config.json -d devices.json
         "arrival":{"type":"ArrivalFixed", "interval":10000},
         "copy":10,
         "sensors":[
-            {"type": "SensorDefault", "name": "count"},
-            {"type": "SensorRandomDouble", "name": "temp", "min":-15, "max":3},
-            {"type": "SensorCycleDouble", "name": "level", "values": [1.1,3.2,8.3,9.4]}
+            {"type":"SensorTimestamp"}, 
+            {"type":"SensorDefault",      "name":"count"},
+            {"type":"SensorRandomDouble", "name":"temp", "min":-15, "max":3},
+            {"type":"SensorCycleDouble",  "name":"level", "values": [1.1,3.2,8.3,9.4]}
         ]
     },
     {
@@ -96,10 +123,11 @@ java -cp iosynth.jar net.iosynth.RabbitMQ -c rabbit-config.json -d devices.json
         "arrival":{"type":"ArrivalUniform", "min":10000, "max":30000},
         "copy":10,
         "sensors":[
-            {"type": "SensorCycleString", "name":"command", "values":["Alfa","Bravo","Charlie","Delta","Echo","Foxtrot"]},
-            {"type": "SensorRandomInt", "name": "state", "min":0, "max":5},
-            {"type": "SensorCycleInt", "name": "level", "values": [1,2,8,9,11,2,3,4]},
-            {"type": "SensorCycleString", "name":"switch", "values":["on", "off"]}
+            {"type":"SensorTimestamp"},
+            {"type":"SensorCycleString", "name":"command", "values":["Alfa","Bravo","Charlie","Delta","Echo","Foxtrot"]},
+            {"type":"SensorRandomInt",   "name":"state", "min":0, "max":5},
+            {"type":"SensorCycleInt",    "name":"level", "values": [1,2,8,9,11,2,3,4]},
+            {"type":"SensorCycleString", "name":"switch", "values":["on", "off"]}
         ]
     }
 ]
@@ -159,6 +187,19 @@ Sensor definition is different for different types of sensors. For example:
 	"values":["alpha", "bravo", "charlie", "delta"]
 }
 ```
+
+### Sesnor types
+
+|  Sensor type          |  Parameters  | Description |
+| ---------------------:|:-------------|:------------|
+| SensorLabel           | "value":"some value"                  | Simple fixed label |
+| SensorTimestamp       | "format":"yyyy-MM-dd'T'HH:mm:ss.SSSZ" | Time stamp  |
+| SensorCycleDouble     | "values": [1.1,3.2,8.3,9.4]           | Cycle provided values |
+| SensorCycleInt        | "values": [1,2,8,9,11,2,3,4]          | Cycle provided values |
+| SensorCycleString     | "values":["Alfa","Bravo","Charlie"]   | Cycle provided values |
+| SensorRandomDouble    | "min":-15.1, "max":3.2                | Random walk values |
+| SensorRandomInt       | "min":-15, "max":3                    | Random walk values |
+| SensorRandomString    | "values":["Alfa","Bravo","Charlie"]   | Random values      |
 
 
 
