@@ -90,7 +90,6 @@ public class AdapterMqtt extends Thread {
 			logger.info("Disconnected");
 		} catch (MqttException me) {
 			logger.log(Level.SEVERE, me.toString(), me);
-			System.exit(1);
 		} finally {
 
 		}

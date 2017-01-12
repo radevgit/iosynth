@@ -1,24 +1,12 @@
 package net.iosynth.adapter;
 
-import java.io.IOException;
 import java.net.URISyntaxException;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.TimeoutException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.paho.client.mqttv3.MqttClient;
-import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
-import org.eclipse.paho.client.mqttv3.MqttException;
-import org.eclipse.paho.client.mqttv3.MqttMessage;
-import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
-
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.Connection;
-import com.rabbitmq.client.ConnectionFactory;
-
+import org.eclipse.californium.core.CoapClient;
+import org.eclipse.californium.core.coap.MediaTypeRegistry;
 /**
  * @author rradev
  *
@@ -29,11 +17,8 @@ public class AdapterCoap extends Thread {
 	private String exchange;
 	private String topic;
 	
+	private CoapClient coap;
 	
-    
-    private ConnectionFactory factory;
-    private Connection connection;
-    Channel channel;
     
     private BlockingQueue<Message> msgQueue;
     private final Logger logger = Logger.getLogger(AdapterRabbit.class.getName());
@@ -44,7 +29,7 @@ public class AdapterCoap extends Thread {
      * @param msgQueue 
      * @throws URISyntaxException 
      */
-    public AdapterCoap(ConfigRabbit cfg, BlockingQueue<Message> msgQueue) throws URISyntaxException{
+    public AdapterCoap(ConfigCoap cfg, BlockingQueue<Message> msgQueue) throws URISyntaxException{
 		// Adapter default configuration
     	this.uri      = cfg.uri;
     	this.exchange = cfg.exchange;
@@ -59,52 +44,28 @@ public class AdapterCoap extends Thread {
 	 */
 	public void setOptions(BlockingQueue<Message> msgQueue) throws URISyntaxException {
 		this.msgQueue = msgQueue;
-		factory = new ConnectionFactory();
-		try {
-			factory.setUri(uri);
-		} catch (Exception e) {
-			logger.log(Level.SEVERE, e.toString(), e);
-			throw new URISyntaxException(uri, e.toString());
-		}
+		coap = new CoapClient(uri);
 	}
 
 	@Override
 	public void run() {
+
+		logger.info("Connecting to: " + coap.getURI());
 		try {
-			logger.info("Connecting to: " + factory.getHost() + ":" + factory.getPort() + factory.getVirtualHost() + "    exchange: " + exchange + "    topic: " + topic);
-			connection = factory.newConnection();
-			logger.info("Connected");
-			channel = connection.createChannel();
-			channel.exchangeDeclare(exchange, "topic");
-			//channel.queueDeclare(queue, false, false, false, null);
-			
 			long k = 0;
 			while (true) {
-				final Message msg = msgQueue.take();
+				Message msg;
+
+				msg = msgQueue.take();
+
 				if (k % 100000 == 0) {
 					logger.info("queue: " + msgQueue.size());
 				}
-				channel.basicPublish(exchange, topic + "." + msg.getId(), null, msg.getMsg().getBytes());
+				coap.post(msg.getMsg().getBytes(), MediaTypeRegistry.APPLICATION_JSON);
 				k++;
 			}
-		} catch (Exception e) {
+		} catch (InterruptedException e) {
 			logger.log(Level.SEVERE, e.toString(), e);
-		} finally {
-			try {
-				if (channel != null) {
-					channel.close();
-				}
-				if (connection != null) {
-					connection.close();
-				}
-			} catch (IOException e) {
-				//
-			} catch (TimeoutException e) {
-				//
-			}
-			logger.info("Disconnected");
 		}
-
 	}
-	
 }
