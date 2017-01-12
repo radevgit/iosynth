@@ -12,7 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.iosynth.adapter.Message;
-import net.iosynth.adapter.MqttAdapter;
+import net.iosynth.adapter.AdapterMqtt;
 import net.iosynth.util.Delay;
 
 /**

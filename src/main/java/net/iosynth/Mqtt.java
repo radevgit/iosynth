@@ -10,8 +10,8 @@ import com.google.gson.Gson;
 
 import net.iosynth.adapter.Config;
 import net.iosynth.adapter.Message;
-import net.iosynth.adapter.MqttAdapter;
-import net.iosynth.adapter.MqttConfig;
+import net.iosynth.adapter.AdapterMqtt;
+import net.iosynth.adapter.ConfigMqtt;
 import net.iosynth.device.Device;
 import net.iosynth.device.DeviceControl;
 import net.iosynth.device.DevicesFromJson;
@@ -22,15 +22,15 @@ import net.iosynth.device.DevicesFromJson;
  */
 public class Mqtt {
 	protected BlockingQueue<Message> msgQueue;
-	protected MqttAdapter mqtt;
+	protected AdapterMqtt mqtt;
 	
 	protected Mqtt(Config cfg) {
 		msgQueue = new LinkedBlockingQueue<Message>();
 		// set configuration from Json file
 		Gson gson = new Gson();
-		MqttConfig mqttCfg = gson.fromJson(cfg.cfgJson, MqttConfig.class);
+		ConfigMqtt mqttCfg = gson.fromJson(cfg.cfgJson, ConfigMqtt.class);
 		try {
-			mqtt = new MqttAdapter(mqttCfg, msgQueue);
+			mqtt = new AdapterMqtt(mqttCfg, msgQueue);
 		} catch (MqttException e) {
 			return;
 		}

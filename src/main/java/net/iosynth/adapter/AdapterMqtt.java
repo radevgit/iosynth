@@ -14,7 +14,7 @@ import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
  * @author rradev
  *
  */
-public class MqttAdapter extends Thread {
+public class AdapterMqtt extends Thread {
 	// Adapter default configuration
 	private String uri;
 	private String topic;
@@ -27,7 +27,7 @@ public class MqttAdapter extends Thread {
     private MqttConnectOptions connOpts;
     private BlockingQueue<Message> msgQueue;
     
-    private final Logger logger = Logger.getLogger(MqttAdapter.class.getName());
+    private final Logger logger = Logger.getLogger(AdapterMqtt.class.getName());
     
     /**
      * For json deserialization
@@ -35,7 +35,7 @@ public class MqttAdapter extends Thread {
      * @param msgQueue 
      * @throws MqttException 
      */
-    public MqttAdapter(MqttConfig cfg, BlockingQueue<Message> msgQueue) throws MqttException{
+    public AdapterMqtt(ConfigMqtt cfg, BlockingQueue<Message> msgQueue) throws MqttException{
 		// Adapter default configuration
     	this.uri   = cfg.uri;
     	this.topic = cfg.topic;

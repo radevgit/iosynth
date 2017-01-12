@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import net.iosynth.adapter.MqttAdapter;
+import net.iosynth.adapter.AdapterMqtt;
 import net.iosynth.sensor.Sensor;
 import net.iosynth.sensor.SensorLabel;
 import net.iosynth.sensor.SensorCycleDouble;

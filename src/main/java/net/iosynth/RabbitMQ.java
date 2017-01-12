@@ -9,8 +9,8 @@ import com.google.gson.Gson;
 
 import net.iosynth.adapter.Config;
 import net.iosynth.adapter.Message;
-import net.iosynth.adapter.RabbitAdapter;
-import net.iosynth.adapter.RabbitConfig;
+import net.iosynth.adapter.AdapterRabbit;
+import net.iosynth.adapter.ConfigRabbit;
 import net.iosynth.device.Device;
 import net.iosynth.device.DeviceControl;
 import net.iosynth.device.DevicesFromJson;
@@ -21,15 +21,15 @@ import net.iosynth.device.DevicesFromJson;
  */
 public class RabbitMQ {
 	protected BlockingQueue<Message> msgQueue;
-	protected RabbitAdapter rabbit;
+	protected AdapterRabbit rabbit;
 	
 	protected RabbitMQ(Config cfg) {
 		msgQueue = new LinkedBlockingQueue<Message>();
 		// set configuration from Json file
 		Gson gson = new Gson();
-		RabbitConfig rabbitCfg = gson.fromJson(cfg.cfgJson, RabbitConfig.class);
+		ConfigRabbit rabbitCfg = gson.fromJson(cfg.cfgJson, ConfigRabbit.class);
 		try {
-			rabbit = new RabbitAdapter(rabbitCfg, msgQueue);
+			rabbit = new AdapterRabbit(rabbitCfg, msgQueue);
 		} catch (URISyntaxException e) {
 			return;
 		}

@@ -9,7 +9,7 @@ import java.util.UUID;
  * @author rradev
  *
  */
-public class MqttConfig {
+public class ConfigMqtt {
     /**
      * 
      */
@@ -25,7 +25,7 @@ public class MqttConfig {
 	/**
 	 * 
 	 */
-	public MqttConfig(){
+	public ConfigMqtt(){
     	// Adapter default configuration.
 		this.uri          = "tcp://localhost:1883";
 		this.topic        = "iosynth";

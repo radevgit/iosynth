@@ -9,7 +9,7 @@ import java.util.UUID;
  * @author rradev
  *
  */
-public class ConfigRabbit {
+public class ConfigCoap {
     /**
      * 
      */
@@ -25,7 +25,7 @@ public class ConfigRabbit {
 	/**
 	 * 
 	 */
-	public ConfigRabbit(){
+	public ConfigCoap(){
     	// Global configuration
     	this.seed         = 2052703995999047696L; // magic number
     	// Adapter default configuration

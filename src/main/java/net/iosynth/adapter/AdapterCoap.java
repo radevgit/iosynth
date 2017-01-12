@@ -23,7 +23,7 @@ import com.rabbitmq.client.ConnectionFactory;
  * @author rradev
  *
  */
-public class AdapterRabbit extends Thread {
+public class AdapterCoap extends Thread {
 	// Adapter default configuration
 	private String uri;
 	private String exchange;
@@ -44,7 +44,7 @@ public class AdapterRabbit extends Thread {
      * @param msgQueue 
      * @throws URISyntaxException 
      */
-    public AdapterRabbit(ConfigRabbit cfg, BlockingQueue<Message> msgQueue) throws URISyntaxException{
+    public AdapterCoap(ConfigRabbit cfg, BlockingQueue<Message> msgQueue) throws URISyntaxException{
 		// Adapter default configuration
     	this.uri      = cfg.uri;
     	this.exchange = cfg.exchange;
