@@ -18,7 +18,7 @@ public class SensorTimestamp extends Sensor {
 	 * 
 	 */
 	public SensorTimestamp() {
-		format = "yyyy-MM-dd HH:mm:ss.SSS";
+		format = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
 		fmt = new SimpleDateFormat(format);
 		setName("time");
 	}
@@ -47,7 +47,7 @@ public class SensorTimestamp extends Sensor {
 	@Override
 	public void checkParameters() {
 		if(format == null || fmt == null){
-			fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+			fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
 		}
 	}
 
