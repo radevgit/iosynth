@@ -1,5 +1,6 @@
 package net.iosynth;
 
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -27,7 +28,12 @@ public class RabbitMQ {
 		// set configuration from Json file
 		Gson gson = new Gson();
 		RabbitConfig rabbitCfg = gson.fromJson(cfg.cfgJson, RabbitConfig.class);
-		rabbit = new RabbitAdapter(rabbitCfg, msgQueue);
+		try {
+			rabbit = new RabbitAdapter(rabbitCfg, msgQueue);
+		} catch (URISyntaxException e) {
+			return;
+		}
+		rabbit.start();
 		long seed = rabbitCfg.seed;
 		DevicesFromJson fromJson = new DevicesFromJson();
 		List<Device> devs = fromJson.build(cfg.devJson, seed);

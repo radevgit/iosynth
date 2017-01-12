@@ -14,6 +14,7 @@ public class RabbitConfig {
      * 
      */
     public long seed;
+    protected String uri;
     protected String exchange;
     protected String topic;
     protected int qos;
@@ -28,9 +29,9 @@ public class RabbitConfig {
     	// Global configuration
     	this.seed         = 2052703995999047696L; // magic number
     	// Adapter default configuration
-    	this.topic        = "device";
+    	this.uri          = "amqp://localhost:5672";
     	this.exchange     = "iosynth";
-    	this.broker       = "localhost";
+    	this.topic        = "device";
     	UUID uuid         = UUID.randomUUID();
     	this.session      = Long.toString(uuid.getMostSignificantBits(), 36);
     }

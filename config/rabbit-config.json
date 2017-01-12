@@ -1,5 +1,5 @@
 {
-  "broker":"localhost",
+  "uri":"amqp://localhost:5672",
   "exchange":"iosynth",
   "topic":"device",
   "seed":123456

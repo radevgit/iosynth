@@ -1,6 +1,9 @@
 package net.iosynth.adapter;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeoutException;
 import java.util.logging.Level;
@@ -22,9 +25,11 @@ import com.rabbitmq.client.ConnectionFactory;
  */
 public class RabbitAdapter extends Thread {
 	// Adapter default configuration
-	private String topic;
+	private String uri;
 	private String exchange;
-	private String broker;
+	private String topic;
+	
+	
     
     private ConnectionFactory factory;
     private Connection connection;
@@ -37,30 +42,35 @@ public class RabbitAdapter extends Thread {
      * For json deserialization
      * @param cfg 
      * @param msgQueue 
+     * @throws URISyntaxException 
      */
-    public RabbitAdapter(RabbitConfig cfg, BlockingQueue<Message> msgQueue){
+    public RabbitAdapter(RabbitConfig cfg, BlockingQueue<Message> msgQueue) throws URISyntaxException{
 		// Adapter default configuration
-		this.topic = cfg.topic;
-		this.exchange = cfg.exchange;
-		this.broker = cfg.broker;
+    	this.uri      = cfg.uri;
+    	this.exchange = cfg.exchange;
+    	this.topic    = cfg.topic;
 		setOptions(msgQueue);
-		start();
     }
     
 	/**
 	 * @param msgQueue
+	 * @throws URISyntaxException 
 	 */
-	public void setOptions(BlockingQueue<Message> msgQueue) {
+	public void setOptions(BlockingQueue<Message> msgQueue) throws URISyntaxException {
 		this.msgQueue = msgQueue;
 		factory = new ConnectionFactory();
-		factory.setHost(broker);
-		
+		try {
+			factory.setUri(uri);
+		} catch (Exception e) {
+			logger.log(Level.SEVERE, e.toString(), e);
+			throw new URISyntaxException(uri, e.toString());
+		}
 	}
 
 	@Override
 	public void run() {
 		try {
-			logger.info("Connecting to broker: " + broker);
+			logger.info("Connecting to: " + factory.getHost() + ":" + factory.getPort() + factory.getVirtualHost() + "    exchange:" + exchange + "    topic:" + topic);
 			connection = factory.newConnection();
 			logger.info("Connected");
 			channel = connection.createChannel();
@@ -76,24 +86,22 @@ public class RabbitAdapter extends Thread {
 				channel.basicPublish(exchange, topic + "." + msg.getId(), null, msg.getMsg().getBytes());
 				k++;
 			}
-		} catch (IOException ie) {
-			logger.log(Level.SEVERE, ie.toString(), ie);
-		} catch (TimeoutException te) {
-			logger.log(Level.SEVERE, te.toString(), te);
-		} catch (InterruptedException ine) {
-			logger.log(Level.SEVERE, ine.toString(), ine);
-		}
-		finally {
+		} catch (Exception e) {
+			logger.log(Level.SEVERE, e.toString(), e);
+		} finally {
 			try {
-				channel.close();
-				connection.close();
+				if (channel != null) {
+					channel.close();
+				}
+				if (connection != null) {
+					connection.close();
+				}
 			} catch (IOException e) {
 				//
 			} catch (TimeoutException e) {
 				//
 			}
 			logger.info("Disconnected");
-			System.exit(1);
 		}
 
 	}
