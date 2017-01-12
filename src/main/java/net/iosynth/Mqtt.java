@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import org.eclipse.paho.client.mqttv3.MqttException;
+
 import com.google.gson.Gson;
 
 import net.iosynth.adapter.Config;
@@ -27,7 +29,11 @@ public class Mqtt {
 		// set configuration from Json file
 		Gson gson = new Gson();
 		MqttConfig mqttCfg = gson.fromJson(cfg.cfgJson, MqttConfig.class);
-		mqtt = new MqttAdapter(mqttCfg, msgQueue);
+		try {
+			mqtt = new MqttAdapter(mqttCfg, msgQueue);
+		} catch (MqttException e) {
+			return;
+		}
 		long seed = mqttCfg.seed;
 		DevicesFromJson fromJson = new DevicesFromJson();
 		List<Device> devs = fromJson.build(cfg.devJson, seed);

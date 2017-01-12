@@ -1,5 +1,5 @@
 {
-  "broker":"tcp://localhost:1883",
+  "uri":"tcp://localhost:1883",
   "topic":"iosynth",
   "session":"mdejsighzne",
   "qos":2,

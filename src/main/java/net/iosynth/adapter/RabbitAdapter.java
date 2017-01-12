@@ -50,6 +50,7 @@ public class RabbitAdapter extends Thread {
     	this.exchange = cfg.exchange;
     	this.topic    = cfg.topic;
 		setOptions(msgQueue);
+		start();
     }
     
 	/**
@@ -70,7 +71,7 @@ public class RabbitAdapter extends Thread {
 	@Override
 	public void run() {
 		try {
-			logger.info("Connecting to: " + factory.getHost() + ":" + factory.getPort() + factory.getVirtualHost() + "    exchange:" + exchange + "    topic:" + topic);
+			logger.info("Connecting to: " + factory.getHost() + ":" + factory.getPort() + factory.getVirtualHost() + "    exchange: " + exchange + "    topic: " + topic);
 			connection = factory.newConnection();
 			logger.info("Connected");
 			channel = connection.createChannel();

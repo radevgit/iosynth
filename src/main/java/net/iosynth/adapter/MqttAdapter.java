@@ -16,9 +16,9 @@ import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
  */
 public class MqttAdapter extends Thread {
 	// Adapter default configuration
+	private String uri;
 	private String topic;
 	private int    qos;
-	private String broker;
 	private String session;
 	private String clientId;
 	
@@ -33,12 +33,13 @@ public class MqttAdapter extends Thread {
      * For json deserialization
      * @param cfg 
      * @param msgQueue 
+     * @throws MqttException 
      */
-    public MqttAdapter(MqttConfig cfg, BlockingQueue<Message> msgQueue){
+    public MqttAdapter(MqttConfig cfg, BlockingQueue<Message> msgQueue) throws MqttException{
 		// Adapter default configuration
-		this.topic = cfg.topic;
-		this.qos = cfg.qos > 2 || cfg.qos < 0 ? 0 : cfg.qos;
-		this.broker = cfg.broker;
+    	this.uri   = cfg.uri;
+    	this.topic = cfg.topic;
+		this.qos   = cfg.qos > 2 || cfg.qos < 0 ? 0 : cfg.qos;
 		this.session = cfg.session;
 		this.clientId = "iosynth-0.0.1 " + session;
 		setOptions(msgQueue);
@@ -47,24 +48,25 @@ public class MqttAdapter extends Thread {
     
 	/**
 	 * @param msgQueue
+	 * @throws MqttException 
 	 */
-	public void setOptions(BlockingQueue<Message> msgQueue) {
+	public void setOptions(BlockingQueue<Message> msgQueue) throws MqttException {
 		this.msgQueue = msgQueue;
 		persistence = new MemoryPersistence();
 		try {
-			sampleClient = new MqttClient(broker, clientId, persistence);
+			sampleClient = new MqttClient(uri, clientId, persistence);
 			connOpts = new MqttConnectOptions();
 			connOpts.setCleanSession(true);
 		} catch (MqttException me) {
 			logger.log(Level.SEVERE, me.toString(), me);
-			System.exit(1);
+			throw me;
 		}
 	}
 
 	@Override
 	public void run() {
 		try {
-			logger.info("Connecting to broker: " + broker);
+			logger.info("Connecting to: " + uri + "    topic: " + topic);
 			sampleClient.connect(connOpts);
 			logger.info("Connected");
 			long k = 0;

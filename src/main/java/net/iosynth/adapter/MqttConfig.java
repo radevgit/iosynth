@@ -13,25 +13,26 @@ public class MqttConfig {
     /**
      * 
      */
-    public long seed;
+    protected String uri;
     protected String topic;
-    protected int qos;
-    protected String broker;
-    protected UUID uuid;
     protected String session;
-
+    protected int qos;
+    protected UUID uuid;
+    /**
+     * random generator sees
+     */
+    public long seed;
 	/**
 	 * 
 	 */
 	public MqttConfig(){
-    	// Global configuration
-    	this.seed         = 2052703995999047696L; // magic number
-    	// Adapter default configuration
-    	this.topic        = "iosynth/";
-    	this.qos          = 0;
-    	this.broker       = "tcp://localhost:1883";
+    	// Adapter default configuration.
+		this.uri          = "tcp://localhost:1883";
+		this.topic        = "iosynth";
     	UUID uuid         = UUID.randomUUID();
     	this.session      = Long.toString(uuid.getMostSignificantBits(), 36);
+    	this.qos          = 0;
+    	this.seed         = 2052703995999047696L; // magic number
     }
 
 }

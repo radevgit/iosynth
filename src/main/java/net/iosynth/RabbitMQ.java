@@ -33,7 +33,6 @@ public class RabbitMQ {
 		} catch (URISyntaxException e) {
 			return;
 		}
-		rabbit.start();
 		long seed = rabbitCfg.seed;
 		DevicesFromJson fromJson = new DevicesFromJson();
 		List<Device> devs = fromJson.build(cfg.devJson, seed);
