@@ -14,7 +14,6 @@ import org.eclipse.californium.core.coap.MediaTypeRegistry;
 public class AdapterCoap extends Thread {
 	// Adapter default configuration
 	private String uri;
-	private String exchange;
 	private String topic;
 	
 	private CoapClient coap;
@@ -32,7 +31,6 @@ public class AdapterCoap extends Thread {
     public AdapterCoap(ConfigCoap cfg, BlockingQueue<Message> msgQueue) throws URISyntaxException{
 		// Adapter default configuration
     	this.uri      = cfg.uri;
-    	this.exchange = cfg.exchange;
     	this.topic    = cfg.topic;
 		setOptions(msgQueue);
 		start();
@@ -44,7 +42,7 @@ public class AdapterCoap extends Thread {
 	 */
 	public void setOptions(BlockingQueue<Message> msgQueue) throws URISyntaxException {
 		this.msgQueue = msgQueue;
-		coap = new CoapClient(uri);
+		coap = new CoapClient();
 	}
 
 	@Override
@@ -61,7 +59,8 @@ public class AdapterCoap extends Thread {
 				if (k % 100000 == 0) {
 					logger.info("queue: " + msgQueue.size());
 				}
-				coap.post(msg.getMsg().getBytes(), MediaTypeRegistry.APPLICATION_JSON);
+				String str = uri + "/" + topic + "/" + msg.getId();
+				coap.setURI(str).post(msg.getMsg().getBytes(), MediaTypeRegistry.APPLICATION_JSON);
 				k++;
 			}
 		} catch (InterruptedException e) {

@@ -1,6 +1,4 @@
 {
-  "uri":"amqp://localhost:5672",
-  "exchange":"iosynth",
-  "topic":"device",
+  "uri":"coap://iot.eclipse.org:5683/iosynth",
   "seed":123456
 }

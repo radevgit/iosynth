@@ -18,7 +18,6 @@ public class ConfigRabbit {
     protected String exchange;
     protected String topic;
     protected int qos;
-    protected String broker;
     protected UUID uuid;
     protected String session;
 
