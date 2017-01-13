@@ -41,7 +41,7 @@ public class AdapterMqtt extends Thread {
     	this.topic = cfg.topic;
 		this.qos   = cfg.qos > 2 || cfg.qos < 0 ? 0 : cfg.qos;
 		this.session = cfg.session;
-		this.clientId = "iosynth-0.0.1 " + session;
+		this.clientId = "iosynth-" + session;
 		setOptions(msgQueue);
 		start();
     }
