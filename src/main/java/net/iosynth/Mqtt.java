@@ -1,5 +1,6 @@
 package net.iosynth;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -21,25 +22,41 @@ import net.iosynth.device.DevicesFromJson;
  *
  */
 public class Mqtt {
-	protected BlockingQueue<Message> msgQueue;
+	protected List<BlockingQueue<Message>> msgQueues;
 	protected AdapterMqtt mqtt;
 	
 	protected Mqtt(Config cfg) {
-		msgQueue = new LinkedBlockingQueue<Message>();
 		// set configuration from Json file
 		Gson gson = new Gson();
-		ConfigMqtt mqttCfg = gson.fromJson(cfg.cfgJson, ConfigMqtt.class);
-		try {
-			mqtt = new AdapterMqtt(mqttCfg, msgQueue);
-		} catch (MqttException e) {
-			return;
+		ConfigMqtt cfgMqtt = gson.fromJson(cfg.cfgJson, ConfigMqtt.class);
+		cfgMqtt.clients = cfgMqtt.clients < 1 ? 1: cfgMqtt.clients;
+		
+		// Setup clients
+		msgQueues = new ArrayList<BlockingQueue<Message>>(cfgMqtt.clients);
+		for(int i=0; i<cfgMqtt.clients; i++){
+			msgQueues.add(new LinkedBlockingQueue<Message>());
 		}
-		long seed = mqttCfg.seed;
+		for (BlockingQueue<Message> msgQueue : msgQueues) {
+			try {
+				mqtt = new AdapterMqtt(cfgMqtt, msgQueue);
+			} catch (MqttException e) {
+				return;
+			}
+		}
+		// Create devices
+		long seed = cfgMqtt.seed;
 		DevicesFromJson fromJson = new DevicesFromJson();
 		List<Device> devs = fromJson.build(cfg.devJson, seed);
-		DeviceControl devControl = new DeviceControl(msgQueue);
+		DeviceControl devControl = new DeviceControl(5);
+		int k=0;
+		int i=0;
+		int devsPerClient = (int)Math.ceil((double)devs.size() / (double)cfgMqtt.clients); 
 		for (final Device dev : devs) {
-			devControl.addDevice(dev);
+			if(k>devsPerClient){
+				k=0;
+				i++;
+			}
+			devControl.addDevice(dev, msgQueues.get(i));
 		}
 
 		devControl.forever();

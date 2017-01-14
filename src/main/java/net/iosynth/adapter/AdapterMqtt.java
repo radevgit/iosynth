@@ -1,5 +1,6 @@
 package net.iosynth.adapter;
 
+import java.util.UUID;
 import java.util.concurrent.BlockingQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -39,9 +40,9 @@ public class AdapterMqtt extends Thread {
 		// Adapter default configuration
     	this.uri   = cfg.uri;
     	this.topic = cfg.topic;
-		this.qos   = cfg.qos > 2 || cfg.qos < 0 ? 0 : cfg.qos;
+		this.qos   = cfg.qos > 2 || cfg.qos < 0 ? 0 : cfg.qos; 
 		this.session = cfg.session;
-		this.clientId = "iosynth-" + session;
+		this.clientId = "iosynth-" + UUID.randomUUID();
 		setOptions(msgQueue);
 		start();
     }
@@ -71,7 +72,7 @@ public class AdapterMqtt extends Thread {
 			logger.info("Connected");
 			long k = 0;
 			try {
-				final String prefix = topic + "/" + session + "/";
+				final String prefix = topic + "/";
 				while (true) {
 					final Message msg = msgQueue.take();
 					if (k % 100000 == 0) {

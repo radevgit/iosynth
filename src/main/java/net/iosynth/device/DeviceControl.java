@@ -20,7 +20,6 @@ import net.iosynth.util.Delay;
  *
  */
 public class DeviceControl {
-	protected BlockingQueue<Message> msgQueue;
 	protected BlockingQueue<Device>   delayQueue;
 	protected List<Runnable> devsFixedList;
 	protected List<Runnable> devsDelayList;
@@ -33,18 +32,17 @@ public class DeviceControl {
 	/**
 	 * @param msgQueue
 	 */
-	public DeviceControl(BlockingQueue<Message> msgQueue){
-		scheduler = Executors.newScheduledThreadPool(5);
+	public DeviceControl(int threads){
+		scheduler = Executors.newScheduledThreadPool(threads);
 		devsFixedList = new ArrayList<Runnable>(0);
 		devsDelayList = new ArrayList<Runnable>(0);
-		this.msgQueue = msgQueue;
 		this.delayQueue = new LinkedBlockingQueue<Device>();
 	}
 	
 	/**
 	 * @param dev
 	 */
-	public void addDevice(Device dev){
+	public void addDevice(Device dev, BlockingQueue<Message> msgQueue){
 		dev.setQueue(msgQueue);
 		if (dev.getArrival().getClass() == ArrivalFixed.class) {
 			devsFixedList.add(dev);
@@ -81,7 +79,7 @@ public class DeviceControl {
 			while (true) { // reschedule variable rate devices
 				final Device dev = delayQueue.take();
 				if(k%100000==0){
-					logger.info("arrival queue: " + 	msgQueue.size());
+					logger.info("arrival queue: " + delayQueue.size());
 				}
 				ScheduledFuture<?> devHandle = scheduler.schedule(dev, dev.getArrival().getInterval(), TimeUnit.MILLISECONDS);
 				k++;

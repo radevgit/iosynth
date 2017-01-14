@@ -1,6 +1,7 @@
 package net.iosynth;
 
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -20,27 +21,41 @@ import net.iosynth.device.DevicesFromJson;
  *
  */
 public class CoAP {
-	protected BlockingQueue<Message> msgQueue;
+	protected List<BlockingQueue<Message>> msgQueues;
 	protected AdapterCoap coap;
 	
 	protected CoAP(Config cfg) {
-		msgQueue = new LinkedBlockingQueue<Message>();
 		// set configuration from Json file
 		Gson gson = new Gson();
-		ConfigCoap coapCfg = gson.fromJson(cfg.cfgJson, ConfigCoap.class);
+		ConfigCoap cfgCoap = gson.fromJson(cfg.cfgJson, ConfigCoap.class);
+		cfgCoap.clients = cfgCoap.clients < 1 ? 1: cfgCoap.clients;
 		
-		try {
-			coap = new AdapterCoap(coapCfg, msgQueue);
-		} catch (URISyntaxException e) {
-			return;
+		// Setup clients
+		msgQueues = new ArrayList<BlockingQueue<Message>>(cfgCoap.clients);
+		for(int i=0; i<cfgCoap.clients; i++){
+			msgQueues.add(new LinkedBlockingQueue<Message>());
 		}
-		
-		long seed = coapCfg.seed;
+		for (BlockingQueue<Message> msgQueue : msgQueues) {
+			try {
+				coap = new AdapterCoap(cfgCoap, msgQueue);
+			} catch (URISyntaxException e) {
+				return;
+			}
+		}
+		// Create devices
+		long seed = cfgCoap.seed;
 		DevicesFromJson fromJson = new DevicesFromJson();
 		List<Device> devs = fromJson.build(cfg.devJson, seed);
-		DeviceControl devControl = new DeviceControl(msgQueue);
+		DeviceControl devControl = new DeviceControl(5);
+		int k=0;
+		int i=0;
+		int devsPerClient = (int)Math.ceil((double)devs.size() / (double)cfgCoap.clients); 
 		for (final Device dev : devs) {
-			devControl.addDevice(dev);
+			if(k>devsPerClient){
+				k=0;
+				i++;
+			}
+			devControl.addDevice(dev, msgQueues.get(i));
 		}
 
 		devControl.forever();

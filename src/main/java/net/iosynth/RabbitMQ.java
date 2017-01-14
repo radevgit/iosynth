@@ -1,6 +1,7 @@
 package net.iosynth;
 
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -20,25 +21,41 @@ import net.iosynth.device.DevicesFromJson;
  *
  */
 public class RabbitMQ {
-	protected BlockingQueue<Message> msgQueue;
+	protected List<BlockingQueue<Message>> msgQueues;
 	protected AdapterRabbit rabbit;
 	
 	protected RabbitMQ(Config cfg) {
-		msgQueue = new LinkedBlockingQueue<Message>();
 		// set configuration from Json file
 		Gson gson = new Gson();
-		ConfigRabbit rabbitCfg = gson.fromJson(cfg.cfgJson, ConfigRabbit.class);
-		try {
-			rabbit = new AdapterRabbit(rabbitCfg, msgQueue);
-		} catch (URISyntaxException e) {
-			return;
+		ConfigRabbit cfgRabbit = gson.fromJson(cfg.cfgJson, ConfigRabbit.class);
+		cfgRabbit.clients = cfgRabbit.clients < 1 ? 1: cfgRabbit.clients;
+		
+		// Setup clients
+		msgQueues = new ArrayList<BlockingQueue<Message>>(cfgRabbit.clients);
+		for(int i=0; i<cfgRabbit.clients; i++){
+			msgQueues.add(new LinkedBlockingQueue<Message>());
 		}
-		long seed = rabbitCfg.seed;
+		for (BlockingQueue<Message> msgQueue : msgQueues) {
+			try {
+				rabbit = new AdapterRabbit(cfgRabbit, msgQueue);
+			} catch (URISyntaxException e) {
+				return;
+			}
+		}
+		// Create devices
+		long seed = cfgRabbit.seed;
 		DevicesFromJson fromJson = new DevicesFromJson();
 		List<Device> devs = fromJson.build(cfg.devJson, seed);
-		DeviceControl devControl = new DeviceControl(msgQueue);
+		DeviceControl devControl = new DeviceControl(5);
+		int k=0;
+		int i=0;
+		int devsPerClient = (int)Math.ceil((double)devs.size() / (double)cfgRabbit.clients); 
 		for (final Device dev : devs) {
-			devControl.addDevice(dev);
+			if(k>devsPerClient){
+				k=0;
+				i++;
+			}
+			devControl.addDevice(dev, msgQueues.get(i));
 		}
 
 		devControl.forever();

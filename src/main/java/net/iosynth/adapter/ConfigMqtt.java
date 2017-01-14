@@ -19,9 +19,14 @@ public class ConfigMqtt {
     protected int qos;
     protected UUID uuid;
     /**
+     * 
+     */
+    public int clients;
+    /**
      * random generator sees
      */
     public long seed;
+    
 	/**
 	 * 
 	 */
@@ -29,9 +34,8 @@ public class ConfigMqtt {
     	// Adapter default configuration.
 		this.uri          = "tcp://localhost:1883";
 		this.topic        = "iosynth";
-    	UUID uuid         = UUID.randomUUID();
-    	this.session      = Long.toString(uuid.getMostSignificantBits(), 36);
     	this.qos          = 0;
+    	this.clients      = 1;
     	this.seed         = 2052703995999047696L; // magic number
     }
 
