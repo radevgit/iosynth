@@ -15,6 +15,7 @@ import net.iosynth.adapter.AdapterMqtt;
 import net.iosynth.adapter.ConfigMqtt;
 import net.iosynth.device.Device;
 import net.iosynth.device.DeviceControl;
+import net.iosynth.device.DeviceTemplate;
 import net.iosynth.device.DevicesFromJson;
 
 /**

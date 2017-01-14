@@ -29,13 +29,16 @@ public abstract class Device implements Runnable {
 	protected int copy;
 	protected double out_of_order;
 	protected double message_loss;
-	protected volatile List<Message> ooo;
+	protected volatile List<Message> outOrder; // out of order queue
+	protected String json_template;
+	protected transient DeviceTemplate deviceTemplate;
+
 	/**
 	 * id in the delay devices list
 	 */
 	protected int delayId;
 
-	protected List<Sensor> sensors;
+	protected Sensor sensors[];
 	
 	protected Xoroshiro128 rnd;
 	
@@ -50,8 +53,8 @@ public abstract class Device implements Runnable {
 		this.copy    = 1;
 		this.out_of_order = 0.0;
 		this.message_loss = 0.0;
-		this.ooo  = new LinkedList<Message>();
-		this.sensors = new ArrayList<>();
+		this.outOrder  = new LinkedList<Message>();
+		//this.sensors = new ArrayList<>();
 	}
 	
 	/**
@@ -138,16 +141,16 @@ public abstract class Device implements Runnable {
 	/**
 	 * @return List of sensors
 	 */
-	public List<Sensor> getSensors() {
+	public Sensor[] getSensors() {
 		return sensors;
 	}
 
 	/**
 	 * @param sensors
 	 */
-	public void setSensors(List<Sensor> sensors) {
-		this.sensors = sensors;
-	}
+	//public void setSensors(List<Sensor> sensors) {
+	//	this.sensors = sensors;
+	//}
 
 	/**
 	 * @return the rnd
@@ -167,13 +170,42 @@ public abstract class Device implements Runnable {
 	}
 	
 	/**
+	 * @return the json_template
+	 */
+	public String getJson_template() {
+		return json_template;
+	}
+
+	/**
+	 * @param json_template the json_template to set
+	 */
+	public void setJson_template(String json_template) {
+		this.json_template = json_template;
+	}
+
+	/**
+	 * @return the deviceTemplate
+	 */
+	public DeviceTemplate getDeviceTemplate() {
+		return deviceTemplate;
+	}
+
+	/**
+	 * @param deviceTemplate the deviceTemplate to set
+	 */
+	public void setDeviceTemplate(DeviceTemplate deviceTemplate) {
+		this.deviceTemplate = deviceTemplate;
+	}
+
+	
+	/**
 	 * @param name
 	 * @param sensor
 	 */
-	public void addSensor(String name, Sensor sensor){
-		sensor.setName(name);
-		sensors.add(sensor);
-	}
+	//public void addSensor(String name, Sensor sensor){
+	//	sensor.setName(name);
+	//	sensors.add(sensor);
+	//}
 	
 	
 	/**
@@ -203,15 +235,15 @@ public abstract class Device implements Runnable {
 			}
 		}
 		boolean s1 = out_of_order > 0.00000001 && rnd.nextDouble() < out_of_order;
-		boolean s2 = ooo.size() > 10 || (rnd.nextDouble() < 0.1 && ooo.size() > 0);
+		boolean s2 = outOrder.size() > 10 || (rnd.nextDouble() < 0.1 && outOrder.size() > 0);
 		int a=1;
 		if(s1){
-			ooo.add(toJson()); // out of order queue
+			outOrder.add(toJsonMessage()); // out of order queue
 		} else {
 			if(s2){
-				getQueue().add(ooo.remove(0)); // too long time or too many are delayed
+				getQueue().add(outOrder.remove(0)); // too long time or too many are delayed
 			} else { 
-				getQueue().add(toJson()); // normal case
+				getQueue().add(toJsonMessage()); // normal case
 			}
 		}
 		
@@ -220,25 +252,28 @@ public abstract class Device implements Runnable {
 		}
 	}
 	
-
+	
+	/**
+	 * @return json message
+	 */
+	public Message toJsonMessage(){
+		if(deviceTemplate == null){
+			return toJsonListMessage();
+		} else {
+			return new Message(getUUID(), getDeviceTemplate().getJson(sensors));
+		}
+	}
 	
 	/**
 	 * @return Json representation of sensor data
 	 */
-	public Message toJson(){
+	public Message toJsonListMessage(){
+		// TODO: performance improvement
 		StringBuilder m = new StringBuilder();
 		m.append("{");
-		//Date now = new Date(System.currentTimeMillis());
-		//m.append("\"time\":\"");
-		//m.append(fmt.format(now));
-		//m.append("\",");
 		for(final Sensor sensor : sensors) {
 		    String name = sensor.getName();
-		    m.append("\"");
-		    m.append(name);
-		    m.append("\":");
-		    m.append(sensor.getString());
-		    m.append(",");
+		    m.append("\"").append(name).append("\":").append(sensor.getString()).append(",");
 		}
 		m.deleteCharAt(m.length()-1) ; // remove last comma
 		m.append("}");

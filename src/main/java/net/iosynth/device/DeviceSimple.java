@@ -79,7 +79,7 @@ public class DeviceSimple extends Device {
 			dev.setUUID(this.getUUID() + String.format(format, i));
 			dev.getArrival().setRnd(dev.getRnd());
 			dev.getArrival().replicate();
-			final List<Sensor> sens = dev.getSensors();
+			final Sensor[] sens = dev.getSensors();
 			for(Sensor sen: sens){
 				sen.setRnd(dev.getRnd());
 				sen.replicate();
@@ -97,11 +97,11 @@ public class DeviceSimple extends Device {
 	 * Adds default sensor
 	 * @param name
 	 */
-	public void addSensor(String name){
-		SensorDefault sen = new SensorDefault();
-		sen.setName(name);
-		sensors.add(sen);
-	}
+	//public void addSensor(String name){
+	//	SensorDefault sen = new SensorDefault();
+	//	sen.setName(name);
+	//	sensors.add(sen);
+	//}
 
 	private String getFormat(int count){
 		if(count<=10){

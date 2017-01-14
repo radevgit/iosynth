@@ -4,6 +4,7 @@
 package net.iosynth.device;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -107,12 +108,19 @@ public class DevicesFromJson {
 		List<Device> devOut = new ArrayList<Device>();
 		for(int i=0; i<devIn.length; i++){
 			devIn[i].setRnd(rnd);
-			List<Device> devList = devIn[i].replicate(); 
+			List<Device> devList = devIn[i].replicate();
+			DeviceTemplate devTempate = new DeviceTemplate(devIn[i].getJson_template(), devIn[i].getSensors());
+			for(Device dev: devList){
+				dev.setDeviceTemplate(devTempate);
+				dev.setJson_template(null);
+			}
 			devOut.addAll(devList);
 			rnd = devList.get(devList.size() - 1).getRnd().copy();  // get the last generated rnd
 			rnd.jump();
 			devCount = devCount + devList.size();
+			devList = null;
 		}
+		devIn = null; // clear the initial array
 		logger.info("Devices created: " + String.valueOf(devCount));
 		return devOut;
 	}
