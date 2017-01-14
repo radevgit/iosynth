@@ -12,8 +12,8 @@ What is it useful for:
 ### Usage
 Currently supported protocols:
 -	MQTT
--	RabbitMQ
--	CoAP
+-	RabbitMQ (AMQP)
+-	CoAP 
 
 For MQTT protocol:	
 ```sh
@@ -29,7 +29,8 @@ java -cp iosynth.jar net.iosynth.CoAP -c coap-config.json -d devices.json
 ```
 
 To run the above commands get the [**latest release of iosynth.jar**](https://github.com/rradev/iosynth/releases).
-It is also assumed that you have config.json and devices.json in the same directory and Java 1.7 installed. 
+It is also assumed that you have config.json and devices.json in the same directory and Java 1.7 installed.
+Check the [config](tree/master/config) directory for example configuration files. 
 
 
 The MQTT protocol is based on the principle of publishing messages and subscribing to topics using MQTT broker. 
@@ -56,11 +57,12 @@ iosynth/lkjhgfdsa/device-y-03 {"time":"2017-01-07 10:20:56.150","command":"Alfa"
 **mqtt-config.json** - Configuration for the MQTT connection and global parameters.
 ```json
 {
-  "uri":"tcp://localhost:1883",
-  "topic":"iosynth",
-  "session":"mdejsighzne",
-  "qos":2,
-  "seed":123456
+	"uri": "tcp://localhost:1883",
+	"topic": "iosynth/device",
+	"session": "",
+	"qos": 2,
+	"clients": 1,
+	"seed": 123456
 }
 ```
 
@@ -69,7 +71,8 @@ iosynth/lkjhgfdsa/device-y-03 {"time":"2017-01-07 10:20:56.150","command":"Alfa"
 | ------------:|:-------------|
 | uri   | **mqtt://[user][:password]@host[:port]**   |
 | topic  | Prefix of the *MQTT topic*. Session string and device/sensor names create the rest part of the topic name. |
-| session  | Unique string representing the session name used to create unique topics. If this parameter is omitted, session string is generated automatically on each run.|
+| session  | (may be removed in next releases) Unique string representing the session name used to create unique topics. If this parameter is omitted, session string is generated automatically on each run.|
+| clients | Number of MQTT clients to broker. Each client sends the data from selected devices only. | 
 | qos      | Quality of Service: 0, 1, 2    |
 | seed | Random Generator seed used to create reproducible scenarios. It can be omitted in other cases.
 
@@ -78,10 +81,11 @@ iosynth/lkjhgfdsa/device-y-03 {"time":"2017-01-07 10:20:56.150","command":"Alfa"
 **rabbit-config.json** - Configuration for the RabbitMQ connection and global parameters.
 ```json
 {
-  "uri":"amqp://localhost:5672",
-  "exchange":"iosynth",
-  "topic":"device",
-  "seed":123456
+	"uri": "amqp://localhost:5672",
+	"exchange": "iosynth",
+	"topic": "device",
+	"clients": 1,
+	"seed": 123456
 }
 ```
 
@@ -90,6 +94,7 @@ iosynth/lkjhgfdsa/device-y-03 {"time":"2017-01-07 10:20:56.150","command":"Alfa"
 | uri   | **amqp://[user]:[password]@host[:port]/vhost**   |
 | exchange  | AMQP exchange |
 | topic  | routing key |
+| clients | Number of MQTT clients to broker. Each client sends the data from selected devices only. | 
 | seed | Random Generator seed used to create reproducible scenarios. It can be omitted in other cases.
 
 
@@ -107,23 +112,14 @@ iosynth/lkjhgfdsa/device-y-03 {"time":"2017-01-07 10:20:56.150","command":"Alfa"
 [
     {
         "type":"DeviceSimple",
-        "uuid":"xxx.",
-        "arrival":{"type":"ArrivalFixed", "interval":10000},
-        "copy":10,
-        "sensors":[
-            {"type":"SensorTimestamp"}, 
-            {"type":"SensorDefault",      "name":"count"},
-            {"type":"SensorRandomDouble", "name":"temp", "min":-15, "max":3},
-            {"type":"SensorCycleDouble",  "name":"level", "values": [1.1,3.2,8.3,9.4]}
-        ]
-    },
-    {
-        "type":"DeviceSimple",
         "uuid":"yyy.",
-        "arrival":{"type":"ArrivalUniform", "min":10000, "max":30000},
-        "copy":10,
+        "arrival":{"type":"ArrivalUniform", "min":3000, "max":5000},
+        "copy":1,
+        "out_of_order":0.01,
+        "message_loss":0.01,
         "sensors":[
-            {"type":"SensorTimestamp"},
+            {"type":"SensorTimestamp",   "format":"yyyy-MM-dd'T'HH:mm:ss.SSSZ"},
+            {"type":"SensorEpoch",       "name":"epoch"},
             {"type":"SensorCycleString", "name":"command", "values":["Alfa","Bravo","Charlie","Delta","Echo","Foxtrot"]},
             {"type":"SensorRandomInt",   "name":"state", "min":0, "max":5},
             {"type":"SensorCycleInt",    "name":"level", "values": [1,2,8,9,11,2,3,4]},
@@ -153,6 +149,8 @@ Each device definition contains set of parameters and list of sensors:
 	"type":"...",
 	"arrival":{},
 	"copy":10,
+	"out_of_order":0.01,
+	"message_loss":0.01,
 	"sensors":[
 		{"name":"sensor1", "type":"..."},
 		{"name":"sensor2", "type":"..."},
@@ -168,6 +166,8 @@ Each device definition contains set of parameters and list of sensors:
 | type | Device type: DeviceSimple, ...    |
 | arrival | Inter-arrival time configuration. Defines arrival time for device data as fixed interval (in microseconds) or interval defined by inter-arrival time distribution.|
 | copy | If used, multiple copies of the same device are created with different uuid and varying parameters. |
+| out_of_order | Probability for out of order messages. |
+| message loss | Probability for message lost. |
 | sensors | List of sensor definitions. |
 
 Sensor definition is different for different types of sensors. For example:
@@ -194,6 +194,7 @@ Sensor definition is different for different types of sensors. For example:
 | ---------------------:|:-------------|:------------|
 | SensorLabel           | "value":"some value"                  | Simple fixed label |
 | SensorTimestamp       | "format":"yyyy-MM-dd'T'HH:mm:ss.SSSZ" | Time stamp  |
+| SensorEpoch           |                                       | Internal device epoch number. Always incrementing number that can be used to check out of order messages|
 | SensorCycleDouble     | "values": [1.1,3.2,8.3,9.4]           | Cycle provided values |
 | SensorCycleInt        | "values": [1,2,8,9,11,2,3,4]          | Cycle provided values |
 | SensorCycleString     | "values":["Alfa","Bravo","Charlie"]   | Cycle provided values |
