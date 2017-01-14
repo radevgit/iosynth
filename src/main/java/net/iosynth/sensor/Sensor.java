@@ -8,7 +8,7 @@ import net.iosynth.util.Xoroshiro128;
  */
 public abstract class Sensor {
 	protected String name;
-	protected long epoch;
+	
 	protected Xoroshiro128 rnd;
 	
 	
@@ -17,7 +17,6 @@ public abstract class Sensor {
 	 */
 	public Sensor(){
 		this.name  = new String("sensor");
-		this.epoch = 0L;
 	}
 	
 	/**
@@ -31,13 +30,6 @@ public abstract class Sensor {
 	 */
 	public String getName(){
 		return name;
-	}
-	
-	/**
-	 * @return internal epoch
-	 */
-	public long getEpoch(){
-		return epoch;
 	}
 	
 	/**

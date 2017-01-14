@@ -61,7 +61,10 @@ public class SensorRandomInt extends Sensor {
 		}
 	}
 	
-	// Propagate internal state and epoch
+	/* (non-Javadoc)
+	 * @see net.iosynth.sensor.Sensor#step(long)
+	 */
+	@Override
 	public void step(long step) {
 		for (int i = 0; i < step; i++) {
 			state = state + rnd.nextInt(2)-1;
@@ -70,7 +73,6 @@ public class SensorRandomInt extends Sensor {
 			if (state < min)
 				state = min;
 		}
-		epoch = epoch + step;
 	}
 	
 	/**

@@ -28,12 +28,14 @@ public class SensorDefault extends Sensor {
 	public SensorDefault() {
 	}
 	
-	// Propagate internal state and epoch
+	/* (non-Javadoc)
+	 * @see net.iosynth.sensor.Sensor#step(long)
+	 */
+	@Override
 	public void step(long step) {
 		for(int i=0; i<step; i++){
 			state = intVal[rnd.nextInt(intVal.length)];
 		}
-		epoch = epoch + step;
 	}
 	
 	/**

@@ -58,14 +58,14 @@ public abstract class Device implements Runnable {
 	/**
 	 * @param uuid
 	 */
-	public void setId(String uuid){
+	public void setUUID(String uuid){
 		this.uuid = uuid;
 	}
 
 	/**
 	 * @return uuid
 	 */
-	public String getId(){
+	public String getUUID(){
 		return uuid;
 	}
 
@@ -221,7 +221,7 @@ public abstract class Device implements Runnable {
 		}
 		m.deleteCharAt(m.length()-1) ; // remove last comma
 		m.append("}");
-		return new Message(getId(), m.toString());
+		return new Message(getUUID(), m.toString());
 	}
 	
 }

@@ -37,7 +37,7 @@ public class DeviceCopySimple extends DeviceCopy {
 		String format = getFormat(count);
 		for(int i=0; i<count; i++){
 			Device devNew = (Device) copyObject(dev);
-			devNew.setId(dev.getId() + String.format(format, i));
+			devNew.setUUID(dev.getUUID() + String.format(format, i));
 			devList.add(devNew);
 		}
 		

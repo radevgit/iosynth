@@ -5,10 +5,12 @@
         "arrival":{"type":"ArrivalFixed", "interval":10000},
         "copy":10,
         "sensors":[
-            {"type":"SensorTimestamp"}, 
+            {"type":"SensorTimestamp"},
+            {"type":"SensorEpoch",        "name":"epoch"},
             {"type":"SensorDefault",      "name":"count"},
             {"type":"SensorRandomDouble", "name":"temp", "min":-15, "max":3},
-            {"type":"SensorCycleDouble",  "name":"level", "values": [1.1,3.2,8.3,9.4]}
+            {"type":"SensorCycleDouble",  "name":"level", "values": [1.1,3.2,8.3,9.4]},
+            {"type":"SensorRandomString", "name":"level", "values": ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o"]}
         ]
     },
     {

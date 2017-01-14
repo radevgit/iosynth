@@ -33,9 +33,12 @@ public class SensorLabel extends Sensor {
 		this.value = value;
 	}
 	
-	// Propagate internal state and epoch
+	/* (non-Javadoc)
+	 * @see net.iosynth.sensor.Sensor#step(long)
+	 */
+	@Override
 	public void step(long step){
-		epoch = epoch + step;
+		// nothing to do
 	}
 	
 	/**

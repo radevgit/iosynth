@@ -62,14 +62,16 @@ public class SensorRandomDouble extends Sensor {
 		}
 	}
 	
-	// Propagate internal state and epoch
+	/* (non-Javadoc)
+	 * @see net.iosynth.sensor.Sensor#step(long)
+	 */
+	@Override
 	public void step(long step) {
 		for(int i=0; i<step; i++){
 			state = state + rnd.nextDouble()*0.2 - 0.1;
 			if(state>max) state = max;
 			if(state<min) state = min;
 		}
-		epoch = epoch + step;
 	}
 	
 	/**

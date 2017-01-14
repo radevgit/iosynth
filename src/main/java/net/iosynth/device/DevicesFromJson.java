@@ -17,6 +17,7 @@ import net.iosynth.sensor.SensorCycleDouble;
 import net.iosynth.sensor.SensorCycleInt;
 import net.iosynth.sensor.SensorCycleString;
 import net.iosynth.sensor.SensorDefault;
+import net.iosynth.sensor.SensorEpoch;
 import net.iosynth.sensor.SensorRandomDouble;
 import net.iosynth.sensor.SensorRandomInt;
 import net.iosynth.sensor.SensorRandomString;
@@ -51,11 +52,15 @@ public class DevicesFromJson {
 		
 		final RuntimeTypeAdapterFactory<Sensor> sensorAdapter = RuntimeTypeAdapterFactory.of(Sensor.class, "type");
 		sensorAdapter.registerSubtype(SensorLabel.class,          "SensorLabel");
+		sensorAdapter.registerSubtype(SensorEpoch.class,          "SensorEpoch");
 		sensorAdapter.registerSubtype(SensorTimestamp.class,      "SensorTimestamp");
+		
+		sensorAdapter.registerSubtype(SensorDefault.class,        "SensorDefault");
+		
 		sensorAdapter.registerSubtype(SensorCycleDouble.class,    "SensorCycleDouble");
 		sensorAdapter.registerSubtype(SensorCycleInt.class,       "SensorCycleInt");
 		sensorAdapter.registerSubtype(SensorCycleString.class,    "SensorCycleString");
-		sensorAdapter.registerSubtype(SensorDefault.class,        "SensorDefault");
+		
 		sensorAdapter.registerSubtype(SensorRandomDouble.class,   "SensorRandomDouble");
 		sensorAdapter.registerSubtype(SensorRandomInt.class,      "SensorRandomInt");
 		sensorAdapter.registerSubtype(SensorRandomString.class,   "SensorRandomString");

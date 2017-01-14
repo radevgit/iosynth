@@ -58,10 +58,12 @@ public class SensorCycleInt extends Sensor {
 		}
 	}
 
-	// Propagate internal state and epoch
+	/* (non-Javadoc)
+	 * @see net.iosynth.sensor.Sensor#step(long)
+	 */
+	@Override
 	public void step(long step){
 		state = (state + step) % values.length;
-		epoch = epoch + step;
 	}
 	
 	/**

@@ -76,7 +76,7 @@ public class DeviceSimple extends Device {
 		int i = 0;
 		for(Device dev: devList){
 			dev.setRnd(rndT);
-			dev.setId(this.getId() + String.format(format, i));
+			dev.setUUID(this.getUUID() + String.format(format, i));
 			dev.getArrival().setRnd(dev.getRnd());
 			dev.getArrival().replicate();
 			final List<Sensor> sens = dev.getSensors();
