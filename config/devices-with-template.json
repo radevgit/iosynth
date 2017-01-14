@@ -1,10 +1,10 @@
 [
     {
         "type":"DeviceSimple",
-        "uuid":"bosh",
+        "uuid":"bosch",
         "arrival":{"type":"ArrivalFixed", "interval":10000},
         "copy":2,
-        "json_template":"example-bosh-device.json",
+        "json_template":"example-bosch-mini.json",
         "sensors":[
             {"type":"SensorRandomInt", "name":"$acc_x", "min":0, "max":2000},
             {"type":"SensorRandomInt", "name":"$acc_y", "min":0, "max":2000},
