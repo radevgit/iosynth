@@ -10,7 +10,6 @@ package net.iosynth.sensor;
 public class SensorCycleInt extends Sensor {
 	private int values[];
 	private long state;
-	private static String FORMAT = "%d";
 	
 	/**
 	 * 
@@ -32,6 +31,7 @@ public class SensorCycleInt extends Sensor {
 	 * 
 	 */
 	public void init(int[] values) {
+		this.format = "%d";
 		this.state = 0;
 		this.values = new int[values.length];
 		for(int i=0; i<values.length; i++){
@@ -75,7 +75,7 @@ public class SensorCycleInt extends Sensor {
 
 	@Override
 	public String getString() {
-		return String.format(FORMAT, getValue());
+		return String.format(format, getValue());
 	}
 
 

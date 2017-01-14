@@ -20,12 +20,12 @@ public class SensorDefault extends Sensor {
 		    419,    421,    431,    433,    439,    443,    449,    457,    461,    463, 
 		    467,    479,    487,    491,    499,    503,    509,    521,    523,    541 };
 	private int state;
-	private static String FORMAT = "%d";
 
 	/**
 	 * 
 	 */
 	public SensorDefault() {
+		this.format = "%d";
 	}
 	
 	/* (non-Javadoc)
@@ -47,7 +47,7 @@ public class SensorDefault extends Sensor {
 
 	@Override
 	public String getString() {
-		return String.format(FORMAT, getValue());
+		return String.format(format, getValue());
 	}
 
 	/* (non-Javadoc)

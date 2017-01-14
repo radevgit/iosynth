@@ -10,7 +10,6 @@ package net.iosynth.sensor;
 public class SensorCycleDouble extends Sensor {
 	private double values[];
 	private long state;
-	private static String FORMAT = "%.4f";
 	
 	/**
 	 * 
@@ -31,6 +30,7 @@ public class SensorCycleDouble extends Sensor {
 	 * 
 	 */
 	public void init(double[] values) {
+		this.format = "%.4f";
 		this.state = 0;
 		this.values = new double[values.length];
 		for(int i=0; i<values.length; i++){
@@ -74,7 +74,7 @@ public class SensorCycleDouble extends Sensor {
 
 	@Override
 	public String getString() {
-		return String.format(FORMAT, getValue());
+		return String.format(format, getValue());
 	}
 
 

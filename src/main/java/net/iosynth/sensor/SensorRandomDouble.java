@@ -11,7 +11,6 @@ package net.iosynth.sensor;
 public class SensorRandomDouble extends Sensor {
 	private double state;
 	private double min, max;
-	private static String FORMAT = "%.4f";
 	
 	/**
 	 * 
@@ -34,6 +33,7 @@ public class SensorRandomDouble extends Sensor {
 	 * @param max Maximum generated value
 	 */
 	public void init(double min, double max) {
+		this.format = "%0.3f";
 		this.state = 0;
 		this.min = min;
 		this.max = max;
@@ -83,7 +83,7 @@ public class SensorRandomDouble extends Sensor {
 
 	@Override
 	public String getString() {
-		return String.format(FORMAT, getValue());
+		return String.format(format, getValue());
 	}
 
 }

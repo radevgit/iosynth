@@ -8,7 +8,8 @@ import net.iosynth.util.Xoroshiro128;
  */
 public abstract class Sensor {
 	protected String name;
-	
+	protected String format = "%.4f";
+
 	protected Xoroshiro128 rnd;
 	
 	
@@ -31,7 +32,19 @@ public abstract class Sensor {
 	public String getName(){
 		return name;
 	}
-	
+	/**
+	 * @return the format
+	 */
+	public String getFormat() {
+		return format;
+	}
+
+	/**
+	 * @param format the format to set
+	 */
+	public void setFormat(String format) {
+		this.format = format;
+	}
 	/**
 	 * @return the rnd
 	 */

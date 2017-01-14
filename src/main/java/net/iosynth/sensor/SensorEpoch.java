@@ -9,12 +9,12 @@ package net.iosynth.sensor;
  */
 public class SensorEpoch extends Sensor {
 	protected transient long epoch;
-	private static String FORMAT = "%d";
 	
 	/**
 	 * 
 	 */
 	public SensorEpoch() {
+		this.format = "%d";
 		this.epoch = 0L;
 	}
 
@@ -38,7 +38,7 @@ public class SensorEpoch extends Sensor {
 	 */
 	@Override
 	public String getString() {
-		return String.format(FORMAT, getValue());
+		return String.format(format, getValue());
 	}
 
 	/* (non-Javadoc)

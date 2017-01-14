@@ -10,7 +10,6 @@ package net.iosynth.sensor;
 public class SensorRandomInt extends Sensor {
 	private int state;
 	private int min, max;
-	private static String FORMAT = "%d";
 	
 	
 	/**
@@ -33,6 +32,7 @@ public class SensorRandomInt extends Sensor {
 	 * @param max Maximum generated value
 	 */
 	public void init(int min, int max) {
+		this.format = "%d";
 		this.state = 0;
 		this.min = min;
 		this.max = max;
@@ -84,7 +84,7 @@ public class SensorRandomInt extends Sensor {
 
 	@Override
 	public String getString() {
-		return String.format(FORMAT, getValue());
+		return String.format(format, getValue());
 	}
 
 }

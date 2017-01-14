@@ -12,14 +12,13 @@ import java.util.Date;
  */
 public class SensorTimestamp extends Sensor {
 	private transient SimpleDateFormat fmt;
-	private String format;
 
 	/**
 	 * 
 	 */
 	public SensorTimestamp() {
-		format = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
-		fmt = new SimpleDateFormat(format);
+		this.format = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+		this.fmt = new SimpleDateFormat(format);
 		setName("time");
 	}
 

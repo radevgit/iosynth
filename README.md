@@ -164,10 +164,10 @@ Each device definition contains set of parameters and list of sensors:
 | ------------:|:-------------|
 | uuid  | Unique ID for each device. If empty, it will be auto generated. |
 | type | Device type: DeviceSimple, ...    |
-| arrival | Inter-arrival time configuration. Defines arrival time for device data as fixed interval (in microseconds) or interval defined by inter-arrival time distribution.|
+| arrival | Inter-arrival time configuration. Defines arrival time for device data as fixed interval (in microseconds) or interval defined by inter-arrival time distribution. (ArrivalFixed interval, ArrivalUniform min max) |
 | copy | If used, multiple copies of the same device are created with different uuid and varying parameters. |
 | out_of_order | Probability for out of order messages. |
-| message loss | Probability for message lost. |
+| message_loss | Probability for message lost. |
 | sensors | List of sensor definitions. |
 
 Sensor definition is different for different types of sensors. For example:
