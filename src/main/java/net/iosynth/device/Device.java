@@ -6,7 +6,9 @@ package net.iosynth.device;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.UUID;
 import java.util.concurrent.BlockingQueue;
 
@@ -25,6 +27,9 @@ public abstract class Device implements Runnable {
 
 	protected Arrival arrival;
 	protected int copy;
+	protected double out_of_order;
+	protected double message_loss;
+	protected volatile List<Message> ooo;
 	/**
 	 * id in the delay devices list
 	 */
@@ -43,6 +48,9 @@ public abstract class Device implements Runnable {
 		this.uuid = UUID.randomUUID().toString();
 		this.arrival = new ArrivalFixed();
 		this.copy    = 1;
+		this.out_of_order = 0.0;
+		this.message_loss = 0.0;
+		this.ooo  = new LinkedList<Message>();
 		this.sensors = new ArrayList<>();
 	}
 	
@@ -188,13 +196,26 @@ public abstract class Device implements Runnable {
 	 */
 	public void run(){
 		for(final Sensor sensor : sensors) {
-		    sensor.step(1);
+			if(message_loss > 0.00000001 && rnd.nextDouble() < message_loss) {
+				sensor.step(2);
+			} else {
+				sensor.step(1);
+			}
 		}
-		getQueue().add(toJson());
+		boolean s1 = out_of_order > 0.00000001 && rnd.nextDouble() < out_of_order;
+		boolean s2 = ooo.size() > 10 || (rnd.nextDouble() < 0.1 && ooo.size() > 0);
+		int a=1;
+		if(s1){
+			ooo.add(toJson()); // out of order queue
+		} else {
+			if(s2){
+				getQueue().add(ooo.remove(0)); // too long time or too many are delayed
+			} else { 
+				getQueue().add(toJson()); // normal case
+			}
+		}
+		
 		if (arrival.getClass() != ArrivalFixed.class) {
-			long delay = arrival.getInterval();
-			//setDealy(delay);
-			//Delay d = new Delay(getDelayId(), delay);
 			getDelayQueue().add(this);
 		}
 	}

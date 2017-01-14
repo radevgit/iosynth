@@ -18,6 +18,8 @@
         "uuid":"yyy.",
         "arrival":{"type":"ArrivalUniform", "min":10000, "max":30000},
         "copy":10,
+        "out_of_order":0.01,
+        "message_loss":0.01,
         "sensors":[
             {"type":"SensorTimestamp"},
             {"type":"SensorCycleString", "name":"command", "values":["Alfa","Bravo","Charlie","Delta","Echo","Foxtrot"]},
