@@ -1,0 +1,18 @@
+[
+    {
+        "type":"DeviceSimple",
+        "uuid":"yyy.",
+        "arrival":{"type":"ArrivalUniform", "min":3000, "max":5000},
+        "copy":1,
+        "out_of_order":0.01,
+        "message_loss":0.01,
+        "sensors":[
+            {"type":"SensorTimestamp",   "format":"yyyy-MM-dd'T'HH:mm:ss.SSSZ"},
+            {"type":"SensorEpoch",       "name":"epoch"},
+            {"type":"SensorCycleString", "name":"command", "values":["Alfa","Bravo","Charlie","Delta","Echo","Foxtrot"]},
+            {"type":"SensorRandomInt",   "name":"state", "min":0, "max":5},
+            {"type":"SensorCycleInt",    "name":"level", "values": [1,2,8,9,11,2,3,4]},
+            {"type":"SensorCycleString", "name":"switch", "values":["on", "off"]}
+        ]
+    }
+]

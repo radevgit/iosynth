@@ -3,29 +3,13 @@
         "type":"DeviceSimple",
         "uuid":"xxx.",
         "arrival":{"type":"ArrivalFixed", "interval":10000},
-        "copy":10,
+        "copy":2,
         "sensors":[
             {"type":"SensorTimestamp"},
-            {"type":"SensorEpoch",        "name":"epoch"},
             {"type":"SensorDefault",      "name":"count"},
             {"type":"SensorRandomDouble", "name":"temp", "min":-15, "max":3},
             {"type":"SensorCycleDouble",  "name":"level", "values": [1.1,3.2,8.3,9.4]},
             {"type":"SensorRandomString", "name":"level", "values": ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o"]}
-        ]
-    },
-    {
-        "type":"DeviceSimple",
-        "uuid":"yyy.",
-        "arrival":{"type":"ArrivalUniform", "min":10000, "max":30000},
-        "copy":10,
-        "out_of_order":0.01,
-        "message_loss":0.01,
-        "sensors":[
-            {"type":"SensorTimestamp"},
-            {"type":"SensorCycleString", "name":"command", "values":["Alfa","Bravo","Charlie","Delta","Echo","Foxtrot"]},
-            {"type":"SensorRandomInt",   "name":"state", "min":0, "max":5},
-            {"type":"SensorCycleInt",    "name":"level", "values": [1,2,8,9,11,2,3,4]},
-            {"type":"SensorCycleString", "name":"switch", "values":["on", "off"]}
         ]
     }
 ]

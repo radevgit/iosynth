@@ -46,8 +46,10 @@ public class SensorTimestamp extends Sensor {
 	 */
 	@Override
 	public void checkParameters() {
-		if(format == null || fmt == null){
+		if(format == null){
 			fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+		} else {
+			fmt = new SimpleDateFormat(format);
 		}
 	}
 
@@ -56,7 +58,7 @@ public class SensorTimestamp extends Sensor {
 	 */
 	@Override
 	public void replicate() {
-		// nothing to do
+		fmt = new SimpleDateFormat(format);
 	}
 
 	/**
