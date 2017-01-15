@@ -25,7 +25,7 @@ public abstract class Device implements Runnable {
 	protected BlockingQueue<Message> msgQueue;
 	protected BlockingQueue<Device>  delayQueue;
 
-	protected Arrival arrival;
+	protected Sampling sampling;
 	protected int copy;
 	protected double out_of_order;
 	protected double message_loss;
@@ -49,7 +49,7 @@ public abstract class Device implements Runnable {
 	 */
 	public Device() {
 		this.uuid = UUID.randomUUID().toString();
-		this.arrival = new ArrivalFixed();
+		this.sampling = new SamplingFixed();
 		this.copy    = 1;
 		this.out_of_order = 0.0;
 		this.message_loss = 0.0;
@@ -111,17 +111,17 @@ public abstract class Device implements Runnable {
 	}
 
 	/**
-	 * @return the arrival
+	 * @return the sampling
 	 */
-	public Arrival getArrival() {
-		return arrival;
+	public Sampling getSampling() {
+		return sampling;
 	}
 
 	/**
-	 * @param arrival the arrival to set
+	 * @param sampling the sampling to set
 	 */
-	public void setArrival(Arrival arrival) {
-		this.arrival = arrival;
+	public void setSampling(Sampling sampling) {
+		this.sampling = sampling;
 	}
 	
 	/**
@@ -247,7 +247,7 @@ public abstract class Device implements Runnable {
 			}
 		}
 		
-		if (arrival.getClass() != ArrivalFixed.class) {
+		if (sampling.getClass() != SamplingFixed.class) {
 			getDelayQueue().add(this);
 		}
 	}

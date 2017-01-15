@@ -113,7 +113,7 @@ iosynth/lkjhgfdsa/device-y-03 {"time":"2017-01-07 10:20:56.150","command":"Alfa"
     {
         "type":"DeviceSimple",
         "uuid":"yyy.",
-        "arrival":{"type":"ArrivalUniform", "min":3000, "max":5000},
+        "sample":{"type":"SampleUniform", "min":3000, "max":5000},
         "copy":1,
         "out_of_order":0.01,
         "message_loss":0.01,
@@ -147,7 +147,7 @@ Each device definition contains set of parameters and list of sensors:
 {
 	"uuid":"...",
 	"type":"...",
-	"arrival":{},
+	"sample":{},
 	"copy":10,
 	"out_of_order":0.01,
 	"message_loss":0.01,
@@ -164,7 +164,7 @@ Each device definition contains set of parameters and list of sensors:
 | ------------:|:-------------|
 | uuid  | Unique ID for each device. If empty, it will be auto generated. |
 | type | Device type: DeviceSimple, ...    |
-| arrival | Inter-arrival time configuration. Defines arrival time for device data as fixed interval (in microseconds) or interval defined by inter-arrival time distribution. (ArrivalFixed interval, ArrivalUniform min max) |
+| sample | Sample rate configuration. Defines sample interval (in milliseconds) for device data as fixed interval (in microseconds) or interval defined by sample interval distribution. (SampleFixed interval, SampleUniform min max) |
 | copy | If used, multiple copies of the same device are created with different uuid and varying parameters. |
 | out_of_order | Probability for out of order messages. |
 | message_loss | Probability for message lost. |

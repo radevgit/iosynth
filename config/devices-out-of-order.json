@@ -2,7 +2,7 @@
     {
         "type":"DeviceSimple",
         "uuid":"yyy.",
-        "arrival":{"type":"ArrivalUniform", "min":3000, "max":5000},
+        "sampling":{"type":"SamplingUniform", "min":3000, "max":5000},
         "copy":1,
         "out_of_order":0.01,
         "message_loss":0.01,

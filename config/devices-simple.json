@@ -2,7 +2,7 @@
     {
         "type":"DeviceSimple",
         "uuid":"xxx.",
-        "arrival":{"type":"ArrivalFixed", "interval":10000},
+        "sampling":{"type":"SamplingFixed", "interval":10000},
         "copy":2,
         "sensors":[
             {"type":"SensorTimestamp"},

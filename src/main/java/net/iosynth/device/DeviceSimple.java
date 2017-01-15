@@ -39,32 +39,11 @@ public class DeviceSimple extends Device {
 		if(uuid.length()<1){
 			uuid = UUID.randomUUID().toString();
 		}
-		arrival.checkParameters();
+		sampling.checkParameters();
 		for(final Sensor sen: sensors){
 			sen.checkParameters();
 		}
 	}
-	
-/*	 (non-Javadoc)
-	 * @see net.iosynth.device.Device#replicate()
-	 
-	@Override
-	public List<Device> replicate() {
-		List<Device> devList = new ArrayList<Device>();
-		String format = getFormat(copy);
-		for(int i=0; i<copy; i++){
-			Device devNew = (Device) DeepCopy.copyObject(this);
-			devNew.setId(this.getId() + String.format(format, i));
-			devNew.getArrival().replicate();
-			for(final Sensor sen: devNew.sensors){
-				sen.replicate();
-			}
-			devList.add(devNew);
-		}
-		
-		return devList;
-	}*/
-	
 
 	@Override
 	public List<Device> replicate() {
@@ -77,8 +56,8 @@ public class DeviceSimple extends Device {
 		for(Device dev: devList){
 			dev.setRnd(rndT);
 			dev.setUUID(this.getUUID() + String.format(format, i));
-			dev.getArrival().setRnd(dev.getRnd());
-			dev.getArrival().replicate();
+			dev.getSampling().setRnd(dev.getRnd());
+			dev.getSampling().replicate();
 			final Sensor[] sens = dev.getSensors();
 			for(Sensor sen: sens){
 				sen.setRnd(dev.getRnd());

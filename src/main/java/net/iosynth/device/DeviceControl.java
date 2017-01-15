@@ -44,7 +44,7 @@ public class DeviceControl {
 	 */
 	public void addDevice(Device dev, BlockingQueue<Message> msgQueue){
 		dev.setQueue(msgQueue);
-		if (dev.getArrival().getClass() == ArrivalFixed.class) {
+		if (dev.getSampling().getClass() == SamplingFixed.class) {
 			devsFixedList.add(dev);
 		} else {
 			dev.setDelayQueue(delayQueue);
@@ -62,15 +62,15 @@ public class DeviceControl {
 		devsHandleFixedList = new ArrayList<>();
 		devsHandleDelayList = new ArrayList<>();
 		
-		// Devices with fixed arrival interval
+		// Devices with fixed sampling interval
 		for(final Runnable devR: devsFixedList){
 			final Device dev = (Device)devR;
-			ScheduledFuture<?> devHandle = scheduler.scheduleAtFixedRate(dev, ((ArrivalFixed)dev.getArrival()).getJitter(), dev.getArrival().getInterval(), TimeUnit.MILLISECONDS);
+			ScheduledFuture<?> devHandle = scheduler.scheduleAtFixedRate(dev, ((SamplingFixed)dev.getSampling()).getJitter(), dev.getSampling().getInterval(), TimeUnit.MILLISECONDS);
 			//devsHandleFixedList.add(devHandle);
 		}
-		// Devices with variable arrival interval. They have to be re-scheduled each time.
+		// Devices with variable sampling interval. They have to be re-scheduled each time.
 		for(Runnable dev: devsDelayList){
-			ScheduledFuture<?> devHandle = scheduler.schedule(dev, ((Device)dev).getArrival().getInterval(), TimeUnit.MILLISECONDS);
+			ScheduledFuture<?> devHandle = scheduler.schedule(dev, ((Device)dev).getSampling().getInterval(), TimeUnit.MILLISECONDS);
 			//devsHandleDelayList.add(devHandle);
 		}
 		
@@ -79,9 +79,9 @@ public class DeviceControl {
 			while (true) { // reschedule variable rate devices
 				final Device dev = delayQueue.take();
 				if(k%100000==0){
-					logger.info("arrival queue: " + delayQueue.size());
+					logger.info("sampling queue: " + delayQueue.size());
 				}
-				ScheduledFuture<?> devHandle = scheduler.schedule(dev, dev.getArrival().getInterval(), TimeUnit.MILLISECONDS);
+				ScheduledFuture<?> devHandle = scheduler.schedule(dev, dev.getSampling().getInterval(), TimeUnit.MILLISECONDS);
 				k++;
 			}
 		} catch (InterruptedException ie) {

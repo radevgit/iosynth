@@ -14,8 +14,8 @@ public class DeviceFixedRate extends DeviceSimple {
 	 * 
 	 */
 	public DeviceFixedRate() {
-		ArrivalFixed fixed = new ArrivalFixed();
-		this.setArrival(fixed);
+		SamplingFixed fixed = new SamplingFixed();
+		this.setSampling(fixed);
 	}
 
 }

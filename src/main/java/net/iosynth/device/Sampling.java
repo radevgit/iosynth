@@ -11,14 +11,14 @@ import net.iosynth.util.Xoroshiro128;
  * @author rradev
  *
  */
-public abstract class Arrival implements Serializable{
+public abstract class Sampling implements Serializable{
 	private static final long serialVersionUID = 1L;
 	protected long interval;
 	protected Xoroshiro128 rnd;
 	/**
 	 * 
 	 */
-	public Arrival() {
+	public Sampling() {
 		
 	}
 	
@@ -27,7 +27,7 @@ public abstract class Arrival implements Serializable{
 	 */
 	abstract public void checkParameters();
 	/**
-	 * @return inter-arrival interval value
+	 * @return sampling interval value
 	 */
 	abstract public long getInterval();
 	/**

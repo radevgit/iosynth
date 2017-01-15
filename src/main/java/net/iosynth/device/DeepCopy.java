@@ -74,10 +74,10 @@ public class DeepCopy {
 		sensorAdapter.registerSubtype(SensorRandomInt.class,      "SensorRandomInt");
 		sensorAdapter.registerSubtype(SensorRandomString.class,   "SensorRandomString");
 		
-		final RuntimeTypeAdapterFactory<Arrival> arrivalAdapter = RuntimeTypeAdapterFactory.of(Arrival.class, "type");
-		//arrivalAdapter.registerSubtype(Arrival.class, "Arrival");
-		arrivalAdapter.registerSubtype(ArrivalFixed.class, "ArrivalFixed");
-		arrivalAdapter.registerSubtype(ArrivalUniform.class, "ArrivalUniform");
+		final RuntimeTypeAdapterFactory<Sampling> samplingAdapter = RuntimeTypeAdapterFactory.of(Sampling.class, "type");
+		//samplingAdapterAdapter.registerSubtype(Sampling.class, "Sampling");
+		samplingAdapter.registerSubtype(SamplingFixed.class, "SamplingFixed");
+		samplingAdapter.registerSubtype(SamplingUniform.class, "SamplingUniform");
 		
 		//RuntimeTypeAdapterFactory<DeviceCopy> copyAdapter = RuntimeTypeAdapterFactory.of(DeviceCopy.class, "type");
 		//copyAdapter.registerSubtype(DeviceCopySimple.class, "CopySimple");
@@ -88,7 +88,7 @@ public class DeepCopy {
 				.setPrettyPrinting()
 				.registerTypeAdapterFactory(deviceAdapter)
 				.registerTypeAdapterFactory(sensorAdapter)
-				.registerTypeAdapterFactory(arrivalAdapter)
+				.registerTypeAdapterFactory(samplingAdapter)
 				//.registerTypeAdapterFactory(copyAdapter)
 				.create();
 		return gson;

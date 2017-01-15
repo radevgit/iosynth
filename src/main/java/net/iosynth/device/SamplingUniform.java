@@ -7,21 +7,21 @@ package net.iosynth.device;
  * @author rradev
  *
  */
-public class ArrivalUniform extends Arrival {
+public class SamplingUniform extends Sampling {
 	private static final long serialVersionUID = 1L;
 	private long min;
 	private long max;
 	/**
 	 * 
 	 */
-	public ArrivalUniform() {
+	public SamplingUniform() {
 		this.interval  = 0;
 		this.min       = 1000;
 		this.max       = 10000;
 	}
 	
 	/* (non-Javadoc)
-	 * @see net.iosynth.device.Arrival#checkParameters()
+	 * @see net.iosynth.device.Sampling#checkParameters()
 	 */
 	@Override
 	public void checkParameters() {
@@ -51,7 +51,7 @@ public class ArrivalUniform extends Arrival {
 	}
 
 	/* (non-Javadoc)
-	 * @see net.iosynth.device.Arrival#getInterval()
+	 * @see net.iosynth.device.Sampling#getInterval()
 	 */
 	@Override
 	public long getInterval() {
@@ -60,7 +60,7 @@ public class ArrivalUniform extends Arrival {
 	}
 
 	/* (non-Javadoc)
-	 * @see net.iosynth.device.Arrival#replicate()
+	 * @see net.iosynth.device.Sampling#replicate()
 	 */
 	@Override
 	public void replicate() {

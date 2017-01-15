@@ -7,20 +7,20 @@ package net.iosynth.device;
  * @author rradev
  *
  */
-public class ArrivalFixed extends Arrival {
+public class SamplingFixed extends Sampling {
 	private static final long serialVersionUID = 1L;
 	private long jitter;
 	/**
 	 * 
 	 */
-	public ArrivalFixed() {
+	public SamplingFixed() {
 		//this.fixed = true;
 		this.interval = 10000; // default 10s
 		this.jitter   = 0;
 	}
 	
 	/* (non-Javadoc)
-	 * @see net.iosynth.device.Arrival#getInterval()
+	 * @see net.iosynth.device.Sampling#getInterval()
 	 */
 	@Override
 	public long getInterval() {
@@ -28,7 +28,7 @@ public class ArrivalFixed extends Arrival {
 	}
 
 	/* (non-Javadoc)
-	 * @see net.iosynth.device.Arrival#checkParameters()
+	 * @see net.iosynth.device.Sampling#checkParameters()
 	 */
 	@Override
 	public void checkParameters(){
@@ -38,7 +38,7 @@ public class ArrivalFixed extends Arrival {
 	}
 	
 	/* (non-Javadoc)
-	 * @see net.iosynth.device.Arrival#replicate()
+	 * @see net.iosynth.device.Sampling#replicate()
 	 */
 	@Override
 	public void replicate() {
@@ -46,14 +46,14 @@ public class ArrivalFixed extends Arrival {
 	}
 		
 	/**
-	 * @param jitter Jitter to displace fixed inter-arrival intervals.
+	 * @param jitter Jitter to displace fixed sampling intervals.
 	 */
 	public void setJitter(long jitter) {
 		this.jitter = jitter;
 	}
 	
 	/**
-	 * @return Jitter to displace fixed inter-arrival intervals.
+	 * @return Jitter to displace fixed sampling intervals.
 	 */
 	public long getJitter(){
 		return jitter;
