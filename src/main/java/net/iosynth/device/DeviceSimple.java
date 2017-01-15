@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.UUID;
 
 import net.iosynth.sensor.Sensor;
+import net.iosynth.sensor.SensorUuid;
 import net.iosynth.util.Xoroshiro128;
 
 /**
@@ -35,9 +36,7 @@ public class DeviceSimple extends Device {
 	 */
 	@Override
 	public void checkParameters(){
-		if(uuid.length()<1){
-			uuid = UUID.randomUUID().toString();
-		}
+		uuid.checkParameters();
 		sampling.checkParameters();
 		for(final Sensor sen: sensors){
 			sen.checkParameters();
@@ -54,13 +53,17 @@ public class DeviceSimple extends Device {
 		int i = 0;
 		for(Device dev: devList){
 			dev.setRnd(rndT);
-			dev.setUUID(this.getUUID() + String.format(format, i));
+			dev.getUUID().replicate(String.format(format, i));
+			dev.buildTopic();
 			dev.getSampling().setRnd(dev.getRnd());
 			dev.getSampling().replicate();
 			final Sensor[] sens = dev.getSensors();
 			for(Sensor sen: sens){
 				sen.setRnd(dev.getRnd());
 				sen.replicate();
+				if(sen instanceof SensorUuid){
+					((SensorUuid)sen).SetValue(dev.getUUID().getUUID());;
+				}
 			}
 			// new generator
 			rndT = rndT.copy();

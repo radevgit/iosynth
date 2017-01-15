@@ -1,18 +1,18 @@
 [
     {
-        "type":"DeviceSimple",
-        "uuid":"yyy.",
-        "sampling":{"type":"SamplingUniform", "min":3000, "max":5000},
+        "type":"Simple",
+        "uuid":{"type":"String", "value":"zzz"},
+        "sampling":{"type":"Uniform", "min":3000, "max":5000},
         "copy":1,
         "out_of_order":0.01,
         "message_loss":0.01,
         "sensors":[
-            {"type":"SensorTimestamp",   "format":"yyyy-MM-dd'T'HH:mm:ss.SSSZ"},
-            {"type":"SensorEpoch",       "name":"epoch"},
-            {"type":"SensorStringCycle", "name":"command", "values":["Alfa","Bravo","Charlie","Delta","Echo","Foxtrot"]},
-            {"type":"SensorIntRandom",   "name":"state", "min":0, "max":5, "format":"{\"ff\":%03d}"},
-            {"type":"SensorIntCycle",    "name":"level", "values": [1,2,8,9,11,2,3,4]},
-            {"type":"SensorStringCycle", "name":"switch", "values":["on", "off"]}
+            {"type":"Timestamp",   "format":"yyyy-MM-dd'T'HH:mm:ss.SSSZ"},
+            {"type":"Epoch",       "name":"epoch"},
+            {"type":"StringCycle", "name":"command", "values":["Alfa","Bravo","Charlie","Delta","Echo","Foxtrot"]},
+            {"type":"IntRandom",   "name":"state", "min":0, "max":5, "format":"{\"ff\":%03d}"},
+            {"type":"IntCycle",    "name":"level", "values": [1,2,8,9,11,2,3,4]},
+            {"type":"StringCycle", "name":"switch", "values":["on", "off"]}
         ]
     }
 ]

@@ -5,30 +5,30 @@ package net.iosynth.adapter;
  *
  */
 public class Message {
-	private String id;
+	private String topic;
 	private String msg;
 	
 	/**
-	 * @param id
+	 * @param topic
 	 * @param msg
 	 */
-	public Message(String id, String msg){
-		this.id  = id;
+	public Message(String topic, String msg){
+		this.topic  = topic;
 		this.msg = msg;
 	}
 	
 	/**
-	 * @return message id
+	 * @return message topic
 	 */
-	public String getId() {
-		return id;
+	public String getTopic() {
+		return topic;
 	}
 
 	/**
-	 * @param id
+	 * @param topic
 	 */
-	public void setId(String id) {
-		this.id = id;
+	public void setTopic(String id) {
+		this.topic = id;
 	}
 
 	/**

@@ -15,7 +15,6 @@ public class ConfigMqtt {
      */
     protected String uri;
     protected String topic;
-    protected String session;
     protected int qos;
     protected UUID uuid;
     /**

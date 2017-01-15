@@ -121,9 +121,9 @@ iosynth/lkjhgfdsa/device-y-03 {"time":"2017-01-07 10:20:56.150","command":"Alfa"
             {"type":"SensorTimestamp",   "format":"yyyy-MM-dd'T'HH:mm:ss.SSSZ"},
             {"type":"SensorEpoch",       "name":"epoch"},
             {"type":"SensorCycleString", "name":"command", "values":["Alfa","Bravo","Charlie","Delta","Echo","Foxtrot"]},
-            {"type":"SensorRandomInt",   "name":"state", "min":0, "max":5},
-            {"type":"SensorCycleInt",    "name":"level", "values": [1,2,8,9,11,2,3,4]},
-            {"type":"SensorCycleString", "name":"switch", "values":["on", "off"]}
+            {"type":"SensorIntRandom",   "name":"state", "min":0, "max":5},
+            {"type":"SensorIntCycle",    "name":"level", "values": [1,2,8,9,11,2,3,4]},
+            {"type":"SensorStringCycle", "name":"switch", "values":["on", "off"]}
         ]
     }
 ]
@@ -195,12 +195,12 @@ Sensor definition is different for different types of sensors. For example:
 | SensorLabel           | "value":"some value"                  | Simple fixed label |
 | SensorTimestamp       | "format":"yyyy-MM-dd'T'HH:mm:ss.SSSZ" | Time stamp  |
 | SensorEpoch           |                                       | Internal device epoch number. Always incrementing number that can be used to check out of order messages|
-| SensorCycleDouble     | "values": [1.1,3.2,8.3,9.4]           | Cycle provided values |
-| SensorCycleInt        | "values": [1,2,8,9,11,2,3,4]          | Cycle provided values |
-| SensorCycleString     | "values":["Alfa","Bravo","Charlie"]   | Cycle provided values |
-| SensorRandomDouble    | "min":-15.1, "max":3.2                | Random walk values |
-| SensorRandomInt       | "min":-15, "max":3                    | Random walk values |
-| SensorRandomString    | "values":["Alfa","Bravo","Charlie"]   | Random values      |
+| SensorDoubleCycle     | "values": [1.1,3.2,8.3,9.4]           | Cycle provided values |
+| SensorIntCycle        | "values": [1,2,8,9,11,2,3,4]          | Cycle provided values |
+| SensorStringCycle     | "values":["Alfa","Bravo","Charlie"]   | Cycle provided values |
+| SensorDoubleRandom    | "min":-15.1, "max":3.2                | Random walk values |
+| SensorIntRandom       | "min":-15, "max":3                    | Random walk values |
+| SensorStringRandom    | "values":["Alfa","Bravo","Charlie"]   | Random values      |
 
 
 

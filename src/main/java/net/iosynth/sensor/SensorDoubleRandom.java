@@ -33,7 +33,7 @@ public class SensorDoubleRandom extends Sensor {
 	 * @param max Maximum generated value
 	 */
 	public void init(double min, double max) {
-		this.format = "%0.3f";
+		this.format = "%.3f";
 		this.state = 0;
 		this.min = min;
 		this.max = max;

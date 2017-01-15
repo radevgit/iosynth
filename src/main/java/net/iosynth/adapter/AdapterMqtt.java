@@ -20,7 +20,6 @@ public class AdapterMqtt extends Thread {
 	private String uri;
 	private String topic;
 	private int    qos;
-	private String session;
 	private String clientId;
 	
     private MemoryPersistence persistence;
@@ -41,8 +40,7 @@ public class AdapterMqtt extends Thread {
     	this.uri   = cfg.uri;
     	this.topic = cfg.topic;
 		this.qos   = cfg.qos > 2 || cfg.qos < 0 ? 0 : cfg.qos; 
-		this.session = cfg.session;
-		this.clientId = "iosynth-" + UUID.randomUUID();
+		this.clientId = "iosynth-" + UUID.randomUUID().toString();
 		setOptions(msgQueue);
 		start();
     }
@@ -72,7 +70,6 @@ public class AdapterMqtt extends Thread {
 			logger.info("Connected");
 			long k = 0;
 			try {
-				final String prefix = topic + "/";
 				while (true) {
 					final Message msg = msgQueue.take();
 					if (k % 100000 == 0) {
@@ -80,7 +77,7 @@ public class AdapterMqtt extends Thread {
 					}
 					MqttMessage message = new MqttMessage(msg.getMsg().getBytes());
 					message.setQos(qos);
-					sampleClient.publish(prefix + msg.getId(), message);
+					sampleClient.publish(topic + msg.getTopic(), message);
 					k++;
 				}
 			} catch (InterruptedException ex) {
@@ -91,6 +88,7 @@ public class AdapterMqtt extends Thread {
 			logger.info("Disconnected");
 		} catch (MqttException me) {
 			logger.log(Level.SEVERE, me.toString(), me);
+			System.exit(1);
 		} finally {
 
 		}

@@ -4,11 +4,13 @@
 package net.iosynth.device;
 
 import java.text.SimpleDateFormat;
+import java.util.IllegalFormatException;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.BlockingQueue;
+import java.util.logging.Logger;
 
+import net.iosynth.adapter.AdapterMqtt;
 import net.iosynth.adapter.Message;
 import net.iosynth.sensor.Sensor;
 import net.iosynth.util.Xoroshiro128;
@@ -18,10 +20,12 @@ import net.iosynth.util.Xoroshiro128;
  *
  */
 public abstract class Device implements Runnable {
-	protected String uuid;
+	//protected String uuid;
 	protected BlockingQueue<Message> msgQueue;
 	protected BlockingQueue<Device>  delayQueue;
 
+	protected DID      uuid;
+	protected String   topic;
 	protected Sampling sampling;
 	protected int copy;
 	protected double out_of_order;
@@ -41,11 +45,14 @@ public abstract class Device implements Runnable {
 	
 	final static protected SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
+	private transient final Logger logger = Logger.getLogger(Device.class.getName());
+	
 	/**
 	 * 
 	 */
 	public Device() {
-		this.uuid = UUID.randomUUID().toString();
+		this.uuid     = new DIDString();
+		this.topic    = new String("topic");
 		this.sampling = new SamplingFixed();
 		this.copy    = 1;
 		this.out_of_order = 0.0;
@@ -53,7 +60,7 @@ public abstract class Device implements Runnable {
 		this.outOrder  = new LinkedList<Message>();
 		//this.sensors = new ArrayList<>();
 	}
-	
+
 	/**
 	 * Check the correctness of instance parameters after deserialization from json
 	 */
@@ -64,17 +71,52 @@ public abstract class Device implements Runnable {
 	abstract public List<Device> replicate();
 	
 	/**
-	 * @param uuid
+	 * @return the did
 	 */
-	public void setUUID(String uuid){
-		this.uuid = uuid;
+	public DID getUUID() {
+		return uuid;
 	}
 
 	/**
-	 * @return uuid
+	 * @param did the did to set
 	 */
-	public String getUUID(){
-		return uuid;
+	public void setUUID(DID uuid) {
+		this.uuid = uuid;
+	}
+	
+	/**
+	 * @return the topic
+	 */
+	public String getTopic() {
+		return topic;
+	}
+
+	/**
+	 * @param topic the topic to set
+	 */
+	public void setTopic(String topic) {
+		this.topic = topic;
+	}
+	
+	/**
+	 * 
+	 */
+	public void buildTopic(){
+		String[] strs = topic.split("\\$uuid");
+		StringBuilder b = new StringBuilder(255);
+		if(strs.length == 0){
+			topic = uuid.getUUID();
+		}
+		if(strs.length == 1){
+			if(strs[0].length() == topic.length()){
+				// topic have no parameters
+			} else {
+				topic = b.append(strs[0]).append(uuid.getUUID()).toString();
+			}
+		}
+		if(strs.length == 2){
+			topic = b.append(strs[0]).append(uuid.getUUID()).append(strs[1]).toString();
+		}
 	}
 
 	/**
@@ -143,13 +185,6 @@ public abstract class Device implements Runnable {
 	}
 
 	/**
-	 * @param sensors
-	 */
-	//public void setSensors(List<Sensor> sensors) {
-	//	this.sensors = sensors;
-	//}
-
-	/**
 	 * @return the rnd
 	 */
 	public Xoroshiro128 getRnd() {
@@ -194,16 +229,6 @@ public abstract class Device implements Runnable {
 		this.deviceTemplate = deviceTemplate;
 	}
 
-	
-	/**
-	 * @param name
-	 * @param sensor
-	 */
-	//public void addSensor(String name, Sensor sensor){
-	//	sensor.setName(name);
-	//	sensors.add(sensor);
-	//}
-	
 	
 	/**
 	 * @return the delayId
@@ -255,7 +280,7 @@ public abstract class Device implements Runnable {
 		if(deviceTemplate == null){
 			return toJsonListMessage();
 		} else {
-			return new Message(getUUID(), getDeviceTemplate().getJson(sensors));
+			return new Message(getTopic(), getDeviceTemplate().getJson(sensors));
 		}
 	}
 	
@@ -265,14 +290,20 @@ public abstract class Device implements Runnable {
 	public Message toJsonListMessage(){
 		// TODO: performance improvement
 		StringBuilder m = new StringBuilder();
+
 		m.append("{");
-		for(final Sensor sensor : sensors) {
-		    String name = sensor.getName();
-		    m.append("\"").append(name).append("\":").append(sensor.getString()).append(",");
+		for (final Sensor sensor : sensors) {
+			try {
+				String name = sensor.getName();
+				m.append("\"").append(name).append("\":").append(sensor.getString()).append(",");
+			} catch (IllegalFormatException e) {
+				logger.severe("Illegal sensor format: " + sensor.getName() + " " + sensor.getFormat());
+			}
 		}
-		m.deleteCharAt(m.length()-1) ; // remove last comma
+		m.deleteCharAt(m.length() - 1); // remove last comma
 		m.append("}");
-		return new Message(getUUID(), m.toString());
+
+		return new Message(getTopic(), m.toString());
 	}
 	
 }

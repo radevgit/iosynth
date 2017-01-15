@@ -76,7 +76,7 @@ public class AdapterRabbit extends Thread {
 				if (k % 100000 == 0) {
 					logger.info("queue: " + msgQueue.size());
 				}
-				channel.basicPublish(exchange, topic + "." + msg.getId(), null, msg.getMsg().getBytes());
+				channel.basicPublish(exchange, topic + "." + msg.getTopic(), null, msg.getMsg().getBytes());
 				k++;
 			}
 		} catch (Exception e) {

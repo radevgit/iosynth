@@ -59,7 +59,7 @@ public class AdapterCoap extends Thread {
 				if (k % 100000 == 0) {
 					logger.info("queue: " + msgQueue.size());
 				}
-				String str = uri + "/" + topic + "/" + msg.getId();
+				String str = uri + "/" + topic + "/" + msg.getTopic();
 				coap.setURI(str).post(msg.getMsg().getBytes(), MediaTypeRegistry.APPLICATION_JSON);
 				k++;
 			}

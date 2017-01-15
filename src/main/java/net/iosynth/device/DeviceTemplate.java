@@ -6,6 +6,7 @@ package net.iosynth.device;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.IllegalFormatException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -37,6 +38,9 @@ public class DeviceTemplate {
 		}
 		parseJson(jsonIn);
 		idx = new int[template.length-1];
+		for(int i=0; i<idx.length; i++){
+			idx[i] = 7777; // magic number
+		}
 		matchVariables(sensors);
 		jsonIn = null;
 	}
@@ -60,12 +64,15 @@ public class DeviceTemplate {
 				System.exit(1);
 			}
 			template[i] = tmp[1];
+			final String match = "$" + tmp[0]; 
 			for (int j = 0; j < sensors.length; j++) { // find sensor mapping
 				String str = sensors[j].getName();
-				if (str.equals("$" + tmp[0])) {
+				if (str.equals(match)) {
 					idx[i - 1] = j;
 					break;
 				}
+			}
+			if(idx[i-1] == 7777){
 				logger.severe("Cannot match template and sensors:" + "$" + tmp[0]);
 				System.exit(1);
 			}
@@ -76,12 +83,17 @@ public class DeviceTemplate {
 	 * @param sensors
 	 * @return device json
 	 */
-	public String getJson(Sensor sensors[]){
+	public String getJson(Sensor sensors[]) {
 		StringBuilder b = new StringBuilder(4096);
 		b.append(template[0]);
-		for(int i = 0; i < sensors.length; i++){
-			b.append(sensors[i].getString()).append(template[i+1]);
+		for (int i = 0; i < sensors.length; i++) {
+			try {
+				b.append(sensors[i].getString()).append(template[i + 1]);
+			} catch (IllegalFormatException e) {
+				logger.severe("Illegal sensor format: " + sensors[i].getName() + " " + sensors[i].getFormat());
+			}
 		}
+
 		return b.toString();
 	}
     

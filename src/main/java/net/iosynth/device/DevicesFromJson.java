@@ -21,6 +21,7 @@ import net.iosynth.sensor.SensorDoubleRandom;
 import net.iosynth.sensor.SensorIntRandom;
 import net.iosynth.sensor.SensorStringRandom;
 import net.iosynth.sensor.SensorTimestamp;
+import net.iosynth.sensor.SensorUuid;
 import net.iosynth.util.RuntimeTypeAdapterFactory;
 import net.iosynth.util.Xoroshiro128;
 
@@ -45,29 +46,33 @@ public class DevicesFromJson {
 			return gson;
 		}
 		final net.iosynth.util.RuntimeTypeAdapterFactory<Device> deviceAdapter = RuntimeTypeAdapterFactory.of(Device.class, "type");
-		//deviceAdapter.registerSubtype(Device.class, "Device");
-		deviceAdapter.registerSubtype(DeviceSimple.class, "DeviceSimple");
+		deviceAdapter.registerSubtype(DeviceSimple.class, "Simple");
 		
+		final RuntimeTypeAdapterFactory<DID> didAdapter = RuntimeTypeAdapterFactory.of(DID.class, "type");
+		didAdapter.registerSubtype(DIDString.class, "String");
+		didAdapter.registerSubtype(DIDUuid.class, "UUID");
 		
 		final RuntimeTypeAdapterFactory<Sensor> sensorAdapter = RuntimeTypeAdapterFactory.of(Sensor.class, "type");
-		sensorAdapter.registerSubtype(SensorString.class,         "SensorString");
-		sensorAdapter.registerSubtype(SensorEpoch.class,          "SensorEpoch");
-		sensorAdapter.registerSubtype(SensorTimestamp.class,      "SensorTimestamp");
+		sensorAdapter.registerSubtype(SensorUuid.class,           "UUID");
+		sensorAdapter.registerSubtype(SensorString.class,         "String");
+		sensorAdapter.registerSubtype(SensorEpoch.class,          "Epoch");
+		sensorAdapter.registerSubtype(SensorTimestamp.class,      "Timestamp");
 		
-		sensorAdapter.registerSubtype(SensorDefault.class,        "SensorDefault");
+		sensorAdapter.registerSubtype(SensorDefault.class,        "Default");
 		
-		sensorAdapter.registerSubtype(SensorDoubleCycle.class,    "SensorDoubleCycle");
-		sensorAdapter.registerSubtype(SensorIntCycle.class,       "SensorIntCycle");
-		sensorAdapter.registerSubtype(SensorStringCycle.class,    "SensorStringCycle");
+		sensorAdapter.registerSubtype(SensorDoubleCycle.class,    "DoubleCycle");
+		sensorAdapter.registerSubtype(SensorDoubleRandom.class,   "DoubleRandom");
 		
-		sensorAdapter.registerSubtype(SensorDoubleRandom.class,   "SensorDoubleRandom");
-		sensorAdapter.registerSubtype(SensorIntRandom.class,      "SensorIntRandom");
-		sensorAdapter.registerSubtype(SensorStringRandom.class,   "SensorStringRandom");
+		sensorAdapter.registerSubtype(SensorIntCycle.class,       "IntCycle");
+		sensorAdapter.registerSubtype(SensorIntRandom.class,      "IntRandom");
+		
+		sensorAdapter.registerSubtype(SensorStringCycle.class,    "StringCycle");
+		sensorAdapter.registerSubtype(SensorStringRandom.class,   "StringRandom");
 		
 		final RuntimeTypeAdapterFactory<Sampling> samplingAdapter = RuntimeTypeAdapterFactory.of(Sampling.class, "type");
 		//samplingAdapter.registerSubtype(Sampling.class, "Sampling");
-		samplingAdapter.registerSubtype(SamplingFixed.class, "SamplingFixed");
-		samplingAdapter.registerSubtype(SamplingUniform.class, "SamplingUniform");
+		samplingAdapter.registerSubtype(SamplingFixed.class, "Fixed");
+		samplingAdapter.registerSubtype(SamplingUniform.class, "Uniform");
 		
 		//RuntimeTypeAdapterFactory<DeviceCopy> copyAdapter = RuntimeTypeAdapterFactory.of(DeviceCopy.class, "type");
 		//copyAdapter.registerSubtype(DeviceCopySimple.class, "CopySimple");
@@ -77,9 +82,9 @@ public class DevicesFromJson {
 		final Gson gson = new GsonBuilder()
 				.setPrettyPrinting()
 				.registerTypeAdapterFactory(deviceAdapter)
+				.registerTypeAdapterFactory(didAdapter)
 				.registerTypeAdapterFactory(sensorAdapter)
 				.registerTypeAdapterFactory(samplingAdapter)
-				//.registerTypeAdapterFactory(copyAdapter)
 				.create();
 		return gson;
 	}
@@ -107,10 +112,12 @@ public class DevicesFromJson {
 		for(int i=0; i<devIn.length; i++){
 			devIn[i].setRnd(rnd);
 			List<Device> devList = devIn[i].replicate();
-			DeviceTemplate devTempate = new DeviceTemplate(devIn[i].getJson_template(), devIn[i].getSensors());
-			for(Device dev: devList){
-				dev.setDeviceTemplate(devTempate);
-				dev.setJson_template(null);
+			if (devIn[i].getJson_template() != null) {
+				DeviceTemplate devTempate = new DeviceTemplate(devIn[i].getJson_template(), devIn[i].getSensors());
+				for (Device dev : devList) {
+					dev.setDeviceTemplate(devTempate);
+					dev.setJson_template(null);
+				}
 			}
 			devOut.addAll(devList);
 			rnd = devList.get(devList.size() - 1).getRnd().copy();  // get the last generated rnd
