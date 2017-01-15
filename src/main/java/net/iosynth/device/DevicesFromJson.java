@@ -4,14 +4,12 @@
 package net.iosynth.device;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import net.iosynth.adapter.AdapterMqtt;
 import net.iosynth.sensor.Sensor;
 import net.iosynth.sensor.SensorLabel;
 import net.iosynth.sensor.SensorCycleDouble;
@@ -48,7 +46,7 @@ public class DevicesFromJson {
 		}
 		final net.iosynth.util.RuntimeTypeAdapterFactory<Device> deviceAdapter = RuntimeTypeAdapterFactory.of(Device.class, "type");
 		//deviceAdapter.registerSubtype(Device.class, "Device");
-		deviceAdapter.registerSubtype(DeviceFixedRate.class, "DeviceSimple");
+		deviceAdapter.registerSubtype(DeviceSimple.class, "DeviceSimple");
 		
 		
 		final RuntimeTypeAdapterFactory<Sensor> sensorAdapter = RuntimeTypeAdapterFactory.of(Sensor.class, "type");

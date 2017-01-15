@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.UUID;
 
 import net.iosynth.sensor.Sensor;
-import net.iosynth.sensor.SensorDefault;
 import net.iosynth.util.Xoroshiro128;
 
 /**

@@ -4,11 +4,8 @@
 package net.iosynth.device;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 import java.util.UUID;
 import java.util.concurrent.BlockingQueue;
 
@@ -234,13 +231,11 @@ public abstract class Device implements Runnable {
 				sensor.step(1);
 			}
 		}
-		boolean s1 = out_of_order > 0.00000001 && rnd.nextDouble() < out_of_order;
-		boolean s2 = outOrder.size() > 10 || (rnd.nextDouble() < 0.1 && outOrder.size() > 0);
-		int a=1;
-		if(s1){
+
+		if(out_of_order > 0.00000001 && rnd.nextDouble() < out_of_order){
 			outOrder.add(toJsonMessage()); // out of order queue
 		} else {
-			if(s2){
+			if(outOrder.size() > 10 || (rnd.nextDouble() < 0.1 && outOrder.size() > 0)){
 				getQueue().add(outOrder.remove(0)); // too long time or too many are delayed
 			} else { 
 				getQueue().add(toJsonMessage()); // normal case

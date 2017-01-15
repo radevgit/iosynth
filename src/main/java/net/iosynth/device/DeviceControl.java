@@ -12,8 +12,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.iosynth.adapter.Message;
-import net.iosynth.adapter.AdapterMqtt;
-import net.iosynth.util.Delay;
 
 /**
  * @author rradev
@@ -30,7 +28,7 @@ public class DeviceControl {
 	private final Logger logger = Logger.getLogger(DeviceControl.class.getName());
 	
 	/**
-	 * @param msgQueue
+	 * @param threads 
 	 */
 	public DeviceControl(int threads){
 		scheduler = Executors.newScheduledThreadPool(threads);
@@ -41,6 +39,7 @@ public class DeviceControl {
 	
 	/**
 	 * @param dev
+	 * @param msgQueue 
 	 */
 	public void addDevice(Device dev, BlockingQueue<Message> msgQueue){
 		dev.setQueue(msgQueue);
@@ -65,13 +64,11 @@ public class DeviceControl {
 		// Devices with fixed sampling interval
 		for(final Runnable devR: devsFixedList){
 			final Device dev = (Device)devR;
-			ScheduledFuture<?> devHandle = scheduler.scheduleAtFixedRate(dev, ((SamplingFixed)dev.getSampling()).getJitter(), dev.getSampling().getInterval(), TimeUnit.MILLISECONDS);
-			//devsHandleFixedList.add(devHandle);
+			scheduler.scheduleAtFixedRate(dev, ((SamplingFixed)dev.getSampling()).getJitter(), dev.getSampling().getInterval(), TimeUnit.MILLISECONDS);
 		}
 		// Devices with variable sampling interval. They have to be re-scheduled each time.
 		for(Runnable dev: devsDelayList){
-			ScheduledFuture<?> devHandle = scheduler.schedule(dev, ((Device)dev).getSampling().getInterval(), TimeUnit.MILLISECONDS);
-			//devsHandleDelayList.add(devHandle);
+			scheduler.schedule(dev, ((Device)dev).getSampling().getInterval(), TimeUnit.MILLISECONDS);
 		}
 		
 		try {
@@ -81,7 +78,7 @@ public class DeviceControl {
 				if(k%100000==0){
 					logger.info("sampling queue: " + delayQueue.size());
 				}
-				ScheduledFuture<?> devHandle = scheduler.schedule(dev, dev.getSampling().getInterval(), TimeUnit.MILLISECONDS);
+				scheduler.schedule(dev, dev.getSampling().getInterval(), TimeUnit.MILLISECONDS);
 				k++;
 			}
 		} catch (InterruptedException ie) {

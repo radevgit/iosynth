@@ -61,7 +61,7 @@ public class DeepCopy {
 	private static Gson getParser(){
 		final net.iosynth.util.RuntimeTypeAdapterFactory<Device> deviceAdapter = RuntimeTypeAdapterFactory.of(Device.class, "type");
 		deviceAdapter.registerSubtype(Device.class, "Device");
-		deviceAdapter.registerSubtype(DeviceFixedRate.class, "DeviceSimple");
+		deviceAdapter.registerSubtype(DeviceSimple.class, "DeviceSimple");
 		
 		
 		final RuntimeTypeAdapterFactory<Sensor> sensorAdapter = RuntimeTypeAdapterFactory.of(Sensor.class, "type");

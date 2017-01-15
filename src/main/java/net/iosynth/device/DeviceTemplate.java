@@ -24,6 +24,7 @@ public class DeviceTemplate {
 	
 	/**
 	 * @param jsonFileName 
+	 * @param sensors 
 	 * 
 	 */
 	public DeviceTemplate(String jsonFileName, Sensor sensors[]) {
