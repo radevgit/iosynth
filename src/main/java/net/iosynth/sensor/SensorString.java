@@ -7,12 +7,12 @@ package net.iosynth.sensor;
  * @author rradev
  *
  */
-public class SensorLabel extends Sensor {
+public class SensorString extends Sensor {
 	private String value;
 	/**
 	 * Just a constant string value
 	 */
-	public SensorLabel() {
+	public SensorString() {
 		this.value = new String("constant");
 	}
 
@@ -29,7 +29,7 @@ public class SensorLabel extends Sensor {
 	/**
 	 * @param value
 	 */
-	public SensorLabel(String value) {
+	public SensorString(String value) {
 		this.value = value;
 	}
 	

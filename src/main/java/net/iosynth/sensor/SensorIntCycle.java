@@ -7,32 +7,33 @@ package net.iosynth.sensor;
  * @author rradev
  *
  */
-public class SensorCycleDouble extends Sensor {
-	private double values[];
+public class SensorIntCycle extends Sensor {
+	private int values[];
 	private long state;
 	
 	/**
 	 * 
 	 */
-	public SensorCycleDouble() {
-		final double val[] = {1.234567};
+	public SensorIntCycle() {
+		final int val[] = {1};
 		init(val);
 	}
 	
 	/**
 	 * @param values
 	 */
-	public SensorCycleDouble(double values[]){
+	public SensorIntCycle(int[] values) {
 		init(values);
 	}
+	
 	/**
 	 * @param values 
 	 * 
 	 */
-	public void init(double[] values) {
-		this.format = "%.4f";
+	public void init(int[] values) {
+		this.format = "%d";
 		this.state = 0;
-		this.values = new double[values.length];
+		this.values = new int[values.length];
 		for(int i=0; i<values.length; i++){
 			this.values[i] = values[i];
 		}
@@ -52,11 +53,11 @@ public class SensorCycleDouble extends Sensor {
 	@Override
 	public void checkParameters() {
 		if (values == null) {
-			values = new double[1];
-			values[0] = 0.0;
+			values = new int[1];
+			values[0] = 1;
 		}
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see net.iosynth.sensor.Sensor#step(long)
 	 */
@@ -68,7 +69,7 @@ public class SensorCycleDouble extends Sensor {
 	/**
 	 * @return Sensor value
 	 */
-	public double getValue(){
+	public int getValue(){
 		return values[(int)state];
 	}
 

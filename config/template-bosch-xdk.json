@@ -1,5 +1,5 @@
 {
-	"sn": "xx:xx:xx:xx:xx:xx",
+	"sn": "$ether",
 	"data": {
 		"acc": {
 			"x": "$acc_x",

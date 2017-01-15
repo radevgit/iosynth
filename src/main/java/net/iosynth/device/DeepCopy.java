@@ -15,14 +15,14 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import net.iosynth.sensor.Sensor;
-import net.iosynth.sensor.SensorLabel;
-import net.iosynth.sensor.SensorCycleDouble;
-import net.iosynth.sensor.SensorCycleInt;
-import net.iosynth.sensor.SensorCycleString;
+import net.iosynth.sensor.SensorString;
+import net.iosynth.sensor.SensorDoubleCycle;
+import net.iosynth.sensor.SensorIntCycle;
+import net.iosynth.sensor.SensorStringCycle;
 import net.iosynth.sensor.SensorDefault;
-import net.iosynth.sensor.SensorRandomDouble;
-import net.iosynth.sensor.SensorRandomInt;
-import net.iosynth.sensor.SensorRandomString;
+import net.iosynth.sensor.SensorDoubleRandom;
+import net.iosynth.sensor.SensorIntRandom;
+import net.iosynth.sensor.SensorStringRandom;
 import net.iosynth.util.RuntimeTypeAdapterFactory;
 
 /**
@@ -65,14 +65,14 @@ public class DeepCopy {
 		
 		
 		final RuntimeTypeAdapterFactory<Sensor> sensorAdapter = RuntimeTypeAdapterFactory.of(Sensor.class, "type");
-		sensorAdapter.registerSubtype(SensorLabel.class, "SensorLabel");
-		sensorAdapter.registerSubtype(SensorCycleDouble.class,    "SensorCycleDouble");
-		sensorAdapter.registerSubtype(SensorCycleInt.class,       "SensorCycleInt");
-		sensorAdapter.registerSubtype(SensorCycleString.class,    "SensorCycleString");
+		sensorAdapter.registerSubtype(SensorString.class, "SensorString");
+		sensorAdapter.registerSubtype(SensorDoubleCycle.class,    "SensorDoubleCycle");
+		sensorAdapter.registerSubtype(SensorIntCycle.class,       "SensorIntCycle");
+		sensorAdapter.registerSubtype(SensorStringCycle.class,    "SensorStringCycle");
 		sensorAdapter.registerSubtype(SensorDefault.class,        "SensorDefault");
-		sensorAdapter.registerSubtype(SensorRandomDouble.class,   "SensorRandomDouble");
-		sensorAdapter.registerSubtype(SensorRandomInt.class,      "SensorRandomInt");
-		sensorAdapter.registerSubtype(SensorRandomString.class,   "SensorRandomString");
+		sensorAdapter.registerSubtype(SensorDoubleRandom.class,   "SensorDoubleRandom");
+		sensorAdapter.registerSubtype(SensorIntRandom.class,      "SensorIntRandom");
+		sensorAdapter.registerSubtype(SensorStringRandom.class,   "SensorStringRandom");
 		
 		final RuntimeTypeAdapterFactory<Sampling> samplingAdapter = RuntimeTypeAdapterFactory.of(Sampling.class, "type");
 		//samplingAdapterAdapter.registerSubtype(Sampling.class, "Sampling");

@@ -3,36 +3,36 @@
  */
 package net.iosynth.sensor;
 
-
 /**
  * @author rradev
  *
  */
-public class SensorCycleString extends Sensor {
-	private String values[];
+public class SensorDoubleCycle extends Sensor {
+	private double values[];
 	private long state;
 	
 	/**
 	 * 
 	 */
-	public SensorCycleString(){
-		String val[] = {new String("on"), new String("off")};
+	public SensorDoubleCycle() {
+		final double val[] = {1.234567};
 		init(val);
 	}
 	
 	/**
 	 * @param values
 	 */
-	public SensorCycleString(String[] values){
+	public SensorDoubleCycle(double values[]){
 		init(values);
 	}
-	
 	/**
 	 * @param values 
+	 * 
 	 */
-	public void init(String[] values) {
+	public void init(double[] values) {
+		this.format = "%.4f";
 		this.state = 0;
-		this.values = new String[values.length];
+		this.values = new double[values.length];
 		for(int i=0; i<values.length; i++){
 			this.values[i] = values[i];
 		}
@@ -46,16 +46,14 @@ public class SensorCycleString extends Sensor {
 		state = rnd.nextInt(values.length);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see net.iosynth.sensor.Sensor#checkParameters()
 	 */
 	@Override
 	public void checkParameters() {
 		if (values == null) {
-			values = new String[1];
-			values[0] = new String("");
+			values = new double[1];
+			values[0] = 0.0;
 		}
 	}
 	
@@ -70,13 +68,13 @@ public class SensorCycleString extends Sensor {
 	/**
 	 * @return Sensor value
 	 */
-	public String getValue(){
+	public double getValue(){
 		return values[(int)state];
 	}
 
 	@Override
 	public String getString() {
-		return "\"" + getValue() + "\"";
+		return String.format(format, getValue());
 	}
 
 

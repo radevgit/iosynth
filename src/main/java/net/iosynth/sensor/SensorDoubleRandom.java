@@ -8,14 +8,14 @@ package net.iosynth.sensor;
  * @author rradev
  *
  */
-public class SensorRandomDouble extends Sensor {
+public class SensorDoubleRandom extends Sensor {
 	private double state;
 	private double min, max;
 	
 	/**
 	 * 
 	 */
-	public SensorRandomDouble() {
+	public SensorDoubleRandom() {
 		init(1, 10);
 	}
 
@@ -23,7 +23,7 @@ public class SensorRandomDouble extends Sensor {
 	 * @param min
 	 * @param max
 	 */
-	public SensorRandomDouble(double min, double max){
+	public SensorDoubleRandom(double min, double max){
 		init(min, max);
 	}
 	

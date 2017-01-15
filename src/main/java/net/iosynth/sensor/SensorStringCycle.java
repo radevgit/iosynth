@@ -3,18 +3,19 @@
  */
 package net.iosynth.sensor;
 
+
 /**
  * @author rradev
  *
  */
-public class SensorRandomString extends Sensor {
+public class SensorStringCycle extends Sensor {
 	private String values[];
-	private int state;
+	private long state;
 	
 	/**
 	 * 
 	 */
-	public SensorRandomString(){
+	public SensorStringCycle(){
 		String val[] = {new String("on"), new String("off")};
 		init(val);
 	}
@@ -22,15 +23,14 @@ public class SensorRandomString extends Sensor {
 	/**
 	 * @param values
 	 */
-	public SensorRandomString(String values[]){
+	public SensorStringCycle(String[] values){
 		init(values);
 	}
 	
 	/**
 	 * @param values 
-	 * 
 	 */
-	public void init(String values[]) {
+	public void init(String[] values) {
 		this.state = 0;
 		this.values = new String[values.length];
 		for(int i=0; i<values.length; i++){
@@ -45,7 +45,6 @@ public class SensorRandomString extends Sensor {
 	public void replicate() {
 		state = rnd.nextInt(values.length);
 	}
-
 	
 	/*
 	 * (non-Javadoc)
@@ -65,21 +64,20 @@ public class SensorRandomString extends Sensor {
 	 */
 	@Override
 	public void step(long step){
-		for(int i=0; i<step; i++){
-			state = rnd.nextInt(values.length);
-		}
+		state = (state + step) % values.length;
 	}
 	
 	/**
 	 * @return Sensor value
 	 */
 	public String getValue(){
-		return values[state];
+		return values[(int)state];
 	}
 
 	@Override
 	public String getString() {
 		return "\"" + getValue() + "\"";
 	}
+
 
 }
