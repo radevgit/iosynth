@@ -1,24 +1,24 @@
 [
     {
         "type":"DeviceSimple",
-        "uuid":"bosch",
+        "uuid":"bosch-xdk",
         "sampling":{"type":"SamplingFixed", "interval":10000},
         "copy":2,
         "json_template":"example-bosch-mini.json",
         "sensors":[
-            {"type":"SensorRandomInt", "name":"$acc_x", "min":0, "max":2000},
-            {"type":"SensorRandomInt", "name":"$acc_y", "min":0, "max":2000},
-            {"type":"SensorRandomInt", "name":"$acc_z", "min":0, "max":2000},
+            {"type":"SensorRandomInt", "name":"$acc_x", "min":-2000, "max":2000},
+            {"type":"SensorRandomInt", "name":"$acc_y", "min":-2000, "max":2000},
+            {"type":"SensorRandomInt", "name":"$acc_z", "min":-2000, "max":2000},
             {"type":"SensorRandomInt", "name":"$gyro_x", "min":-7000, "max":7000},
             {"type":"SensorRandomInt", "name":"$gyro_y", "min":-7000, "max":7000},
             {"type":"SensorRandomInt", "name":"$gyro_z", "min":-7000, "max":7000},
-            {"type":"SensorRandomInt", "name":"$mag_x",  "min":-40, "max":40},
-            {"type":"SensorRandomInt", "name":"$mag_y",  "min":-40, "max":40},
-            {"type":"SensorRandomInt", "name":"$mag_z",  "min":-40, "max":40},
+            {"type":"SensorRandomInt", "name":"$mag_x",  "min":-500, "max":500},
+            {"type":"SensorRandomInt", "name":"$mag_y",  "min":-500, "max":500},
+            {"type":"SensorRandomInt", "name":"$mag_z",  "min":-500, "max":500},
             {"type":"SensorRandomInt", "name":"$light_value",  "min":0, "max":300000},
             {"type":"SensorRandomInt", "name":"$temp_value",  "min":20000, "max":35000},
-            {"type":"SensorRandomInt", "name":"$pressure_value",  "min":90000, "max":110000},
-            {"type":"SensorRandomInt", "name":"$humidity_value",  "min":20, "max":100}
+            {"type":"SensorRandomInt", "name":"$pressure_value",  "min":30000, "max":110000},
+            {"type":"SensorRandomInt", "name":"$humidity_value",  "min":10, "max":90}
         ]
     }
 ]

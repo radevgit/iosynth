@@ -35,12 +35,8 @@ public class DeviceTemplate {
 			logger.log(Level.SEVERE, ie.toString(), ie);
 			System.exit(1);
 		}
-		idx = new int[sensors.length];
 		parseJson(jsonIn);
-		if(template.length - 1 != sensors.length){
-			logger.severe("Sensors does not match json template");
-			System.exit(1);
-		}
+		idx = new int[template.length-1];
 		matchVariables(sensors);
 		jsonIn = null;
 	}
@@ -70,6 +66,8 @@ public class DeviceTemplate {
 					idx[i - 1] = j;
 					break;
 				}
+				logger.severe("Cannot match template and sensors:" + "$" + tmp[0]);
+				System.exit(1);
 			}
 		}
 	}
