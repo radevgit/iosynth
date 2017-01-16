@@ -10,13 +10,14 @@ import net.iosynth.util.GeneratorDevCount;
  *
  */
 public class DIDString extends DID {
-	private static final String format = "%6d";
-
+	private static final String format = "%06d";
+	private String value;
+	
 	/**
 	 * 
 	 */
 	public DIDString() {
-		// nothing to do
+		value = new String("");
 	}
 
 	/* (non-Javadoc)
@@ -32,7 +33,7 @@ public class DIDString extends DID {
 	 */
 	@Override
 	public void replicate() {
-		uuid = uuid + String.format(format, GeneratorDevCount.getNext());
+		uuid = value + String.format(format, GeneratorDevCount.getNext());
 	}
 
 }

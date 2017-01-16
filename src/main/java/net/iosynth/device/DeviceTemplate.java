@@ -49,7 +49,7 @@ public class DeviceTemplate {
 	 * @param jsonIn
 	 */
 	public void parseJson(String jsonIn){
-		template = jsonIn.split("{\\$");  // "{$variable}"
+		template = jsonIn.split("\\{\\$");  // "{$variable}"
 	}
 	
 	/**

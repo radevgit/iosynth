@@ -1,13 +1,13 @@
 [
     {
         "type":"Simple",
-        "uuid":{"type":"UUID"},
+        "uuid":{"type":"MAC48"},
         "topic":"BCDS/XDK/single/{$uuid}/out/stream",
         "sampling":{"type":"Fixed", "interval":10000},
-        "copy":2,
-        "json_template":"example-bosch-mini.json",
+        "copy":1,
+        "json_template":"template-bosch-xdk.json",
         "sensors":[
-            {"type":"UUID",      "name":"{$ether}"},
+            {"type":"UUID",      "name":"{$mac48}"},
             {"type":"IntRandom", "name":"{$acc_x}", "min":-2000, "max":2000},
             {"type":"IntRandom", "name":"{$acc_y}", "min":-2000, "max":2000},
             {"type":"IntRandom", "name":"{$acc_z}", "min":-2000, "max":2000},

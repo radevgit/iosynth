@@ -9,7 +9,7 @@ import net.iosynth.util.Xoroshiro128;
  */
 public abstract class Sensor {
 	protected String name;
-	protected String format = "%.4f";
+	protected String format;
 
 	protected Xoroshiro128 rnd;
 	private transient Device dev;

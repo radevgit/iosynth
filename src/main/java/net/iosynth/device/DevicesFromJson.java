@@ -50,8 +50,8 @@ public class DevicesFromJson {
 		final RuntimeTypeAdapterFactory<DID> didAdapter = RuntimeTypeAdapterFactory.of(DID.class, "type");
 		didAdapter.registerSubtype(DIDString.class, "String");
 		didAdapter.registerSubtype(DIDUuid.class,   "UUID");
-		didAdapter.registerSubtype(DIDMac48.class,  "Mac48");
-		didAdapter.registerSubtype(DIDMac48.class,  "Mac64");
+		didAdapter.registerSubtype(DIDMac48.class,  "MAC48");
+		didAdapter.registerSubtype(DIDMac64.class,  "MAC64");
 		
 		final RuntimeTypeAdapterFactory<Sensor> sensorAdapter = RuntimeTypeAdapterFactory.of(Sensor.class, "type");
 		sensorAdapter.registerSubtype(SensorUuid.class,           "UUID");
