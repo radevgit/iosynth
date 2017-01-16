@@ -15,7 +15,6 @@ import net.iosynth.sensor.SensorString;
 import net.iosynth.sensor.SensorDoubleCycle;
 import net.iosynth.sensor.SensorIntCycle;
 import net.iosynth.sensor.SensorStringCycle;
-import net.iosynth.sensor.SensorDefault;
 import net.iosynth.sensor.SensorEpoch;
 import net.iosynth.sensor.SensorDoubleRandom;
 import net.iosynth.sensor.SensorIntRandom;
@@ -50,7 +49,9 @@ public class DevicesFromJson {
 		
 		final RuntimeTypeAdapterFactory<DID> didAdapter = RuntimeTypeAdapterFactory.of(DID.class, "type");
 		didAdapter.registerSubtype(DIDString.class, "String");
-		didAdapter.registerSubtype(DIDUuid.class, "UUID");
+		didAdapter.registerSubtype(DIDUuid.class,   "UUID");
+		didAdapter.registerSubtype(DIDMac48.class,  "Mac48");
+		didAdapter.registerSubtype(DIDMac48.class,  "Mac64");
 		
 		final RuntimeTypeAdapterFactory<Sensor> sensorAdapter = RuntimeTypeAdapterFactory.of(Sensor.class, "type");
 		sensorAdapter.registerSubtype(SensorUuid.class,           "UUID");
@@ -58,7 +59,7 @@ public class DevicesFromJson {
 		sensorAdapter.registerSubtype(SensorEpoch.class,          "Epoch");
 		sensorAdapter.registerSubtype(SensorTimestamp.class,      "Timestamp");
 		
-		sensorAdapter.registerSubtype(SensorDefault.class,        "Default");
+		//sensorAdapter.registerSubtype(SensorDefault.class,        "Default");
 		
 		sensorAdapter.registerSubtype(SensorDoubleCycle.class,    "DoubleCycle");
 		sensorAdapter.registerSubtype(SensorDoubleRandom.class,   "DoubleRandom");
@@ -70,8 +71,7 @@ public class DevicesFromJson {
 		sensorAdapter.registerSubtype(SensorStringRandom.class,   "StringRandom");
 		
 		final RuntimeTypeAdapterFactory<Sampling> samplingAdapter = RuntimeTypeAdapterFactory.of(Sampling.class, "type");
-		//samplingAdapter.registerSubtype(Sampling.class, "Sampling");
-		samplingAdapter.registerSubtype(SamplingFixed.class, "Fixed");
+		samplingAdapter.registerSubtype(SamplingFixed.class,   "Fixed");
 		samplingAdapter.registerSubtype(SamplingUniform.class, "Uniform");
 		
 		//RuntimeTypeAdapterFactory<DeviceCopy> copyAdapter = RuntimeTypeAdapterFactory.of(DeviceCopy.class, "type");

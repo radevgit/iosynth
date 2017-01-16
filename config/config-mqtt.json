@@ -1,7 +1,6 @@
 {
 	"uri": "tcp://localhost:1883",
 	"topic": "iosynth/device",
-	"session": "",
 	"qos": 2,
 	"clients": 1,
 	"seed": 123456

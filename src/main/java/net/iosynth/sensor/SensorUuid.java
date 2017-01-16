@@ -3,8 +3,6 @@
  */
 package net.iosynth.sensor;
 
-import net.iosynth.device.Device;
-
 /**
  * @author rradev
  *

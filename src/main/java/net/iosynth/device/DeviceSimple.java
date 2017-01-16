@@ -6,7 +6,6 @@ package net.iosynth.device;
 import java.util.List;
 
 import net.iosynth.sensor.Sensor;
-import net.iosynth.sensor.SensorUuid;
 import net.iosynth.util.Xoroshiro128;
 
 /**
@@ -39,7 +38,6 @@ public class DeviceSimple extends Device {
 		List<Device> devList;
 		Device devA[] = {this};
 		devList = DevicesFromJson.copyDevice(devA, copy);
-		int i = 0;
 		for(Device dev: devList){
 			dev.setRnd(rndT);
 			dev.getUUID().replicate();
@@ -55,7 +53,6 @@ public class DeviceSimple extends Device {
 			// new generator
 			rndT = rndT.copy();
 			rndT.jump();
-			i = i + 1;
 		}
 		
 		return devList;
