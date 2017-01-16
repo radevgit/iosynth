@@ -49,7 +49,7 @@ public class DeviceTemplate {
 	 * @param jsonIn
 	 */
 	public void parseJson(String jsonIn){
-		template = jsonIn.split("\"\\$");
+		template = jsonIn.split("{\\$");  // "{$variable}"
 	}
 	
 	/**
@@ -58,13 +58,13 @@ public class DeviceTemplate {
 	public void matchVariables(Sensor sensors[]){
 		String tmp[];
 		for (int i = 1; i < template.length; i++) {
-			tmp = template[i].split("\"", 2);
+			tmp = template[i].split("}", 2);
 			if (tmp.length < 2) {
 				logger.severe("Parser error: " + template[i]);
 				System.exit(1);
 			}
 			template[i] = tmp[1];
-			final String match = "$" + tmp[0]; 
+			final String match = "{$" + tmp[0] + "}"; 
 			for (int j = 0; j < sensors.length; j++) { // find sensor mapping
 				String str = sensors[j].getName();
 				if (str.equals(match)) {
@@ -73,7 +73,7 @@ public class DeviceTemplate {
 				}
 			}
 			if(idx[i-1] == 7777){
-				logger.severe("Cannot match template and sensors:" + "$" + tmp[0]);
+				logger.severe("Cannot match template and sensors:" + match);
 				System.exit(1);
 			}
 		}

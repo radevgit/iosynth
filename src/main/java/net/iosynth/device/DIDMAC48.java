@@ -3,18 +3,18 @@
  */
 package net.iosynth.device;
 
-import java.util.UUID;
+import net.iosynth.util.GeneratorMAC;
 
 /**
  * @author rradev
  *
  */
-public class DIDUuid extends DID {
+public class DIDMAC48 extends DID {
 
 	/**
 	 * 
 	 */
-	public DIDUuid() {
+	public DIDMAC48() {
 		// nothing to do
 	}
 
@@ -31,7 +31,7 @@ public class DIDUuid extends DID {
 	 */
 	@Override
 	public void replicate() {
-		uuid = UUID.randomUUID().toString();
+		uuid = GeneratorMAC.getNext48();
 	}
 
 }

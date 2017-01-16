@@ -102,7 +102,7 @@ public abstract class Device implements Runnable {
 	 * 
 	 */
 	public void buildTopic(){
-		String[] strs = topic.split("\\$uuid");
+		String[] strs = topic.split("{\\$uuid}");
 		StringBuilder b = new StringBuilder(255);
 		if(strs.length == 0){
 			topic = uuid.getUUID();

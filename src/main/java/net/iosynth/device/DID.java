@@ -24,7 +24,7 @@ public abstract class DID {
 	/**
 	 * 
 	 */
-	abstract public void replicate(String x);
+	abstract public void replicate();
 	
 	/**
 	 * @return the uuid

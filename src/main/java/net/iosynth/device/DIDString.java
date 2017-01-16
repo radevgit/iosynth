@@ -28,8 +28,8 @@ public class DIDString extends DID {
 	 * @see net.iosynth.device.Sampling#replicate()
 	 */
 	@Override
-	public void replicate(String x) {
-		uuid = uuid + x;
+	public void replicate() {
+		uuid = uuid;
 	}
 
 }
