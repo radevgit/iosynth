@@ -1,5 +1,6 @@
 package net.iosynth.sensor;
 
+import net.iosynth.device.Device;
 import net.iosynth.util.Xoroshiro128;
 
 /**
@@ -11,13 +12,27 @@ public abstract class Sensor {
 	protected String format = "%.4f";
 
 	protected Xoroshiro128 rnd;
-	
-	
+	private transient Device dev;
+
 	/**
 	 * 
 	 */
 	public Sensor(){
 		this.name  = new String("sensor");
+	}
+	
+	/**
+	 * @return the dev
+	 */
+	public Device getDev() {
+		return dev;
+	}
+
+	/**
+	 * @param dev the dev to set
+	 */
+	public void setDev(Device dev) {
+		this.dev = dev;
 	}
 	
 	/**

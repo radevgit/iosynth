@@ -9,12 +9,12 @@ import net.iosynth.util.GeneratorMAC;
  * @author rradev
  *
  */
-public class DIDMAC48 extends DID {
+public class DIDMac48 extends DID {
 
 	/**
 	 * 
 	 */
-	public DIDMAC48() {
+	public DIDMac48() {
 		// nothing to do
 	}
 

@@ -3,6 +3,8 @@
  */
 package net.iosynth.sensor;
 
+import net.iosynth.device.Device;
+
 /**
  * @author rradev
  *
@@ -58,7 +60,7 @@ public class SensorUuid extends Sensor {
 	 */
 	@Override
 	public void replicate() {
-		// nothing to do
+		value = getDev().getUUID().getUUID();
 	}
 
 }

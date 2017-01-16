@@ -25,6 +25,10 @@ public class RabbSend {
 		// TODO Auto-generated constructor stub
 	}
 
+	/**
+	 * @throws IOException
+	 * @throws TimeoutException
+	 */
 	public void send() throws IOException, TimeoutException{
 		ConnectionFactory factory = new ConnectionFactory();
 		factory.setHost("localhost");

@@ -3,11 +3,14 @@
  */
 package net.iosynth.device;
 
+import net.iosynth.util.GeneratorDevCount;
+
 /**
  * @author rradev
  *
  */
 public class DIDString extends DID {
+	private static final String format = "%6d";
 
 	/**
 	 * 
@@ -29,7 +32,7 @@ public class DIDString extends DID {
 	 */
 	@Override
 	public void replicate() {
-		uuid = uuid;
+		uuid = uuid + String.format(format, GeneratorDevCount.getNext());
 	}
 
 }

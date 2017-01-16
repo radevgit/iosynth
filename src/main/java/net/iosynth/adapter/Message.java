@@ -27,8 +27,8 @@ public class Message {
 	/**
 	 * @param topic
 	 */
-	public void setTopic(String id) {
-		this.topic = id;
+	public void setTopic(String topic) {
+		this.topic = topic;
 	}
 
 	/**

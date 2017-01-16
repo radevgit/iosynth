@@ -7,11 +7,11 @@ package net.iosynth.util;
  * @author rradev
  *
  */
-public class GeneratorDevCount {
-	private static int count = 0;
+public final class GeneratorDevCount {
+	private static int count = -1;
 	
 	/**
-	 * @return
+	 * @return devices count
 	 */
 	public static int getNext(){
 		count += 1;

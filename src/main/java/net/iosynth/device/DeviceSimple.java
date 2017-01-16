@@ -4,7 +4,6 @@
 package net.iosynth.device;
 
 import java.util.List;
-import java.util.UUID;
 
 import net.iosynth.sensor.Sensor;
 import net.iosynth.sensor.SensorUuid;
@@ -49,11 +48,9 @@ public class DeviceSimple extends Device {
 			dev.getSampling().replicate();
 			final Sensor[] sens = dev.getSensors();
 			for(Sensor sen: sens){
+				sen.setDev(dev);
 				sen.setRnd(dev.getRnd());
 				sen.replicate();
-				if(sen instanceof SensorUuid){
-					((SensorUuid)sen).SetValue(dev.getUUID().getUUID());;
-				}
 			}
 			// new generator
 			rndT = rndT.copy();

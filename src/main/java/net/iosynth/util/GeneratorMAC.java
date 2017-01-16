@@ -21,7 +21,7 @@ public final class GeneratorMAC {
 	
 	
 	/**
-	 * @return DIDMAC48
+	 * @return DIDMac48
 	 */
 	public static String getRandom48(){
 		return getRandom(0);
@@ -34,7 +34,7 @@ public final class GeneratorMAC {
 	}
 	
 	/**
-	 * @return DIDMAC48
+	 * @return DIDMac48
 	 */
 	public static String getNext48(){
 		if(Holder.first == true){

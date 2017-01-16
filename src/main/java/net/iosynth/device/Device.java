@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.logging.Logger;
 
-import net.iosynth.adapter.AdapterMqtt;
 import net.iosynth.adapter.Message;
 import net.iosynth.sensor.Sensor;
 import net.iosynth.util.Xoroshiro128;
@@ -20,7 +19,6 @@ import net.iosynth.util.Xoroshiro128;
  *
  */
 public abstract class Device implements Runnable {
-	//protected String uuid;
 	protected BlockingQueue<Message> msgQueue;
 	protected BlockingQueue<Device>  delayQueue;
 
@@ -78,7 +76,7 @@ public abstract class Device implements Runnable {
 	}
 
 	/**
-	 * @param did the did to set
+	 * @param uuid 
 	 */
 	public void setUUID(DID uuid) {
 		this.uuid = uuid;
