@@ -8,13 +8,13 @@ package net.iosynth.device;
  *
  */
 public abstract class SDID {
-	protected String uuid;
+	protected String sdid;
 
 	/**
 	 * 
 	 */
 	public SDID() {
-		uuid = new String("sdid");
+		sdid = new String("sdid");
 	}
 	
 	/**
@@ -30,14 +30,14 @@ public abstract class SDID {
 	 * @return the sdid
 	 */
 	public String getUUID() {
-		return uuid;
+		return sdid;
 	}
 
 	/**
-	 * @param sdid the sdid to set
+	 * @param sdid 
 	 */
-	public void setUUID(String uuid) {
-		this.uuid = uuid;
+	public void setUUID(String sdid) {
+		this.sdid = sdid;
 	}
 
 }

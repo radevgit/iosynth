@@ -31,7 +31,7 @@ public class SDIDUuid extends SDID {
 	 */
 	@Override
 	public void replicate() {
-		uuid = UUID.randomUUID().toString();
+		sdid = UUID.randomUUID().toString();
 	}
 
 }

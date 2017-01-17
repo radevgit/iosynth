@@ -78,8 +78,8 @@ public abstract class Device implements Runnable {
 	/**
 	 * @param sdid 
 	 */
-	public void setSDID(SDID uuid) {
-		this.sdid = uuid;
+	public void setSDID(SDID sdid) {
+		this.sdid = sdid;
 	}
 	
 	/**

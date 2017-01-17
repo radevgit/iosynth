@@ -21,7 +21,6 @@ import net.iosynth.sensor.SensorIntRandom;
 import net.iosynth.sensor.SensorStringRandom;
 import net.iosynth.sensor.SensorTimestamp;
 import net.iosynth.sensor.SensorSdid;
-import net.iosynth.util.GeneratorDevCount;
 import net.iosynth.util.GeneratorMAC;
 import net.iosynth.util.RuntimeTypeAdapterFactory;
 import net.iosynth.util.Xoroshiro128;

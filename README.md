@@ -132,22 +132,22 @@ The below device configuration **devices.json** defines complex json payload usi
 where the **template.json** file is:
 ```sh
 {
-        "sn": {$sdid},
+        "sn": "{$sdid}",
         "data": {
                 "light": {
-                        "value": {$light_value},
+                        "value": "{$light_value}",
                         "unit": "mLux"
                 },
                 "temp": {
-                        "value": {$temp_value},
+                        "value": "{$temp_value}",
                         "unit": "mCelsius"
                 },
                 "pressure": {
-                        "value": {$pressure_value},
+                        "value": "{$pressure_value}",
                         "unit": "Pascal"
                 },
                 "humidity": {
-                        "value": {$humidity_value},
+                        "value": "{$humidity_value}",
                         "unit": "%rh"
                 }
         }

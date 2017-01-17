@@ -31,7 +31,7 @@ public class SDIDMac64 extends SDID {
 	 */
 	@Override
 	public void replicate() {
-		uuid = GeneratorMAC.getNext64();
+		sdid = GeneratorMAC.getNext64();
 	}
 
 }

@@ -33,7 +33,7 @@ public class SDIDString extends SDID {
 	 */
 	@Override
 	public void replicate() {
-		uuid = value + String.format(format, GeneratorDevCount.getNext());
+		sdid = value + String.format(format, GeneratorDevCount.getNext());
 	}
 
 }

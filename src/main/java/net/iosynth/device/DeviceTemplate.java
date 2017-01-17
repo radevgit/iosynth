@@ -49,7 +49,7 @@ public class DeviceTemplate {
 	 * @param jsonIn
 	 */
 	public void parseJson(String jsonIn){
-		template = jsonIn.split("\\{\\$");  // "{$variable}"
+		template = jsonIn.split("\"\\{\\$");  // "{$variable}"
 	}
 	
 	/**
@@ -58,7 +58,7 @@ public class DeviceTemplate {
 	public void matchVariables(Sensor sensors[]){
 		String tmp[];
 		for (int i = 1; i < template.length; i++) {
-			tmp = template[i].split("}", 2);
+			tmp = template[i].split("}\"", 2);
 			if (tmp.length < 2) {
 				logger.severe("Parser error: " + template[i]);
 				System.exit(1);

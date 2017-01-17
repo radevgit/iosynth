@@ -44,8 +44,8 @@ public class SensorSdid extends Sensor {
 	/**
 	 * @param sdid
 	 */
-	public void SetValue(String uuid){
-		value = uuid;
+	public void SetValue(String sdid){
+		value = sdid;
 	}
 
 	@Override
