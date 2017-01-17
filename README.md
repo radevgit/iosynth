@@ -11,196 +11,203 @@ What is it useful for:
 
 ### Usage
 Currently supported protocols:
--	MQTT
--	RabbitMQ (AMQP)
--	CoAP 
-
-For MQTT protocol:	
-```sh
-java -cp iosynth.jar net.iosynth.Mqtt -c mqtt-config.json -d devices.json
+  - MQTT 
+  - RabbitMQ (AMQP)
+  
+```sh 
+java -cp iosynth.jar net.iosynth.Mqtt -c config-mqtt.json -d devices.json
 ```
-For RabbitMQ protocol:
-```sh
-java -cp iosynth.jar net.iosynth.RabbitMQ -c rabbit-config.json -d devices.json
-```
-For CoAP protocol:
-```sh
-java -cp iosynth.jar net.iosynth.CoAP -c coap-config.json -d devices.json
-```
+**config-mqtt.json** - this file contains the MQTT client configuration.
+**devices.json** - this file contains configuration for individual devices and additional json template files. 
+Check the [**config**](tree/master/config) directory for example configuration files. 
 
-To run the above commands get the [**latest release of iosynth.jar**](https://github.com/rradev/iosynth/releases).
-It is also assumed that you have config.json and devices.json in the same directory and Java 1.7 installed.
-Check the [config](tree/master/config) directory for example configuration files. 
+To run the above command get the [**latest release of iosynth.jar**](https://github.com/rradev/iosynth/releases).
+It is also assumed that you have  Java 1.7 installed.
 
 
-The MQTT protocol is based on the principle of publishing messages and subscribing to topics using MQTT broker. 
-The MQTT client application connects to MQTT broker and publishes device/sensor data. 
- 
-You can check the published data by subscribing to MQTT topics using the [Mosquitto](http://mosquitto.org) client:
-
-```sh
-mosquitto_sub -v -t "iosynth/#" -h localhost -p 1883
-```
- 
-The result should be something like this:
-```sh
-iosynth/lkjhgfdsa/device-y-09 {"time":"2017-01-07 10:20:50.369","command":"Echo","state":1,"level":3,"switch":"on"}
-iosynth/lkjhgfdsa/device-x-08 {"time":"2017-01-07 10:20:50.886","count":179,"temp":-13.2980,"level":1.1000}
-iosynth/lkjhgfdsa/device-y-01 {"time":"2017-01-07 10:20:52.285","command":"Bravo","state":2,"level":3,"switch":"on"}
-iosynth/lkjhgfdsa/device-y-05 {"time":"2017-01-07 10:20:52.328","command":"Delta","state":0,"level":8,"switch":"on"}
-iosynth/lkjhgfdsa/device-x-09 {"time":"2017-01-07 10:20:53.915","count":79,"temp":-1.0600,"level":8.3000}
-iosynth/lkjhgfdsa/device-y-07 {"time":"2017-01-07 10:20:54.486","command":"Delta","state":2,"level":8,"switch":"off"}
-iosynth/lkjhgfdsa/device-x-03 {"time":"2017-01-07 10:20:55.074","count":131,"temp":-2.9136,"level":1.1000}
-iosynth/lkjhgfdsa/device-y-03 {"time":"2017-01-07 10:20:56.150","command":"Alfa","state":4,"level":2,"switch":"on"}
-```
-
-**mqtt-config.json** - Configuration for the MQTT connection and global parameters.
+Example **config-mqtt.json** configuration:
 ```json
 {
 	"uri": "tcp://localhost:1883",
-	"topic": "iosynth/device",
-	"session": "",
+	"topic": "iosynth/",
 	"qos": 2,
 	"clients": 1,
 	"seed": 123456
 }
 ```
 
-
 |  Parameter    |  Description  |
 | ------------:|:-------------|
-| uri   | **mqtt://[user][:password]@host[:port]**   |
-| topic  | Prefix of the *MQTT topic*. Session string and device/sensor names create the rest part of the topic name. |
-| session  | (may be removed in next releases) Unique string representing the session name used to create unique topics. If this parameter is omitted, session string is generated automatically on each run.|
-| clients | Number of MQTT clients to broker. Each client sends the data from selected devices only. | 
+| uri   | **tcp://host[:port]**  - MQTT broker address |
+| topic  | Prefix of the *MQTT topic* that together with the device *topic* create the full topic name |
+| clients | Number of MQTT clients. Each client sends the data from selected devices only. | 
 | qos      | Quality of Service: 0, 1, 2    |
-| seed | Random Generator seed used to create reproducible scenarios. It can be omitted in other cases.
+| seed | Random Generator seed used to create reproducible scenarios. It can be omitted in other cases.|
 
-
-
-**rabbit-config.json** - Configuration for the RabbitMQ connection and global parameters.
-```json
-{
-	"uri": "amqp://localhost:5672",
-	"exchange": "iosynth",
-	"topic": "device",
-	"clients": 1,
-	"seed": 123456
-}
-```
-
-|  Parameter    |  Description  |
-| ------------:|:-------------|
-| uri   | **amqp://[user]:[password]@host[:port]/vhost**   |
-| exchange  | AMQP exchange |
-| topic  | routing key |
-| clients | Number of MQTT clients to broker. Each client sends the data from selected devices only. | 
-| seed | Random Generator seed used to create reproducible scenarios. It can be omitted in other cases.
-
-
-
-**coap-config.json** - Configuration for the CoAP connection and global parameters.
-```json
-{
-
-}
-```
-
-
-**devices.json** - Example configuration describing the devices and sensors.
+### devices.json
+devices.json - configuration is a json file containing list of device definitions:
 ```json
 [
+	{ "sdid":"device1", "type":"..."},
+	{ "sdid":"device2", "type":"..."},
+	{ "sdid":"device3", "type":"..."},
+
+]
+```
+Devices configuration may have only list of sensors that result in simple payload or may have external json file that produces complex json payload.
+
+Example **devices.json** file:
+```sh
+[
     {
-        "type":"DeviceSimple",
-        "uuid":"yyy.",
-        "sample":{"type":"SampleUniform", "min":3000, "max":5000},
-        "copy":1,
-        "out_of_order":0.01,
-        "message_loss":0.01,
+        "type":"Simple",
+        "sdid":{"type":"String", "value":"dev"},
+        "topic":"device/{$sdid}",
+        "sampling":{"type":"Fixed", "interval":10000},
+        "copy":5,
         "sensors":[
-            {"type":"SensorTimestamp",   "format":"yyyy-MM-dd'T'HH:mm:ss.SSSZ"},
-            {"type":"SensorEpoch",       "name":"epoch"},
-            {"type":"SensorCycleString", "name":"command", "values":["Alfa","Bravo","Charlie","Delta","Echo","Foxtrot"]},
-            {"type":"SensorIntRandom",   "name":"state", "min":0, "max":5},
-            {"type":"SensorIntCycle",    "name":"level", "values": [1,2,8,9,11,2,3,4]},
-            {"type":"SensorStringCycle", "name":"switch", "values":["on", "off"]}
+            {"type":"Timestamp",    "name":"ts"},
+            {"type":"sdid",         "name":"sdid"},
+            {"type":"DoubleRandom", "name":"temp", "min":-15, "max":3}
+        ]
+    },
+    {
+        "type":"Simple",
+        "sdid":{"type":"MAC48"},
+        "topic":"device/{$sdid}",
+        "sampling":{"type":"Uniform", "min":3000, "max":6000},
+        "copy":5,
+        "sensors":[
+            {"type":"Timestamp",    "name":"ts"},
+            {"type":"sdid",         "name":"sdid"},
+            {"type":"StringRandom", "name":"level", "values": ["a","b","c","d","e","f"]}
         ]
     }
 ]
 ```
+This file define two types of devices with the following topics and payloads 
+```sh
+iosynth/device/dev000002 
+{"ts":"2017-01-17T20:12:47.876+0200","sdid":"dev000002","temp":-8.2032}
 
-
-### Device Configuration
-
-Device configuration is a Json file containing list of device definitions:
-```json
-[
-	{ "uuid":"device1", "type":"..."},
-	{ "uuid":"device2", "type":"..."},
-	{ "uuid":"device3", "type":"..."},
-
-]
-```
-
-Each device definition contains set of parameters and list of sensors:
-```json
-{
-	"uuid":"...",
-	"type":"...",
-	"sample":{},
-	"copy":10,
-	"out_of_order":0.01,
-	"message_loss":0.01,
-	"sensors":[
-		{"name":"sensor1", "type":"..."},
-		{"name":"sensor2", "type":"..."},
-		{"name":"sensor3", "type":"..."},
-
-	]
-}
+iosynth/device/46:FA:D5:7C:AB:E1
+{"ts":"2017-01-17T20:12:45.498+0200","sdid":"46:FA:D5:7C:AB:E1","level":"b"}
 ```
 
 |  Parameter    |  Description  |
 | ------------:|:-------------|
-| uuid  | Unique ID for each device. If empty, it will be auto generated. |
-| type | Device type: DeviceSimple, ...    |
-| sample | Sample rate configuration. Defines sample interval (in milliseconds) for device data as fixed interval (in microseconds) or interval defined by sample interval distribution. (SampleFixed interval, SampleUniform min max) |
-| copy | If used, multiple copies of the same device are created with different uuid and varying parameters. |
-| out_of_order | Probability for out of order messages. |
-| message_loss | Probability for message lost. |
-| sensors | List of sensor definitions. |
+|"type" | Device type. Currently all provided devices are of "Simple" type.|
+|"sdid" | Device id.|
+|"topic"| String forming the MQTT topic name. May contain {$sdid} that will be replaced with current device "sdid".|
+|"sampling" | Device data sampling interval. Time parameters are in milliseconds.|
+|"copy" | number of replicas of this device. The above configuration defines 5 + 5 = 10 device replicas.|
+|"out_of_order"| Double number [0..1.0] that sets the probability for out-of-order messages.|
+|"message_loss"| Double number [0..1.0] that sets the probability for message loss.|
+|"sensors" | list of sensor configurations.|
 
-Sensor definition is different for different types of sensors. For example:
-```json
+The above device configuration provides simple payload of the form:
+```sh
+{ "a":a, "b":b, "c":c, .....}
+```
+The below device configuration **devices.json** defines complex json payload using additional template file:
+```sh
+[
+    {
+        "type":"Simple",
+        "sdid":{"type":"MAC48"},
+        "topic":"device/{$sdid}/out/stream",
+        "sampling":{"type":"Fixed", "interval":10000},
+        "copy":10,
+        "json_template":"template.json",
+        "sensors":[
+            {"type":"sdid",      "name":"{$sdid}"},
+            {"type":"IntRandom", "name":"{$light_value}",  "min":0, "max":300000},
+            {"type":"IntRandom", "name":"{$temp_value}",  "min":20000, "max":35000},
+            {"type":"IntRandom", "name":"{$pressure_value}",  "min":30000, "max":110000},
+            {"type":"IntRandom", "name":"{$humidity_value}",  "min":10, "max":90}
+        ]
+    }
+]
+```
+where the **template.json** file is:
+```sh
 {
-	"name":"temperature", 
-	"type":"SensorRandomDouble", 
-	"min":15, 
-	"max":25
+        "sn": {$sdid},
+        "data": {
+                "light": {
+                        "value": {$light_value},
+                        "unit": "mLux"
+                },
+                "temp": {
+                        "value": {$temp_value},
+                        "unit": "mCelsius"
+                },
+                "pressure": {
+                        "value": {$pressure_value},
+                        "unit": "Pascal"
+                },
+                "humidity": {
+                        "value": {$humidity_value},
+                        "unit": "%rh"
+                }
+        }
 }
 ```
 
-```json
+The sensors in the devices.json use {$var} in name to indicate what variables are replaced in template.json.
+Resulting topic and payload looks like this:
+```sh
+iosynth/device/46:FA:D5:7C:AB:E1/out/stream 
 {
-	"name":"state", 
-	"type":"SensorCycleString", 
-	"values":["alpha", "bravo", "charlie", "delta"]
+	"sn": "46:FA:D5:7C:AB:E1",
+	"data": {
+		"light": {
+			"value": 254864,
+			"unit": "mLux"
+		},
+		"temp": {
+			"value": 30539,
+			"unit": "mCelsius"
+		},
+		"pressure": {
+			"value": 72157,
+			"unit": "Pascal"
+		},
+		"humidity": {
+			"value": 12,
+			"unit": "%rh"
+		}
+	}
 }
+
 ```
 
-### Sesnor types
+**sdid**
+|  Type    | Parameters | Description  |
+| ------------:|--------:|:-------------|
+|String| value | Simple string value + auto-incremented number for each device replica|
+|UUID| | Universally unique identifier|
+|MAC48|| MAC address|
+|MAC64|| MAC address|
 
-|  Sensor type          |  Parameters  | Description |
-| ---------------------:|:-------------|:------------|
-| SensorLabel           | "value":"some value"                  | Simple fixed label |
-| SensorTimestamp       | "format":"yyyy-MM-dd'T'HH:mm:ss.SSSZ" | Time stamp  |
-| SensorEpoch           |                                       | Internal device epoch number. Always incrementing number that can be used to check out of order messages|
-| SensorDoubleCycle     | "values": [1.1,3.2,8.3,9.4]           | Cycle provided values |
-| SensorIntCycle        | "values": [1,2,8,9,11,2,3,4]          | Cycle provided values |
-| SensorStringCycle     | "values":["Alfa","Bravo","Charlie"]   | Cycle provided values |
-| SensorDoubleRandom    | "min":-15.1, "max":3.2                | Random walk values |
-| SensorIntRandom       | "min":-15, "max":3                    | Random walk values |
-| SensorStringRandom    | "values":["Alfa","Bravo","Charlie"]   | Random values      |
+**sampling**
+|  Type    | Parameters | Description  |
+| ------------:|--------:|:-------------|
+|Fixed| interval | Fixed interval sampling in milliseconds |
+|Uniform| min, max| Sampling intervals with uniform distribution.|
 
+**Sensor types**
+All sensors have "name" parameter and optional "format" parameter. The "format" parameter defines value formatting according to java.lang.String.format rules.
 
+|  Type    | Parameters | Description  |
+| ------------:|--------:|:-------------|
+|sdid|| Shows the device "sdid"|
+|String|value| Shows fixed string value|
+|Timestamp|| Curent device timestamp|
+|DoubleCycle|values| Cycle values from list|
+|DoubleRandom|min, max| Random values between min and max|
+|IntCycle|values|Cycle values from list|
+|IntRandom|min, max|Random values between min and max|
+|StringCycle|values|Cycle values from list|
+|StringRandom|values|Random value from list|
 
