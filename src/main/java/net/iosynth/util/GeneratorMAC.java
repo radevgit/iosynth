@@ -14,14 +14,21 @@ public final class GeneratorMAC {
      * based MACs. In a holder class to defer initialization.
      */
     private static class Holder {
-        static final Xoroshiro128 rng = new Xoroshiro128(87468393);
+    	static long seed;
+        static final Xoroshiro128 rng = new Xoroshiro128(seed);
         static final int state[] = new int[6];
         static boolean first = true;
     }
 	
+    /**
+     * @param seed
+     */
+    public static void setSeed(long seed){
+    	Holder.seed = seed;
+    }
 	
 	/**
-	 * @return DIDMac48
+	 * @return SDIDMac48
 	 */
 	public static String getRandom48(){
 		return getRandom(0);
@@ -34,7 +41,7 @@ public final class GeneratorMAC {
 	}
 	
 	/**
-	 * @return DIDMac48
+	 * @return SDIDMac48
 	 */
 	public static String getNext48(){
 		if(Holder.first == true){

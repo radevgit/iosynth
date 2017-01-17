@@ -9,17 +9,17 @@ import java.util.UUID;
  * @author rradev
  *
  */
-public class DIDUuid extends DID {
+public class SDIDUuid extends SDID {
 
 	/**
 	 * 
 	 */
-	public DIDUuid() {
+	public SDIDUuid() {
 		// nothing to do
 	}
 
 	/* (non-Javadoc)
-	 * @see net.iosynth.device.DID#checkParameters()
+	 * @see net.iosynth.device.SDID#checkParameters()
 	 */
 	@Override
 	public void checkParameters() {
@@ -27,7 +27,7 @@ public class DIDUuid extends DID {
 	}
 
 	/* (non-Javadoc)
-	 * @see net.iosynth.device.DID#replicate(java.lang.String)
+	 * @see net.iosynth.device.SDID#replicate(java.lang.String)
 	 */
 	@Override
 	public void replicate() {

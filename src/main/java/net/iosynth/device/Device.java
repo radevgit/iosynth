@@ -22,7 +22,7 @@ public abstract class Device implements Runnable {
 	protected BlockingQueue<Message> msgQueue;
 	protected BlockingQueue<Device>  delayQueue;
 
-	protected DID      uuid;
+	protected SDID      sdid;
 	protected String   topic;
 	protected Sampling sampling;
 	protected int copy;
@@ -49,7 +49,7 @@ public abstract class Device implements Runnable {
 	 * 
 	 */
 	public Device() {
-		this.uuid     = new DIDString();
+		this.sdid     = new SDIDString();
 		this.topic    = new String("topic");
 		this.sampling = new SamplingFixed();
 		this.copy    = 1;
@@ -71,15 +71,15 @@ public abstract class Device implements Runnable {
 	/**
 	 * @return the did
 	 */
-	public DID getUUID() {
-		return uuid;
+	public SDID getSDID() {
+		return sdid;
 	}
 
 	/**
-	 * @param uuid 
+	 * @param sdid 
 	 */
-	public void setUUID(DID uuid) {
-		this.uuid = uuid;
+	public void setSDID(SDID uuid) {
+		this.sdid = uuid;
 	}
 	
 	/**
@@ -100,20 +100,20 @@ public abstract class Device implements Runnable {
 	 * 
 	 */
 	public void buildTopic(){
-		String[] strs = topic.split("\\{\\$uuid}"); // {$uuid}
+		String[] strs = topic.split("\\{\\$sdid}"); // {$sdid}
 		StringBuilder b = new StringBuilder(255);
 		if(strs.length == 0){
-			topic = uuid.getUUID();
+			topic = sdid.getUUID();
 		}
 		if(strs.length == 1){
 			if(strs[0].length() == topic.length()){
 				// topic have no parameters
 			} else {
-				topic = b.append(strs[0]).append(uuid.getUUID()).toString();
+				topic = b.append(strs[0]).append(sdid.getUUID()).toString();
 			}
 		}
 		if(strs.length == 2){
-			topic = b.append(strs[0]).append(uuid.getUUID()).append(strs[1]).toString();
+			topic = b.append(strs[0]).append(sdid.getUUID()).append(strs[1]).toString();
 		}
 	}
 

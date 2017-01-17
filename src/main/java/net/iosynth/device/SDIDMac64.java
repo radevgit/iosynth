@@ -9,17 +9,17 @@ import net.iosynth.util.GeneratorMAC;
  * @author rradev
  *
  */
-public class DIDMac64 extends DID {
+public class SDIDMac64 extends SDID {
 
 	/**
 	 * 
 	 */
-	public DIDMac64() {
+	public SDIDMac64() {
 		// nothing to do
 	}
 
 	/* (non-Javadoc)
-	 * @see net.iosynth.device.DID#checkParameters()
+	 * @see net.iosynth.device.SDID#checkParameters()
 	 */
 	@Override
 	public void checkParameters() {
@@ -27,7 +27,7 @@ public class DIDMac64 extends DID {
 	}
 
 	/* (non-Javadoc)
-	 * @see net.iosynth.device.DID#replicate(java.lang.String)
+	 * @see net.iosynth.device.SDID#replicate(java.lang.String)
 	 */
 	@Override
 	public void replicate() {

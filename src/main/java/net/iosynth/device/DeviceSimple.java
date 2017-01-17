@@ -25,7 +25,7 @@ public class DeviceSimple extends Device {
 	 */
 	@Override
 	public void checkParameters(){
-		uuid.checkParameters();
+		sdid.checkParameters();
 		sampling.checkParameters();
 		for(final Sensor sen: sensors){
 			sen.checkParameters();
@@ -40,7 +40,7 @@ public class DeviceSimple extends Device {
 		devList = DevicesFromJson.copyDevice(devA, copy);
 		for(Device dev: devList){
 			dev.setRnd(rndT);
-			dev.getUUID().replicate();
+			dev.getSDID().replicate();
 			dev.buildTopic();
 			dev.getSampling().setRnd(dev.getRnd());
 			dev.getSampling().replicate();

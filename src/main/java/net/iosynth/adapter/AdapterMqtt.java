@@ -40,7 +40,7 @@ public class AdapterMqtt extends Thread {
     	this.uri   = cfg.uri;
     	this.topic = cfg.topic;
 		this.qos   = cfg.qos > 2 || cfg.qos < 0 ? 0 : cfg.qos; 
-		this.clientId = "iosynth-" + UUID.randomUUID().toString();
+		this.clientId = UUID.randomUUID().toString();
 		setOptions(msgQueue);
 		start();
     }

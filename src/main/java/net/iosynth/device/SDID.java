@@ -7,14 +7,14 @@ package net.iosynth.device;
  * @author rradev
  *
  */
-public abstract class DID {
+public abstract class SDID {
 	protected String uuid;
 
 	/**
 	 * 
 	 */
-	public DID() {
-		uuid = new String("uuid");
+	public SDID() {
+		uuid = new String("sdid");
 	}
 	
 	/**
@@ -27,14 +27,14 @@ public abstract class DID {
 	abstract public void replicate();
 	
 	/**
-	 * @return the uuid
+	 * @return the sdid
 	 */
 	public String getUUID() {
 		return uuid;
 	}
 
 	/**
-	 * @param uuid the uuid to set
+	 * @param sdid the sdid to set
 	 */
 	public void setUUID(String uuid) {
 		this.uuid = uuid;

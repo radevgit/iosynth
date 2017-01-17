@@ -9,19 +9,19 @@ import net.iosynth.util.GeneratorDevCount;
  * @author rradev
  *
  */
-public class DIDString extends DID {
+public class SDIDString extends SDID {
 	private static final String format = "%06d";
 	private String value;
 	
 	/**
 	 * 
 	 */
-	public DIDString() {
+	public SDIDString() {
 		value = new String("");
 	}
 
 	/* (non-Javadoc)
-	 * @see net.iosynth.device.DID#checkParameters()
+	 * @see net.iosynth.device.SDID#checkParameters()
 	 */
 	@Override
 	public void checkParameters() {

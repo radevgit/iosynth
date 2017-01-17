@@ -20,7 +20,9 @@ import net.iosynth.sensor.SensorDoubleRandom;
 import net.iosynth.sensor.SensorIntRandom;
 import net.iosynth.sensor.SensorStringRandom;
 import net.iosynth.sensor.SensorTimestamp;
-import net.iosynth.sensor.SensorUuid;
+import net.iosynth.sensor.SensorSdid;
+import net.iosynth.util.GeneratorDevCount;
+import net.iosynth.util.GeneratorMAC;
 import net.iosynth.util.RuntimeTypeAdapterFactory;
 import net.iosynth.util.Xoroshiro128;
 
@@ -47,14 +49,14 @@ public class DevicesFromJson {
 		final net.iosynth.util.RuntimeTypeAdapterFactory<Device> deviceAdapter = RuntimeTypeAdapterFactory.of(Device.class, "type");
 		deviceAdapter.registerSubtype(DeviceSimple.class, "Simple");
 		
-		final RuntimeTypeAdapterFactory<DID> didAdapter = RuntimeTypeAdapterFactory.of(DID.class, "type");
-		didAdapter.registerSubtype(DIDString.class, "String");
-		didAdapter.registerSubtype(DIDUuid.class,   "UUID");
-		didAdapter.registerSubtype(DIDMac48.class,  "MAC48");
-		didAdapter.registerSubtype(DIDMac64.class,  "MAC64");
+		final RuntimeTypeAdapterFactory<SDID> sdidAdapter = RuntimeTypeAdapterFactory.of(SDID.class, "type");
+		sdidAdapter.registerSubtype(SDIDString.class, "String");
+		sdidAdapter.registerSubtype(SDIDUuid.class,   "UUID");
+		sdidAdapter.registerSubtype(SDIDMac48.class,  "MAC48");
+		sdidAdapter.registerSubtype(SDIDMac64.class,  "MAC64");
 		
 		final RuntimeTypeAdapterFactory<Sensor> sensorAdapter = RuntimeTypeAdapterFactory.of(Sensor.class, "type");
-		sensorAdapter.registerSubtype(SensorUuid.class,           "UUID");
+		sensorAdapter.registerSubtype(SensorSdid.class,           "sdid");
 		sensorAdapter.registerSubtype(SensorString.class,         "String");
 		sensorAdapter.registerSubtype(SensorEpoch.class,          "Epoch");
 		sensorAdapter.registerSubtype(SensorTimestamp.class,      "Timestamp");
@@ -82,7 +84,7 @@ public class DevicesFromJson {
 		final Gson gson = new GsonBuilder()
 				.setPrettyPrinting()
 				.registerTypeAdapterFactory(deviceAdapter)
-				.registerTypeAdapterFactory(didAdapter)
+				.registerTypeAdapterFactory(sdidAdapter)
 				.registerTypeAdapterFactory(sensorAdapter)
 				.registerTypeAdapterFactory(samplingAdapter)
 				.create();
@@ -106,6 +108,7 @@ public class DevicesFromJson {
 			seed = System.currentTimeMillis();
 		}
 		Xoroshiro128 rnd = new Xoroshiro128(seed);
+		GeneratorMAC.setSeed(seed);
 		
 		int devCount = 0;
 		List<Device> devOut = new ArrayList<Device>();
@@ -171,6 +174,6 @@ public class DevicesFromJson {
 		System.out.println(gson.toJson(devOut));
 	}
 	
-	static String test = "[{'type':'DeviceSimple','uuid':'xxx', 'copy':2, 'sensors':[{'type':'SensorTimestamp'}, {'type':'SensorDoubleRandom', 'min':5}]   }]";
+	static String test = "[{'type':'DeviceSimple','sdid':'xxx', 'copy':2, 'sensors':[{'type':'SensorTimestamp'}, {'type':'SensorDoubleRandom', 'min':5}]   }]";
 	
 }

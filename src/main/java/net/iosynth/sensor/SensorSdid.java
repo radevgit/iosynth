@@ -7,13 +7,13 @@ package net.iosynth.sensor;
  * @author rradev
  *
  */
-public class SensorUuid extends Sensor {
+public class SensorSdid extends Sensor {
 	private String value;
 	/**
 	 * Just a constant string value
 	 */
-	public SensorUuid() {
-		this.value = new String("uuid");
+	public SensorSdid() {
+		this.value = new String("sdid");
 	}
 
 	/* (non-Javadoc)
@@ -42,7 +42,7 @@ public class SensorUuid extends Sensor {
 	}
 	
 	/**
-	 * @param uuid
+	 * @param sdid
 	 */
 	public void SetValue(String uuid){
 		value = uuid;
@@ -58,7 +58,7 @@ public class SensorUuid extends Sensor {
 	 */
 	@Override
 	public void replicate() {
-		value = getDev().getUUID().getUUID();
+		value = getDev().getSDID().getUUID();
 	}
 
 }
