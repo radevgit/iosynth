@@ -183,6 +183,7 @@ iosynth/device/46:FA:D5:7C:AB:E1/out/stream
 ```
 
 **sdid**
+
 |  Type    | Parameters | Description  |
 | ------------:|--------:|:-------------|
 |String| value | Simple string value + auto-incremented number for each device replica|
@@ -191,12 +192,14 @@ iosynth/device/46:FA:D5:7C:AB:E1/out/stream
 |MAC64|| MAC address|
 
 **sampling**
+
 |  Type    | Parameters | Description  |
 | ------------:|--------:|:-------------|
 |Fixed| interval | Fixed interval sampling in milliseconds |
 |Uniform| min, max| Sampling intervals with uniform distribution.|
 
 **Sensor types**
+
 All sensors have "name" parameter and optional "format" parameter. The "format" parameter defines value formatting according to java.lang.String.format rules.
 
 |  Type    | Parameters | Description  |
