@@ -19,7 +19,7 @@ java -cp iosynth.jar net.iosynth.Mqtt -c config-mqtt.json -d devices.json
 ```
 **config-mqtt.json** - this file contains the MQTT client configuration.
 **devices.json** - this file contains configuration for individual devices and additional json template files. 
-Check the [**config**](tree/master/config) directory for example configuration files. 
+Check the [**config**](https://github.com/rradev/iosynth/tree/master/config) directory for example configuration files. 
 
 To run the above command get the [**latest release of iosynth.jar**](https://github.com/rradev/iosynth/releases).
 It is also assumed that you have  Java 1.7 installed.
