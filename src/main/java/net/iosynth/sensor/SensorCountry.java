@@ -27,7 +27,6 @@ public class SensorCountry extends Sensor {
 	@Override
 	public void step(long step) {
 		// nothing to do
-
 	}
 
 	/* (non-Javadoc)

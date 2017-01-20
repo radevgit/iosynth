@@ -16,11 +16,16 @@ public class GeneratorCountry {
 	
 	/**
 	 * @param rnd 
+	 * @param loc 
 	 * 
 	 */
-	public GeneratorCountry(Xoroshiro128 rnd) {
+	public GeneratorCountry(Xoroshiro128 rnd, Locale loc) {
 		this.rnd = rnd;
-		this.loc = Locale.US;
+		if(loc == null) {
+			this.loc = Locale.US;
+		} else {
+			this.loc = loc;
+		}
 		this.locales = Locale.getISOCountries();
 	}
 	
@@ -47,11 +52,11 @@ public class GeneratorCountry {
 	public static void main(String[] args) {
 		// performance: 10^8 getCountry() = 222s
 		Xoroshiro128 rnd = new Xoroshiro128(123);
-		GeneratorCountry gen = new GeneratorCountry(rnd);
+		GeneratorCountry gen = new GeneratorCountry(rnd, null);
 		long start = System.currentTimeMillis();
-		for(int i=0; i<100000000; i++){
-			gen.getCountry();
-			//System.out.println(gen.getCountry());
+		for(int i=0; i<100; i++){
+			//gen.getCountry();
+			System.out.println(gen.getCountry());
 		}
 		long end = System.currentTimeMillis();
 		System.out.println(String.valueOf(end-start));
