@@ -66,7 +66,7 @@ public class GeneratorIPv4 {
 	/**
 	 * @return random IPv4
 	 */
-	protected String getRandomIPv4() {
+	public String getRandomIPv4() {
 		switch (s) {
 		case 0:
 			do {

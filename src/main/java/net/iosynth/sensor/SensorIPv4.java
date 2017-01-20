@@ -3,18 +3,21 @@
  */
 package net.iosynth.sensor;
 
+import net.iosynth.gen.GeneratorIPv4;
+
 /**
  * @author rradev
  *
  */
 public class SensorIPv4 extends Sensor {
+	private transient GeneratorIPv4 gen;
+	private transient String value;
 	String prefix;
-	transient int s;
 	/**
 	 * 
 	 */
 	public SensorIPv4() {
-		// TODO Auto-generated constructor stub
+		// nothing to do
 	}
 
 	/* (non-Javadoc)
@@ -22,17 +25,19 @@ public class SensorIPv4 extends Sensor {
 	 */
 	@Override
 	public void step(long step) {
-		// TODO Auto-generated method stub
-
+		value = gen.getRandomIPv4();
+	}
+	
+	/**
+	 * @return Sensor value
+	 */
+	public String getValue(){
+		return value;
 	}
 
-	/* (non-Javadoc)
-	 * @see net.iosynth.sensor.Sensor#getString()
-	 */
 	@Override
 	public String getString() {
-		// TODO Auto-generated method stub
-		return null;
+		return "\"" + getValue() + "\"";
 	}
 
 	/* (non-Javadoc)
@@ -40,8 +45,7 @@ public class SensorIPv4 extends Sensor {
 	 */
 	@Override
 	public void checkParameters() {
-		// TODO Auto-generated method stub
-
+		// nothing to do
 	}
 
 	/* (non-Javadoc)
@@ -49,8 +53,7 @@ public class SensorIPv4 extends Sensor {
 	 */
 	@Override
 	public void replicate() {
-		// TODO Auto-generated method stub
-
+		gen = new GeneratorIPv4(rnd, prefix);
 	}
 
 }

@@ -22,6 +22,7 @@ import net.iosynth.sensor.SensorDoubleCycle;
 import net.iosynth.sensor.SensorIntCycle;
 import net.iosynth.sensor.SensorStringCycle;
 import net.iosynth.sensor.SensorEpoch;
+import net.iosynth.sensor.SensorIPv4;
 import net.iosynth.sensor.SensorDoubleRandom;
 import net.iosynth.sensor.SensorIntRandom;
 import net.iosynth.sensor.SensorStringRandom;
@@ -64,6 +65,7 @@ public class DevicesFromJson {
 		sensorAdapter.registerSubtype(SensorString.class,         "String");
 		sensorAdapter.registerSubtype(SensorEpoch.class,          "Epoch");
 		sensorAdapter.registerSubtype(SensorTimestamp.class,      "Timestamp");
+		sensorAdapter.registerSubtype(SensorIPv4.class,           "IPv4");
 		
 		//sensorAdapter.registerSubtype(SensorDefault.class,        "Default");
 		
