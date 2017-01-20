@@ -10,7 +10,8 @@
             {"type":"Country",      "name":"country"},
             {"type":"Country",      "name":"trans", "locale":"zh_CN"},
             {"type":"Date",         "name":"date1", "from":"2000-01-01T11:50:23", "to":"2100-01-01T11:50:23"},
-            {"type":"Date",         "name":"date2", "from":"2000-01-01T11:50:23", "to":"2100-01-01T11:50:23", "locale":"zh_CN", "format":"E yyyy年MM月d日"}
+            {"type":"Date",         "name":"date2", "from":"2000-01-01T11:50:23", "to":"2100-01-01T11:50:23", "locale":"zh_CN", "format":"E yyyy年MM月d日"},
+            {"type":"IPv4",         "name":"ip", "prefix":"222."}
         ]
     }
 ]
