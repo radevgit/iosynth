@@ -3,73 +3,88 @@
  */
 package net.iosynth.util;
 
+import java.util.logging.Logger;
 
 /**
  * @author rradev
  *
  */
-public final class GeneratorMAC {	
-	/*
-     * RNG used by this class to create random
-     * based MACs. In a holder class to defer initialization.
-     */
-    private static class Holder {
-    	static long seed;
-        static final Xoroshiro128 rng = new Xoroshiro128(seed);
-        static final int state[] = new int[6];
-        static boolean first = true;
-    }
-	
-    /**
-     * @param seed
-     */
-    public static void setSeed(long seed){
-    	Holder.seed = seed;
-    }
+public final class GeneratorMAC {
+	private Xoroshiro128 rnd;
+	private int s;
+	private final int state[] = new int[6];
+	private static final String fmt = "%02X";
+	private static final String sem = ":";
+	private static final String sem64 = ":FF:FE:";
+	private final Logger logger = Logger.getLogger(GeneratorMAC.class.getName());
 	
 	/**
-	 * @return SDIDMac48
+	 * @param rnd
 	 */
-	public static String getRandom48(){
-		return getRandom(0);
-	}
-	/**
-	 * @return MAC64
-	 */
-	public static String getRandom64(){
-		return getRandom(1);
-	}
-	
-	/**
-	 * @return SDIDMac48
-	 */
-	public static String getNext48(){
-		if(Holder.first == true){
-			Holder.first = false;
-			return getRandom(0);
+	public GeneratorMAC(Xoroshiro128 rnd, String prefix) {
+		this.rnd = rnd;
+		if (prefix == null || prefix.length() == 0) {
+			s = 0;
 		} else {
-			return getNext(0);
-		}
-	}
-	
-	/**
-	 * @return MAC64
-	 */
-	public static String getNext64(){
-		if(Holder.first == true){
-			Holder.first = false;
-			return getRandom(1);
-		} else {
-			return getNext(1);
+			if (prefix.charAt(prefix.length() - 1) == ':') {
+				prefix = prefix.substring(0, prefix.length() - 1); // remove colon at the end
+			}
+			String parts[] = prefix.split(":", 3);
+			s = parts.length;
+			for (int i = 0; i < parts.length; i++) {
+				try {
+					state[i] = Integer.parseInt(parts[i], 16);
+					if (state[i] > 0xFF) {
+						throw new NumberFormatException();
+					}
+				} catch (NumberFormatException e) {
+					logger.severe("This is not a valid MAC prefix: " + parts[i]);
+					throw e;
+				}
+			}
 		}
 	}
 
-	protected static String getRandom(int f){
-		Xoroshiro128 rnd = Holder.rng;
-		int state[] = Holder.state;
-		state[0] = rnd.nextInt(128)*2;
-		state[1] = rnd.nextInt(256);
-		state[2] = rnd.nextInt(256);
+	
+	/**
+	 * @return SDIDMac48
+	 */
+	public String getRandom48() {
+		return getRandom(0);
+	}
+
+	/**
+	 * @return MAC64
+	 */
+	public String getRandom64() {
+		return getRandom(1);
+	}
+
+	/**
+	 * @return SDIDMac48
+	 */
+	public String getNext48() {
+		return getNext(0);
+	}
+
+	/**
+	 * @return MAC64
+	 */
+	public String getNext64() {
+		return getNext(1);
+	}
+
+	protected String getRandom(int f) {
+		switch (s) {
+		case 0:
+			state[0] = rnd.nextInt(128) * 2;
+		case 1:
+			state[1] = rnd.nextInt(256);
+		case 2:
+			state[2] = rnd.nextInt(256);
+		default:
+			break;
+		}
 		state[3] = rnd.nextInt(256);
 		state[4] = rnd.nextInt(256);
 		state[5] = rnd.nextInt(256);
@@ -82,9 +97,8 @@ public final class GeneratorMAC {
 			return null;
 		}
 	}
-	
-	private static String getNext(int f){
-		int state[] = Holder.state;
+
+	private String getNext(int f) {
 		state[5] += 1;
 		if (state[5] > 255) {
 			state[5] = 0;
@@ -106,38 +120,43 @@ public final class GeneratorMAC {
 			return null;
 		}
 	}
-	
-	private static String format48(){
-		int state[] = Holder.state;
-		StringBuilder b = new StringBuilder();
-		b.append(String.format("%02X", state[0])).append(":")
-		 .append(String.format("%02X", state[1])).append(":")
-		 .append(String.format("%02X", state[2])).append(":")
-		 .append(String.format("%02X", state[3])).append(":")
-		 .append(String.format("%02X", state[4])).append(":")
-		 .append(String.format("%02X", state[5]));
+
+	private String format48(){
+		StringBuilder b = new StringBuilder(15);
+		b.append(String.format(fmt, state[0])).append(sem)
+		 .append(String.format(fmt, state[1])).append(sem)
+		 .append(String.format(fmt, state[2])).append(sem)
+		 .append(String.format(fmt, state[3])).append(sem)
+		 .append(String.format(fmt, state[4])).append(sem)
+		 .append(String.format(fmt, state[5]));
 		return b.toString();
 	}
 	
-	private static String format64(){
-		int state[] = Holder.state;
-		StringBuilder b = new StringBuilder();
-		b.append(String.format("%02X", state[0])).append(":")
-		 .append(String.format("%02X", state[1])).append(":")
-		 .append(String.format("%02X", state[2])).append(":FFFE:")
-		 .append(String.format("%02X", state[3])).append(":")
-		 .append(String.format("%02X", state[4])).append(":")
-		 .append(String.format("%02X", state[5]));
+	private String format64(){
+		StringBuilder b = new StringBuilder(21);
+		b.append(String.format(fmt, state[0])).append(sem)
+		 .append(String.format(fmt, state[1])).append(sem)
+		 .append(String.format(fmt, state[2])).append(sem64)
+		 .append(String.format(fmt, state[3])).append(sem)
+		 .append(String.format(fmt, state[4])).append(sem)
+		 .append(String.format(fmt, state[5]));
 		return b.toString();
 	}	
 
 	/**
 	 * @param args
 	 */
-	public static void main(String[] args){
-		for(int i=0; i< 300; i++){
-			System.out.println(GeneratorMAC.getNext48());
+	public static void main(String[] args) {
+		// performance: 10^7 getRandom48() = 61s 
+		Xoroshiro128 rnd = new Xoroshiro128(123);
+		GeneratorMAC gen = new GeneratorMAC(rnd, "");
+		long start = System.currentTimeMillis();
+		for(int i=0; i<10000000; i++){
+			gen.getRandom48();
+			//System.out.println(gen.getRandom48());
 		}
+		long end = System.currentTimeMillis();
+		System.out.println(String.valueOf(end-start));
 	}
 
 }
