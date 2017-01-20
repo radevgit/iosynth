@@ -5,7 +5,7 @@ package net.iosynth.device;
 
 import java.io.Serializable;
 
-import net.iosynth.util.Xoroshiro128;
+import net.iosynth.gen.Xoroshiro128;
 
 /**
  * @author rradev

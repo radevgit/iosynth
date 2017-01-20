@@ -5,8 +5,8 @@ package net.iosynth.device;
 
 import java.util.List;
 
+import net.iosynth.gen.Xoroshiro128;
 import net.iosynth.sensor.Sensor;
-import net.iosynth.util.Xoroshiro128;
 
 /**
  * @author rradev

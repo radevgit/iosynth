@@ -3,7 +3,7 @@
  */
 package net.iosynth.device;
 
-import net.iosynth.util.GeneratorStaticMAC;
+import net.iosynth.gen.GeneratorStaticMAC;
 
 /**
  * @author rradev

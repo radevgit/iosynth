@@ -3,7 +3,7 @@
  */
 package net.iosynth.device;
 
-import net.iosynth.util.GeneratorDevCount;
+import net.iosynth.gen.GeneratorDevCount;
 
 /**
  * @author rradev

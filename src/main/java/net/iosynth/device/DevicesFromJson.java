@@ -10,6 +10,8 @@ import java.util.logging.Logger;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import net.iosynth.gen.GeneratorMAC;
+import net.iosynth.gen.Xoroshiro128;
 import net.iosynth.sensor.Sensor;
 import net.iosynth.sensor.SensorString;
 import net.iosynth.sensor.SensorDoubleCycle;
@@ -21,9 +23,7 @@ import net.iosynth.sensor.SensorIntRandom;
 import net.iosynth.sensor.SensorStringRandom;
 import net.iosynth.sensor.SensorTimestamp;
 import net.iosynth.sensor.SensorSdid;
-import net.iosynth.util.GeneratorMAC;
 import net.iosynth.util.RuntimeTypeAdapterFactory;
-import net.iosynth.util.Xoroshiro128;
 
 
 /**
@@ -107,7 +107,6 @@ public class DevicesFromJson {
 			seed = System.currentTimeMillis();
 		}
 		Xoroshiro128 rnd = new Xoroshiro128(seed);
-		GeneratorMAC.setSeed(seed);
 		
 		int devCount = 0;
 		List<Device> devOut = new ArrayList<Device>();
