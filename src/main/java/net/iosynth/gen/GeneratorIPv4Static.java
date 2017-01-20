@@ -24,6 +24,13 @@ public final class GeneratorIPv4Static {
 	}
 	
 	/**
+	 * @param rnd
+	 */
+	public static void setRnd(Xoroshiro128 rnd){
+		Holder.rnd.setRnd(rnd);
+	}
+	
+	/**
 	 * @return IPv4
 	 */
 	public static String getRandomIPv4() {

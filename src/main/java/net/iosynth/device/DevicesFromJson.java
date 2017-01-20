@@ -11,8 +11,12 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import net.iosynth.gen.GeneratorMAC;
+import net.iosynth.gen.GeneratorIPv4Static;
+import net.iosynth.gen.GeneratorMACStatic;
 import net.iosynth.gen.Xoroshiro128;
 import net.iosynth.sensor.Sensor;
+import net.iosynth.sensor.SensorCountry;
+import net.iosynth.sensor.SensorDate;
 import net.iosynth.sensor.SensorString;
 import net.iosynth.sensor.SensorDoubleCycle;
 import net.iosynth.sensor.SensorIntCycle;
@@ -53,6 +57,7 @@ public class DevicesFromJson {
 		sdidAdapter.registerSubtype(SDIDUuid.class,   "UUID");
 		sdidAdapter.registerSubtype(SDIDMac48.class,  "MAC48");
 		sdidAdapter.registerSubtype(SDIDMac64.class,  "MAC64");
+		sdidAdapter.registerSubtype(SDIDIPv4.class,   "IPv4");
 		
 		final RuntimeTypeAdapterFactory<Sensor> sensorAdapter = RuntimeTypeAdapterFactory.of(Sensor.class, "type");
 		sensorAdapter.registerSubtype(SensorSdid.class,           "sdid");
@@ -70,6 +75,9 @@ public class DevicesFromJson {
 		
 		sensorAdapter.registerSubtype(SensorStringCycle.class,    "StringCycle");
 		sensorAdapter.registerSubtype(SensorStringRandom.class,   "StringRandom");
+		
+		sensorAdapter.registerSubtype(SensorCountry.class,        "Country");
+		sensorAdapter.registerSubtype(SensorDate.class,           "Date");
 		
 		final RuntimeTypeAdapterFactory<Sampling> samplingAdapter = RuntimeTypeAdapterFactory.of(Sampling.class, "type");
 		samplingAdapter.registerSubtype(SamplingFixed.class,   "Fixed");
@@ -107,6 +115,15 @@ public class DevicesFromJson {
 			seed = System.currentTimeMillis();
 		}
 		Xoroshiro128 rnd = new Xoroshiro128(seed);
+		// Initialize all static generators;
+		GeneratorMACStatic.setRnd(rnd);
+		GeneratorMACStatic.getRandom48();
+		rnd = rnd.copy();
+		rnd.jump();
+		GeneratorIPv4Static.setRnd(rnd);
+		GeneratorIPv4Static.getRandomIPv4();
+		rnd = rnd.copy();
+		rnd.jump();
 		
 		int devCount = 0;
 		List<Device> devOut = new ArrayList<Device>();
@@ -172,6 +189,6 @@ public class DevicesFromJson {
 		System.out.println(gson.toJson(devOut));
 	}
 	
-	static String test = "[{'type':'DeviceSimple','sdid':'xxx', 'copy':2, 'sensors':[{'type':'SensorTimestamp'}, {'type':'SensorDoubleRandom', 'min':5}]   }]";
+	static String test = "[{'type':'Simple','sdid':{'type':'String', 'value':'dev'}, 'copy':1, 'sensors':[{'type':'Timestamp'}, {'type':'DoubleRandom', 'min':5}, {'type':'Country','name':'country'} ]   }]";
 	
 }

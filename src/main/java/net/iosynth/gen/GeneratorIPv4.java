@@ -55,6 +55,13 @@ public class GeneratorIPv4 {
 		}
 	}
 	
+	/**
+	 * @param rnd
+	 */
+	public void setRnd(Xoroshiro128 rnd){
+		this.rnd = rnd;
+	}
+	
 	
 	/**
 	 * @return random IPv4

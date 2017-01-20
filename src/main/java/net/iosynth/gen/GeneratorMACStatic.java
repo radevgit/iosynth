@@ -24,6 +24,13 @@ public final class GeneratorMACStatic {
 	}
 	
 	/**
+	 * @param rnd
+	 */
+	public static void setRnd(Xoroshiro128 rnd){
+		Holder.rnd.setRnd(rnd);
+	}
+	
+	/**
 	 * @return Mac48
 	 */
 	public static String getRandom48() {

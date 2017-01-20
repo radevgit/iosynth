@@ -55,6 +55,13 @@ public final class GeneratorMAC {
 	}
 	
 	/**
+	 * @param rnd
+	 */
+	public void setRnd(Xoroshiro128 rnd){
+		this.rnd = rnd;
+	}
+	
+	/**
 	 * @return SDIDMac48
 	 */
 	public String getRandom48() {
