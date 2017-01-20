@@ -1,7 +1,7 @@
 [
     {
         "type":"Simple",
-        "sdid":{"type":"String", "value":"dev"},
+        "sdid":{"type":"IPv4", "prefix":"123.123."},
         "topic":"device/{$sdid}",
         "sampling":{"type":"Fixed", "interval":10000},
         "copy":2,

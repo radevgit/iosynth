@@ -20,14 +20,23 @@ public final class GeneratorMAC {
 	
 	/**
 	 * @param rnd
+	 * @param prefix 
 	 */
 	public GeneratorMAC(Xoroshiro128 rnd, String prefix) {
 		this.rnd = rnd;
+		setPrefix(prefix);
+	}
+
+	/**
+	 * @param prefix
+	 */
+	public void setPrefix(String prefix) {
 		if (prefix == null || prefix.length() == 0) {
 			s = 0;
 		} else {
 			if (prefix.charAt(prefix.length() - 1) == ':') {
-				prefix = prefix.substring(0, prefix.length() - 1); // remove colon at the end
+				// remove colon at the end
+				prefix = prefix.substring(0, prefix.length() - 1);
 			}
 			String parts[] = prefix.split(":", 3);
 			s = parts.length;
@@ -44,7 +53,6 @@ public final class GeneratorMAC {
 			}
 		}
 	}
-
 	
 	/**
 	 * @return SDIDMac48

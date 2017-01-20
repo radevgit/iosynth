@@ -7,7 +7,7 @@ package net.iosynth.gen;
  * @author rradev
  *
  */
-public final class GeneratorStaticMAC {
+public final class GeneratorMACStatic {
 	/*
 	 * RNG used by this class to create random based MACs. In a holder class to
 	 * defer initialization.
@@ -16,6 +16,13 @@ public final class GeneratorStaticMAC {
 		static final GeneratorMAC rnd = new GeneratorMAC(new Xoroshiro128(System.currentTimeMillis()), null);
 	}
 
+	/**
+	 * @param prefix
+	 */
+	public static void setPrefix(String prefix){
+		Holder.rnd.setPrefix(prefix);
+	}
+	
 	/**
 	 * @return Mac48
 	 */
@@ -48,9 +55,9 @@ public final class GeneratorStaticMAC {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		GeneratorStaticMAC.getRandom48();
+		GeneratorMACStatic.getRandom48();
 		for (int i = 0; i < 300; i++) {
-			System.out.println(GeneratorStaticMAC.getNext48());
+			System.out.println(GeneratorMACStatic.getNext48());
 		}
 	}
 

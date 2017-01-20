@@ -25,11 +25,19 @@ public class GeneratorIPv4 {
 	 */
 	public GeneratorIPv4(Xoroshiro128 rnd, String prefix) {
 		this.rnd = rnd;
+		setPrefix(prefix);
+	}
+	
+	/**
+	 * @param prefix
+	 */
+	public void setPrefix(String prefix) {
 		if (prefix == null || prefix.length() == 0) {
 			s = 0;
 		} else {
 			if (prefix.charAt(prefix.length() - 1) == '.') {
-				prefix = prefix.substring(0, prefix.length() - 1); // remove dot at the end
+				// remove dot at the end
+				prefix = prefix.substring(0, prefix.length() - 1);
 			}
 			String parts[] = prefix.split("\\.", 4);
 			s = parts.length;
@@ -46,6 +54,7 @@ public class GeneratorIPv4 {
 			}
 		}
 	}
+	
 	
 	/**
 	 * @return random IPv4

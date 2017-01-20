@@ -3,18 +3,18 @@
  */
 package net.iosynth.device;
 
-import net.iosynth.gen.GeneratorMACStatic;
+import net.iosynth.gen.GeneratorIPv4Static;
 
 /**
  * @author rradev
  *
  */
-public class SDIDMac64 extends SDID {
-
+public class SDIDIPv4 extends SDID {
+	String prefix;
 	/**
 	 * 
 	 */
-	public SDIDMac64() {
+	public SDIDIPv4() {
 		// nothing to do
 	}
 
@@ -31,7 +31,8 @@ public class SDIDMac64 extends SDID {
 	 */
 	@Override
 	public void replicate() {
-		sdid = GeneratorMACStatic.getNext64();
+		GeneratorIPv4Static.setPrefix(prefix);
+		sdid = GeneratorIPv4Static.getNextIPv4();
 	}
 
 

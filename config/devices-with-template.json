@@ -1,7 +1,7 @@
 [
     {
         "type":"Simple",
-        "sdid":{"type":"MAC48"},
+        "sdid":{"type":"MAC48", "prefix":"EE:22:"},
         "topic":"BCDS/XDK/single/{$sdid}/out/stream",
         "sampling":{"type":"Fixed", "interval":10000},
         "copy":1,

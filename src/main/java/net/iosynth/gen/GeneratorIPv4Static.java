@@ -7,7 +7,7 @@ package net.iosynth.gen;
  * @author rradev
  *
  */
-public final class GeneratorStaticIPv4 {
+public final class GeneratorIPv4Static {
 	/*
 	 * RNG used by this class to create random based IPv4. In a holder class to
 	 * defer initialization.
@@ -16,6 +16,13 @@ public final class GeneratorStaticIPv4 {
 		static final GeneratorIPv4 rnd = new GeneratorIPv4(new Xoroshiro128(System.currentTimeMillis()), null);
 	}
 
+	/**
+	 * @param prefix
+	 */
+	public static void setPrefix(String prefix){
+		Holder.rnd.setPrefix(prefix);
+	}
+	
 	/**
 	 * @return IPv4
 	 */
@@ -34,9 +41,9 @@ public final class GeneratorStaticIPv4 {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		GeneratorStaticIPv4.getRandomIPv4();
+		GeneratorIPv4Static.getRandomIPv4();
 		for (int i = 0; i < 300; i++) {
-			System.out.println(GeneratorStaticIPv4.getNextIPv4());
+			System.out.println(GeneratorIPv4Static.getNextIPv4());
 		}
 	}
 
