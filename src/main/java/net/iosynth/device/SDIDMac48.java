@@ -3,7 +3,7 @@
  */
 package net.iosynth.device;
 
-import net.iosynth.util.GeneratorMAC;
+import net.iosynth.util.GeneratorStaticMAC;
 
 /**
  * @author rradev
@@ -31,7 +31,7 @@ public class SDIDMac48 extends SDID {
 	 */
 	@Override
 	public void replicate() {
-		sdid = GeneratorMAC.getNext48();
+		sdid = GeneratorStaticMAC.getNext48();
 	}
 
 }
