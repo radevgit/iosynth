@@ -1,7 +1,7 @@
 /**
  * 
  */
-package net.iosynth.util;
+package net.iosynth.gen;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -20,6 +20,7 @@ public class GeneratorDate {
 	private Xoroshiro128 rnd;
 	private static final String fmt = "yyyy-MM-dd'T'HH:mm:ss";
 	SimpleDateFormat dateFmt;
+	Locale loc;
 	Calendar cal;
 	long start;
 	long end;
@@ -27,11 +28,15 @@ public class GeneratorDate {
 	private final Logger logger = Logger.getLogger(GeneratorIPv4.class.getName());
 
 	/**
+	 * @param rnd 
+	 * @param a 
+	 * @param b 
 	 * 
 	 */
 	public GeneratorDate(Xoroshiro128 rnd, String a, String b) {
 		this.rnd = rnd;
-		this.dateFmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
+		this.loc = Locale.US;
+		this.dateFmt = new SimpleDateFormat(fmt, loc);
 		this.cal = GregorianCalendar.getInstance();
 		if(a == null || a.length() == 0){
 			logger.severe("This is not a valid date: " + a);

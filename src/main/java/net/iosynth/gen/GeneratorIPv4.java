@@ -1,7 +1,7 @@
 /**
  * 
  */
-package net.iosynth.util;
+package net.iosynth.gen;
 
 import java.util.logging.Logger;
 

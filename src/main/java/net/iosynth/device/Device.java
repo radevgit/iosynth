@@ -11,8 +11,8 @@ import java.util.concurrent.BlockingQueue;
 import java.util.logging.Logger;
 
 import net.iosynth.adapter.Message;
+import net.iosynth.gen.Xoroshiro128;
 import net.iosynth.sensor.Sensor;
-import net.iosynth.util.Xoroshiro128;
 
 /**
  * @author rradev
