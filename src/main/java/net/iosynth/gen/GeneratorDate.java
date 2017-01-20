@@ -18,9 +18,11 @@ import javax.crypto.spec.IvParameterSpec;
  */
 public class GeneratorDate {
 	private Xoroshiro128 rnd;
-	private static final String fmt = "yyyy-MM-dd'T'HH:mm:ss";
-	SimpleDateFormat dateFmt;
-	Locale loc;
+	private SimpleDateFormat dateFmt;
+	private SimpleDateFormat dateFmtE;
+	private Locale loc;
+	private String fmt;
+	private static final String fmtE = "yyyy-MM-dd'T'HH:mm:ss";
 	Calendar cal;
 	long start;
 	long end;
@@ -31,12 +33,24 @@ public class GeneratorDate {
 	 * @param rnd 
 	 * @param a 
 	 * @param b 
+	 * @param loc 
+	 * @param fmt s
 	 * 
 	 */
-	public GeneratorDate(Xoroshiro128 rnd, String a, String b) {
+	public GeneratorDate(Xoroshiro128 rnd, String a, String b, Locale loc, String fmt) {
 		this.rnd = rnd;
-		this.loc = Locale.US;
-		this.dateFmt = new SimpleDateFormat(fmt, loc);
+		if(loc == null) {
+			this.loc = Locale.US;
+		} else {
+			this.loc = loc;
+		}
+		if(fmt == null) {
+			this.fmt = fmtE;
+		} else {
+			this.fmt = fmt;
+		}
+		this.dateFmt = new SimpleDateFormat(this.fmt, this.loc);
+		this.dateFmtE = new SimpleDateFormat(fmtE, Locale.US);
 		this.cal = GregorianCalendar.getInstance();
 		if(a == null || a.length() == 0){
 			logger.severe("This is not a valid date: " + a);
@@ -52,7 +66,7 @@ public class GeneratorDate {
 	
 	private long parseDate(String date){
 		try {
-			cal.setTime(dateFmt.parse(date));
+			cal.setTime(dateFmtE.parse(date));
 		} catch (ParseException e) {
 			logger.severe("This is not a valid date: " + date);
 			System.exit(1);
@@ -75,11 +89,11 @@ public class GeneratorDate {
 	public static void main(String[] args) {
 		// performance: 10^8 getDate() = 55s
 		Xoroshiro128 rnd = new Xoroshiro128(123);
-		GeneratorDate gen = new GeneratorDate(rnd, "1974-04-21T11:50:23", "1974-04-22T11:50:23");
+		GeneratorDate gen = new GeneratorDate(rnd, "1974-04-21T11:50:23", "1974-04-22T11:50:23", Locale.CHINESE, "E yyyy年MM月d日");
 		long start = System.currentTimeMillis();
-		for (int i = 0; i < 100000000; i++) {
-			gen.getDate();
-			//System.out.println(gen.getDate());
+		for (int i = 0; i < 10; i++) {
+			//gen.getDate();
+			System.out.println(gen.getDate());
 		}
 		long end = System.currentTimeMillis();
 		System.out.println(String.valueOf(end - start));
