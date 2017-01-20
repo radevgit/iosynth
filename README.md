@@ -85,7 +85,8 @@ Example **devices.json** file:
     }
 ]
 ```
-This file define two types of devices with the following topics and payloads 
+This configuration defines two types of devices with the following topics and payloads.
+ 
 ```sh
 iosynth/device/dev000002 
 {"ts":"2017-01-17T20:12:47.876+0200","sdid":"dev000002","temp":-8.2032}
