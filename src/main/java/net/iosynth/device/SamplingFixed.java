@@ -8,7 +8,6 @@ package net.iosynth.device;
  *
  */
 public class SamplingFixed extends Sampling {
-	private static final long serialVersionUID = 1L;
 	private long jitter;
 	/**
 	 * 

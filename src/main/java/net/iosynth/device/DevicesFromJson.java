@@ -88,6 +88,7 @@ public class DevicesFromJson {
 		final RuntimeTypeAdapterFactory<Sampling> samplingAdapter = RuntimeTypeAdapterFactory.of(Sampling.class, "type");
 		samplingAdapter.registerSubtype(SamplingFixed.class,   "Fixed");
 		samplingAdapter.registerSubtype(SamplingUniform.class, "Uniform");
+		samplingAdapter.registerSubtype(SamplingNormal.class,  "Normal");
 		
 		//RuntimeTypeAdapterFactory<DeviceCopy> copyAdapter = RuntimeTypeAdapterFactory.of(DeviceCopy.class, "type");
 		//copyAdapter.registerSubtype(DeviceCopySimple.class, "CopySimple");

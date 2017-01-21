@@ -11,8 +11,7 @@ import net.iosynth.gen.Xoroshiro128;
  * @author rradev
  *
  */
-public abstract class Sampling implements Serializable{
-	private static final long serialVersionUID = 1L;
+public abstract class Sampling {
 	protected long interval;
 	protected Xoroshiro128 rnd;
 	/**

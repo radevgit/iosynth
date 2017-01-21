@@ -8,14 +8,12 @@ package net.iosynth.device;
  *
  */
 public class SamplingUniform extends Sampling {
-	private static final long serialVersionUID = 1L;
 	private long min;
 	private long max;
 	/**
 	 * 
 	 */
 	public SamplingUniform() {
-		this.interval  = 0;
 		this.min       = 1000;
 		this.max       = 10000;
 	}
@@ -25,14 +23,14 @@ public class SamplingUniform extends Sampling {
 	 */
 	@Override
 	public void checkParameters() {
-		if(interval<100){
-			interval=100;
+		if (interval < 100) {
+			interval = 100;
 		}
-		if(min<100){
-			min=100;
+		if (min < 100) {
+			min = 100;
 		}
-		if(max<min){
-			max=min+1;
+		if (max < min) {
+			max = min + 1;
 		}
 	}
 		
@@ -64,7 +62,7 @@ public class SamplingUniform extends Sampling {
 	 */
 	@Override
 	public void replicate() {
-		interval = rnd.nextLong(max-min)+min;
+		getInterval();
 	}
 	
 
