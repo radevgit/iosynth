@@ -61,14 +61,6 @@ public class DevicesFromJson {
 		final net.iosynth.util.RuntimeTypeAdapterFactory<Device> deviceAdapter = RuntimeTypeAdapterFactory.of(Device.class, "type");
 		deviceAdapter.registerSubtype(DeviceSimple.class, "Simple");
 		
-		//final RuntimeTypeAdapterFactory<SDID> sdidAdapter = RuntimeTypeAdapterFactory.of(SDID.class, "type");
-		//sdidAdapter.registerSubtype(SDIDString.class, "String");
-		//sdidAdapter.registerSubtype(SDIDUuid.class,   "UUID");
-		//sdidAdapter.registerSubtype(SDIDIPv4.class,   "IPv4");
-		//sdidAdapter.registerSubtype(SDIDMac48.class,  "MAC48");
-		//sdidAdapter.registerSubtype(SDIDMac64.class,  "MAC64");
-		
-		
 		final RuntimeTypeAdapterFactory<Sensor> sensorAdapter = RuntimeTypeAdapterFactory.of(Sensor.class, "type");
 		sensorAdapter.registerSubtype(SensorDevTopic.class,       "topic");
 		sensorAdapter.registerSubtype(SensorDevUUID.class,        "uuid");
@@ -103,15 +95,10 @@ public class DevicesFromJson {
 		samplingAdapter.registerSubtype(SamplingUniform.class, "Uniform");
 		samplingAdapter.registerSubtype(SamplingNormal.class,  "Normal");
 		
-		//RuntimeTypeAdapterFactory<DeviceCopy> copyAdapter = RuntimeTypeAdapterFactory.of(DeviceCopy.class, "type");
-		//copyAdapter.registerSubtype(DeviceCopySimple.class, "CopySimple");
-		
-
 
 		final Gson gson = new GsonBuilder()
 				.setPrettyPrinting()
 				.registerTypeAdapterFactory(deviceAdapter)
-				//.registerTypeAdapterFactory(sdidAdapter)
 				.registerTypeAdapterFactory(sensorAdapter)
 				.registerTypeAdapterFactory(samplingAdapter)
 				.create();
