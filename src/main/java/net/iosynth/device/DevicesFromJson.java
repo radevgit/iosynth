@@ -15,6 +15,7 @@ import net.iosynth.gen.GeneratorIPv4Static;
 import net.iosynth.gen.GeneratorMACStatic;
 import net.iosynth.gen.Xoroshiro128;
 import net.iosynth.sensor.Sensor;
+import net.iosynth.sensor.SensorBoolean;
 import net.iosynth.sensor.SensorCountry;
 import net.iosynth.sensor.SensorDate;
 import net.iosynth.sensor.SensorString;
@@ -64,14 +65,14 @@ public class DevicesFromJson {
 		
 		final RuntimeTypeAdapterFactory<Sensor> sensorAdapter = RuntimeTypeAdapterFactory.of(Sensor.class, "type");
 		sensorAdapter.registerSubtype(SensorSdid.class,           "sdid");
-		sensorAdapter.registerSubtype(SensorString.class,         "String");
 		sensorAdapter.registerSubtype(SensorEpoch.class,          "Epoch");
 		sensorAdapter.registerSubtype(SensorTimestamp.class,      "Timestamp");
+		
 		sensorAdapter.registerSubtype(SensorIPv4.class,           "IPv4");
 		sensorAdapter.registerSubtype(SensorMAC48.class,          "MAC48");
 		sensorAdapter.registerSubtype(SensorMAC64.class,          "MAC64");
 		
-		//sensorAdapter.registerSubtype(SensorDefault.class,        "Default");
+		sensorAdapter.registerSubtype(SensorBoolean.class,        "Boolean");
 		
 		sensorAdapter.registerSubtype(SensorDoubleCycle.class,    "DoubleCycle");
 		sensorAdapter.registerSubtype(SensorDoubleRandom.class,   "DoubleRandom");
@@ -79,6 +80,7 @@ public class DevicesFromJson {
 		sensorAdapter.registerSubtype(SensorIntCycle.class,       "IntCycle");
 		sensorAdapter.registerSubtype(SensorIntRandom.class,      "IntRandom");
 		
+		sensorAdapter.registerSubtype(SensorString.class,         "String");
 		sensorAdapter.registerSubtype(SensorStringCycle.class,    "StringCycle");
 		sensorAdapter.registerSubtype(SensorStringRandom.class,   "StringRandom");
 		
