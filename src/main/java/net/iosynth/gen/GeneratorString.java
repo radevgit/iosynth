@@ -12,6 +12,10 @@ public class GeneratorString {
 	int min, max;
 	char alphabet[];
 
+	/**
+	 * @param rnd
+	 * @param alphabet
+	 */
 	public GeneratorString(Xoroshiro128 rnd, char[] alphabet) {
 		init(rnd, alphabet, 1, 10);
 	}
@@ -33,6 +37,9 @@ public class GeneratorString {
 		this.max = max;
 	}
 	
+	/**
+	 * @return string
+	 */
 	public String getString(){
 		int size = rnd.nextInt(max - min) + min;
 		StringBuilder b = new StringBuilder(size);

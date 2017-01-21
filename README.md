@@ -276,6 +276,60 @@ Example:
 {"type":"MAC64", "name":"MAC", "prefix":"EE:00:"}
 ```
 
+**String**
+This sensor generate strings from list of strings or alphabet.
+  - "cycle" - Cycle the values from list of strings.
+  - "random" - Selects random string from list of strings.
+  - "min", "max", "alphabet" - generates random string with size between [min, max) using the "alphabet". 
+
+Example:
+```sh
+{"type":"String", "name":"string", "cycle":["aaa", "bbb", "ccc"]}
+```
+Result:
+```sh
+iosynth/dev00 {"string":"bbb"}
+iosynth/dev00 {"string":"ccc"}
+iosynth/dev00 {"string":"aaa"}
+iosynth/dev00 {"string":"bbb"}
+iosynth/dev00 {"string":"ccc"}
+iosynth/dev00 {"string":"aaa"}
+
+```
+
+Example:
+```sh
+{"type":"String", "name":"string", "random":["aaa", "bbb", "ccc"]}
+```
+
+Result:
+```sh
+iosynth/dev00 {"string":"aaa"}
+iosynth/dev00 {"string":"aaa"}
+iosynth/dev00 {"string":"ccc"}
+iosynth/dev00 {"string":"bbb"}
+iosynth/dev00 {"string":"aaa"}
+iosynth/dev00 {"string":"ccc"}
+iosynth/dev00 {"string":"aaa"}
+```
+
+Example:
+```sh
+{"type":"String", "name":"string", "min":5, "max":8, "alphabet":"abcdefghijk"}
+```
+
+Result:
+```sh
+iosynth/dev00 {"string":"akjcg"}
+iosynth/dev00 {"string":"fgbbke"}
+iosynth/dev00 {"string":"fkehj"}
+iosynth/dev00 {"string":"fkjdgh"}
+iosynth/dev00 {"string":"dcggia"}
+iosynth/dev00 {"string":"ebcefdb"}
+iosynth/dev00 {"string":"djdeffe"}
+```
+
+
 **Boolean**
 
 This sensor generates random boolean value (true, false).

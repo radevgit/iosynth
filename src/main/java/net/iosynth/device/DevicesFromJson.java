@@ -17,7 +17,7 @@ import net.iosynth.gen.Xoroshiro128;
 import net.iosynth.sensor.Sensor;
 import net.iosynth.sensor.SensorBoolean;
 import net.iosynth.sensor.SensorCountry;
-import net.iosynth.sensor.SensorDate;
+import net.iosynth.sensor.SensorTimeStamp;
 import net.iosynth.sensor.SensorDevIPv4;
 import net.iosynth.sensor.SensorDevMAC48;
 import net.iosynth.sensor.SensorDevMAC64;
@@ -27,14 +27,14 @@ import net.iosynth.sensor.SensorString;
 import net.iosynth.sensor.SensorDoubleCycle;
 import net.iosynth.sensor.SensorIntCycle;
 import net.iosynth.sensor.SensorStringCycle;
-import net.iosynth.sensor.SensorEpoch;
+import net.iosynth.sensor.SensorDevEpoch;
 import net.iosynth.sensor.SensorIPv4;
 import net.iosynth.sensor.SensorDoubleRandom;
 import net.iosynth.sensor.SensorIntRandom;
 import net.iosynth.sensor.SensorMAC48;
 import net.iosynth.sensor.SensorMAC64;
 import net.iosynth.sensor.SensorStringRandom;
-import net.iosynth.sensor.SensorTimestamp;
+import net.iosynth.sensor.SensorDevTimeStamp;
 import net.iosynth.sensor.SensorUUID;
 import net.iosynth.util.RuntimeTypeAdapterFactory;
 
@@ -67,8 +67,8 @@ public class DevicesFromJson {
 		sensorAdapter.registerSubtype(SensorDevIPv4.class,        "ipv4");
 		sensorAdapter.registerSubtype(SensorDevMAC48.class,       "mac48");
 		sensorAdapter.registerSubtype(SensorDevMAC64.class,       "mac64");
-		sensorAdapter.registerSubtype(SensorEpoch.class,          "epoch");
-		sensorAdapter.registerSubtype(SensorTimestamp.class,      "timestamp");
+		sensorAdapter.registerSubtype(SensorDevEpoch.class,       "epoch");
+		sensorAdapter.registerSubtype(SensorDevTimeStamp.class,   "timestamp");
 		
 		sensorAdapter.registerSubtype(SensorUUID.class,           "UUID");
 		sensorAdapter.registerSubtype(SensorIPv4.class,           "IPv4");
@@ -84,11 +84,11 @@ public class DevicesFromJson {
 		sensorAdapter.registerSubtype(SensorIntRandom.class,      "IntRandom");
 		
 		sensorAdapter.registerSubtype(SensorString.class,         "String");
-		sensorAdapter.registerSubtype(SensorStringCycle.class,    "StringCycle");
+		//sensorAdapter.registerSubtype(SensorStringCycle.class,    "StringCycle");
 		sensorAdapter.registerSubtype(SensorStringRandom.class,   "StringRandom");
 		
 		sensorAdapter.registerSubtype(SensorCountry.class,        "Country");
-		sensorAdapter.registerSubtype(SensorDate.class,           "Date");
+		sensorAdapter.registerSubtype(SensorTimeStamp.class,      "TimeStamp");
 		
 		final RuntimeTypeAdapterFactory<Sampling> samplingAdapter = RuntimeTypeAdapterFactory.of(Sampling.class, "type");
 		samplingAdapter.registerSubtype(SamplingFixed.class,   "Fixed");
