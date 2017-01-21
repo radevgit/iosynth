@@ -11,7 +11,7 @@ import net.iosynth.gen.GeneratorDate;
  * @author rradev
  *
  */
-public class SensorDate extends Sensor {
+public class SensorTimeStamp extends Sensor {
 	private transient GeneratorDate gen;
 	private Locale locale;
 	private String from;
@@ -20,11 +20,10 @@ public class SensorDate extends Sensor {
 	/**
 	 * 
 	 */
-	public SensorDate() {
+	public SensorTimeStamp() {
 		this.locale = Locale.US;
 		this.format = "yyyy-MM-dd'T'HH:mm:ss";
 		this.from   = "2000-01-01T00:00:00";
-		this.to     = "2100-01-01T00:00:00";
 	}
 
 	/* (non-Javadoc)
@@ -49,7 +48,6 @@ public class SensorDate extends Sensor {
 	@Override
 	public void checkParameters() {
 		// nothing to do
-
 	}
 
 	/* (non-Javadoc)

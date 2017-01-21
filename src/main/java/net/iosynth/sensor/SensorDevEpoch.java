@@ -7,13 +7,13 @@ package net.iosynth.sensor;
  * @author rradev
  *
  */
-public class SensorEpoch extends Sensor {
+public class SensorDevEpoch extends Sensor {
 	protected transient long epoch;
 	
 	/**
 	 * 
 	 */
-	public SensorEpoch() {
+	public SensorDevEpoch() {
 		this.format = "%d";
 		this.epoch = -1L;
 	}
