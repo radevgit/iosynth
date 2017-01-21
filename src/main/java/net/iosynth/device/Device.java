@@ -22,7 +22,10 @@ public abstract class Device implements Runnable {
 	protected BlockingQueue<Message> msgQueue;
 	protected BlockingQueue<Device>  delayQueue;
 
-	protected SDID      sdid;
+	//protected SDID      sdid;
+	protected String   uuid;
+	protected String   ipv4, ipv6;
+	protected String   mac48, mac64;
 	protected String   topic;
 	protected Sampling sampling;
 	protected int copy;
@@ -49,7 +52,7 @@ public abstract class Device implements Runnable {
 	 * 
 	 */
 	public Device() {
-		this.sdid     = new SDIDString();
+		//this.sdid     = new SDIDString();
 		this.topic    = new String("topic");
 		this.sampling = new SamplingFixed();
 		this.copy    = 1;
@@ -68,19 +71,21 @@ public abstract class Device implements Runnable {
 	 */
 	abstract public List<Device> replicate();
 	
-	/**
+/*	*//**
 	 * @return the did
-	 */
+	 *//*
 	public SDID getSDID() {
 		return sdid;
-	}
+	}*/
 
-	/**
+/*	*//**
 	 * @param sdid 
-	 */
+	 *//*
 	public void setSDID(SDID sdid) {
 		this.sdid = sdid;
-	}
+	}*/
+	
+	
 	
 	/**
 	 * @return the topic
@@ -96,10 +101,10 @@ public abstract class Device implements Runnable {
 		this.topic = topic;
 	}
 	
-	/**
+/*	*//**
 	 * 
-	 */
-	public void buildTopic(){
+	 *//*
+	public void buildTopicO(){
 		String[] strs = topic.split("\\{\\$sdid}"); // {$sdid}
 		StringBuilder b = new StringBuilder(255);
 		if(strs.length == 0){
@@ -115,6 +120,82 @@ public abstract class Device implements Runnable {
 		if(strs.length == 2){
 			topic = b.append(strs[0]).append(sdid.getUUID()).append(strs[1]).toString();
 		}
+	}*/
+	
+	/**
+	 * 
+	 */
+	public void buildTopic(){
+		if(topic.contains("{$uuid}")){
+			topic.replaceAll("\\{\\$uuid}", uuid);
+		}
+		if(topic.contains("{$ipv4}")){
+			topic.replaceAll("\\{\\$ipv4}", ipv4);
+		}
+		if(topic.contains("{$mac48}")){
+			topic.replaceAll("\\{\\$mac48}", mac48);
+		}
+		if(topic.contains("{$mac64}")){
+			topic.replaceAll("\\{\\$umac64}", mac64);
+		}
+	}
+
+	
+	
+	/**
+	 * @return the uuid
+	 */
+	public String getUuid() {
+		return uuid;
+	}
+
+	/**
+	 * @param uuid the uuid to set
+	 */
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
+	}
+
+	/**
+	 * @return the ipv4
+	 */
+	public String getIpv4() {
+		return ipv4;
+	}
+
+	/**
+	 * @param ipv4 the ipv4 to set
+	 */
+	public void setIpv4(String ipv4) {
+		this.ipv4 = ipv4;
+	}
+
+	/**
+	 * @return the mac48
+	 */
+	public String getMac48() {
+		return mac48;
+	}
+
+	/**
+	 * @param mac48 the mac48 to set
+	 */
+	public void setMac48(String mac48) {
+		this.mac48 = mac48;
+	}
+
+	/**
+	 * @return the mac64
+	 */
+	public String getMac64() {
+		return mac64;
+	}
+
+	/**
+	 * @param mac64 the mac64 to set
+	 */
+	public void setMac64(String mac64) {
+		this.mac64 = mac64;
 	}
 
 	/**

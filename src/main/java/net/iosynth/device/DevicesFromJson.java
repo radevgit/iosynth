@@ -10,7 +10,6 @@ import java.util.logging.Logger;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import net.iosynth.gen.GeneratorMAC;
 import net.iosynth.gen.GeneratorIPv4Static;
 import net.iosynth.gen.GeneratorMACStatic;
 import net.iosynth.gen.Xoroshiro128;
@@ -18,6 +17,10 @@ import net.iosynth.sensor.Sensor;
 import net.iosynth.sensor.SensorBoolean;
 import net.iosynth.sensor.SensorCountry;
 import net.iosynth.sensor.SensorDate;
+import net.iosynth.sensor.SensorDevIPv4;
+import net.iosynth.sensor.SensorDevMAC48;
+import net.iosynth.sensor.SensorDevMAC64;
+import net.iosynth.sensor.SensorDevUUID;
 import net.iosynth.sensor.SensorString;
 import net.iosynth.sensor.SensorDoubleCycle;
 import net.iosynth.sensor.SensorIntCycle;
@@ -30,7 +33,7 @@ import net.iosynth.sensor.SensorMAC48;
 import net.iosynth.sensor.SensorMAC64;
 import net.iosynth.sensor.SensorStringRandom;
 import net.iosynth.sensor.SensorTimestamp;
-import net.iosynth.sensor.SensorSdid;
+import net.iosynth.sensor.SensorUUID;
 import net.iosynth.util.RuntimeTypeAdapterFactory;
 
 
@@ -57,17 +60,22 @@ public class DevicesFromJson {
 		deviceAdapter.registerSubtype(DeviceSimple.class, "Simple");
 		
 		final RuntimeTypeAdapterFactory<SDID> sdidAdapter = RuntimeTypeAdapterFactory.of(SDID.class, "type");
-		sdidAdapter.registerSubtype(SDIDString.class, "String");
+		//sdidAdapter.registerSubtype(SDIDString.class, "String");
 		sdidAdapter.registerSubtype(SDIDUuid.class,   "UUID");
+		sdidAdapter.registerSubtype(SDIDIPv4.class,   "IPv4");
 		sdidAdapter.registerSubtype(SDIDMac48.class,  "MAC48");
 		sdidAdapter.registerSubtype(SDIDMac64.class,  "MAC64");
-		sdidAdapter.registerSubtype(SDIDIPv4.class,   "IPv4");
+		
 		
 		final RuntimeTypeAdapterFactory<Sensor> sensorAdapter = RuntimeTypeAdapterFactory.of(Sensor.class, "type");
-		sensorAdapter.registerSubtype(SensorSdid.class,           "sdid");
+		sensorAdapter.registerSubtype(SensorDevUUID.class,        "uuid");
+		sensorAdapter.registerSubtype(SensorDevIPv4.class,        "ipv4");
+		sensorAdapter.registerSubtype(SensorDevMAC48.class,       "mac48");
+		sensorAdapter.registerSubtype(SensorDevMAC64.class,       "mac64");
 		sensorAdapter.registerSubtype(SensorEpoch.class,          "Epoch");
 		sensorAdapter.registerSubtype(SensorTimestamp.class,      "Timestamp");
 		
+		sensorAdapter.registerSubtype(SensorUUID.class,           "UUID");
 		sensorAdapter.registerSubtype(SensorIPv4.class,           "IPv4");
 		sensorAdapter.registerSubtype(SensorMAC48.class,          "MAC48");
 		sensorAdapter.registerSubtype(SensorMAC64.class,          "MAC64");

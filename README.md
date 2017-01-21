@@ -54,9 +54,11 @@ devices.json - configuration is a json file containing list of device definition
 
 ]
 ```
-Devices configuration may have only list of sensors that result in simple payload or may have external json file that produces complex json payload.
+Each device have UUID, IP and MAC address. They can be used as part of the MQTT topic or as part of the json message payload.
+There are two types of sensors configuration. The first one result in simple json payload. 
+The second one uses json template file and results complex json payload.
 
-Example **devices.json** file:
+Example of simple **devices.json** file:
 ```sh
 [
     {
@@ -189,19 +191,76 @@ iosynth/device/46:FA:D5:7C:AB:E1/out/stream
 | ------------:|--------:|:-------------|
 |String| value | Simple string value + auto-incremented number for each device replica|
 |UUID| | Universally unique identifier|
-|MAC48|| MAC address|
-|MAC64|| MAC address|
+|MAC48|prefix| Sets the "sdid" to MAC address. Auto-incremented for each device. Optional "prefix" parameter for fixed prefixes. Example: "prefix":"EE:00:" |
+|MAC64|prefix| Sets the "sdid" to MAC address. Auto-incremented for each device. Optional "prefix" parameter for fixed prefixes.|
+|IPv4|prefix| |
 
 **sampling**
 
 |  Type    | Parameters | Description  |
 | ------------:|--------:|:-------------|
 |Fixed| interval | Fixed interval sampling in milliseconds |
-|Uniform| min, max| Sampling intervals with uniform distribution.|
+|Uniform| min, max | Sampling intervals with uniform distribution.|
+|Normal| mean, stdev | Sampling intervals with Normal distribution with mean and standard deviation in milliseconds. |
 
-**Sensor types**
+### Sensor types
 
-All sensors have "name" parameter and optional "format" parameter. The "format" parameter defines value formatting according to java.lang.String.format rules.
+All sensors have "name" parameter and some have optional "format" parameter. 
+The "format" parameter defines value formatting according to java.lang.String.format rules or java.text.SimpleDateFormat rules.
+Sensors starting with lowercase show current device state ("uuid", "timestamp", "epoch", ...). 
+Sensors starting with uppercase are value generators ("UUID", "String", ...). 
+
+**sdid**
+
+This sensor shows the device sdid.
+
+**Epoch**
+
+This sensor shows the internal device epoch counter (increasing number from 0).
+
+**Timestamp**
+
+Current device timestamp. 
+Optional parameter "format" specifies the date-time format.
+Example:
+```sh
+{"type":"Timestamp",   "name":"ts", "format":"yyyy-MM-dd'T'HH:mm:ss.SSSZ"}
+```
+
+**IPv4**
+
+This sensor generates random IPv4 addresses.
+Optional parameter "prefix" specifies fixed prefix.
+Example:
+```sh
+{"type":"IPv4", "name":"ip", "prefix":"222."}
+```
+**MAC48**
+
+This sensor generates random MAC48 addresses.
+Optional parameter "prefix" specifies fixed prefix.
+Example:
+```sh
+{"type":"MAC48", "name":"mac", "prefix":"EE:00:"}
+```
+**MAC64**
+
+This sensor generates random MAC64 addresses.
+Optional parameter "prefix" specifies fixed prefix.
+Example:
+```sh
+{"type":"MAC64", "name":"mac", "prefix":"EE:00:"}
+```
+
+
+
+
+**Boolean**
+
+This sensor generates random boolean value (true, false).
+Optional parameter "success" - likelihood of success. (0.0 ... 1.0)
+
+
 
 |  Type    | Parameters | Description  |
 | ------------:|--------:|:-------------|

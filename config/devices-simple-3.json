@@ -1,0 +1,25 @@
+[
+    {
+        "type":"Simple",
+        "uuid":"dev%06d",
+        "ipv4":"123.",
+        "mac48":"EE:00",
+        "mac64":"",
+        "topic":"device/{$mac48}/{$ipv4}/{$uuid}",
+        "sampling":{"type":"Fixed", "interval":5000},
+        "copy":2,
+        "sensors":[
+            {"type":"topic",        "name":"topic"},
+            {"type":"timestamp",    "name":"ts"},
+            {"type":"epoch",        "name":"epoch"},
+            {"type":"uuid",         "name":"uuid"},
+            {"type":"ipv4",         "name":"ipv4"},
+            {"type":"mac48",        "name":"mac48"},
+            {"type":"mac64",        "name":"mac64"},
+            {"type":"UUID",         "name":"UUID"},
+            {"type":"IPv4",         "name":"IPv4"},
+            {"type":"MAC48",        "name":"MAC48"},
+            {"type":"MAC48",        "name":"MAC48"}
+        ]
+    }
+]
