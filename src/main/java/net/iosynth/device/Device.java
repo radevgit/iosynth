@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 
 import net.iosynth.adapter.Message;
 import net.iosynth.gen.Xoroshiro128;
@@ -122,22 +123,22 @@ public abstract class Device implements Runnable {
 		}
 	}*/
 	
+	transient private static final String patternUUID  = "\\{\\$uuid}";
+	transient private static final String patternIPv4  = "\\{\\$ipv4}";
+	transient private static final String patternMAC48 = "\\{\\$mac48}";
+	transient private static final String patternMAC64 = "\\{\\$mac64}";
+	transient private static final Pattern pUUID  = Pattern.compile(patternUUID);
+	transient private static final Pattern pIPv4  = Pattern.compile(patternIPv4);
+	transient private static final Pattern pMAC48 = Pattern.compile(patternMAC48);
+	transient private static final Pattern pMAC64 = Pattern.compile(patternMAC64);
 	/**
 	 * 
 	 */
 	public void buildTopic(){
-		if(topic.contains("{$uuid}")){
-			topic.replaceAll("\\{\\$uuid}", uuid);
-		}
-		if(topic.contains("{$ipv4}")){
-			topic.replaceAll("\\{\\$ipv4}", ipv4);
-		}
-		if(topic.contains("{$mac48}")){
-			topic.replaceAll("\\{\\$mac48}", mac48);
-		}
-		if(topic.contains("{$mac64}")){
-			topic.replaceAll("\\{\\$umac64}", mac64);
-		}
+		topic = pUUID.matcher(topic).replaceAll(uuid);
+		topic = pIPv4.matcher(topic).replaceAll(ipv4);
+		topic = pMAC48.matcher(topic).replaceAll(mac48);
+		topic = pMAC64.matcher(topic).replaceAll(mac64);
 	}
 
 	

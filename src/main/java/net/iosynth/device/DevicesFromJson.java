@@ -20,6 +20,7 @@ import net.iosynth.sensor.SensorDate;
 import net.iosynth.sensor.SensorDevIPv4;
 import net.iosynth.sensor.SensorDevMAC48;
 import net.iosynth.sensor.SensorDevMAC64;
+import net.iosynth.sensor.SensorDevTopic;
 import net.iosynth.sensor.SensorDevUUID;
 import net.iosynth.sensor.SensorString;
 import net.iosynth.sensor.SensorDoubleCycle;
@@ -68,12 +69,13 @@ public class DevicesFromJson {
 		
 		
 		final RuntimeTypeAdapterFactory<Sensor> sensorAdapter = RuntimeTypeAdapterFactory.of(Sensor.class, "type");
+		sensorAdapter.registerSubtype(SensorDevTopic.class,       "topic");
 		sensorAdapter.registerSubtype(SensorDevUUID.class,        "uuid");
 		sensorAdapter.registerSubtype(SensorDevIPv4.class,        "ipv4");
 		sensorAdapter.registerSubtype(SensorDevMAC48.class,       "mac48");
 		sensorAdapter.registerSubtype(SensorDevMAC64.class,       "mac64");
-		sensorAdapter.registerSubtype(SensorEpoch.class,          "Epoch");
-		sensorAdapter.registerSubtype(SensorTimestamp.class,      "Timestamp");
+		sensorAdapter.registerSubtype(SensorEpoch.class,          "epoch");
+		sensorAdapter.registerSubtype(SensorTimestamp.class,      "timestamp");
 		
 		sensorAdapter.registerSubtype(SensorUUID.class,           "UUID");
 		sensorAdapter.registerSubtype(SensorIPv4.class,           "IPv4");
