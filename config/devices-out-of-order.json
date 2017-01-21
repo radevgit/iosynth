@@ -1,15 +1,15 @@
 [
     {
         "type":"Simple",
-        "sdid":{"type":"String", "value":"dev"},
-        "topic":"device/{$sdid}",
+        "uuid":"",
+        "topic":"device/{$uuid}",
         "sampling":{"type":"Uniform", "min":5000, "max":15000},
         "copy":2,
         "out_of_order":0.01,
         "message_loss":0.01,
         "sensors":[
-            {"type":"Timestamp",   "name":"ts", "format":"yyyy-MM-dd'T'HH:mm:ss.SSSZ"},
-            {"type":"Epoch",       "name":"epoch"},
+            {"type":"timestamp",   "name":"ts", "format":"yyyy-MM-dd'T'HH:mm:ss.SSSZ"},
+            {"type":"epoch",       "name":"epoch"},
             {"type":"StringCycle", "name":"command", "values":["Alfa","Bravo","Charlie","Delta","Echo","Foxtrot"]},
             {"type":"IntRandom",   "name":"state",   "min":0, "max":5, "format":"%03d"},
             {"type":"IntCycle",    "name":"level",   "values":[1,2,8,9,11,2,3,4]},

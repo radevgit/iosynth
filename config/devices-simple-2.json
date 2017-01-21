@@ -1,18 +1,18 @@
 [
     {
         "type":"Simple",
-        "sdid":{"type":"IPv4", "prefix":"123.123."},
-        "topic":"device/{$sdid}",
+        "ipv4":"123.123.",
+        "topic":"device/{$ipv4}",
         "sampling":{"type":"Fixed", "interval":10000},
         "copy":2,
         "sensors":[
-            {"type":"Timestamp",    "name":"ts"},
+            {"type":"timestamp",    "name":"ts"},
             {"type":"Country",      "name":"country"},
             {"type":"Country",      "name":"trans", "locale":"zh_CN"},
-            {"type":"Date",         "name":"date1", "from":"2000-01-01T11:50:23", "to":"2100-01-01T11:50:23"},
-            {"type":"Date",         "name":"date2", "from":"2000-01-01T11:50:23", "to":"2100-01-01T11:50:23", "locale":"zh_CN", "format":"E yyyy年MM月d日"},
+            {"type":"TimeStamp",    "name":"date1", "from":"2000-01-01T11:50:23", "to":"2100-01-01T11:50:23"},
+            {"type":"TimeStamp",    "name":"date2", "from":"2000-01-01T11:50:23", "to":"2100-01-01T11:50:23", "locale":"fr_FR", "format":"E, yyyy MM d"},
             {"type":"IPv4",         "name":"ip", "prefix":"222."},
-            {"type":"MAC48",         "name":"ip", "prefix":"EE:"}
+            {"type":"MAC48",        "name":"ip", "prefix":"EE:"}
         ]
     }
 ]

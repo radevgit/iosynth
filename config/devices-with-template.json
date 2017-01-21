@@ -1,13 +1,13 @@
 [
     {
         "type":"Simple",
-        "sdid":{"type":"MAC48", "prefix":"EE:22:"},
-        "topic":"BCDS/XDK/single/{$sdid}/out/stream",
+        "mac48":"EE:00",
+        "topic":"BCDS/XDK/single/{$mac48}/out/stream",
         "sampling":{"type":"Fixed", "interval":10000},
         "copy":1,
         "json_template":"template-bosch-xdk.json",
         "sensors":[
-            {"type":"sdid",      "name":"{$sdid}"},
+            {"type":"mac48",     "name":"{$mac48}"},
             {"type":"IntRandom", "name":"{$acc_x}", "min":-2000, "max":2000},
             {"type":"IntRandom", "name":"{$acc_y}", "min":-2000, "max":2000},
             {"type":"IntRandom", "name":"{$acc_z}", "min":-2000, "max":2000},

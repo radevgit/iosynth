@@ -1,13 +1,13 @@
 [
     {
         "type":"Simple",
-        "sdid":{"type":"String", "value":"dev"},
-        "topic":"device/{$sdid}",
+        "uuid":"",
+        "topic":"device/{$uuid}",
         "sampling":{"type":"Fixed", "interval":10000},
         "copy":2,
         "sensors":[
-            {"type":"Timestamp",    "name":"ts"},
-            {"type":"sdid",         "name":"sdid"},
+            {"type":"timestamp",    "name":"ts"},
+            {"type":"uuid",         "name":"uuid"},
             {"type":"DoubleRandom", "name":"temp", "min":-15, "max":3},
             {"type":"DoubleCycle",  "name":"level", "values": [1.1,3.2,8.3,9.4]},
             {"type":"StringRandom", "name":"level", "values": ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o"]}
