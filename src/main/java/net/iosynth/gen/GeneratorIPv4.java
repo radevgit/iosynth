@@ -5,7 +5,6 @@ package net.iosynth.gen;
 
 import java.util.logging.Logger;
 
-import net.iosynth.device.Device;
 
 /**
  * @author rradev

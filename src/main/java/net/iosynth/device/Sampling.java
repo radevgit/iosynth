@@ -3,8 +3,6 @@
  */
 package net.iosynth.device;
 
-import java.io.Serializable;
-
 import net.iosynth.gen.Xoroshiro128;
 
 /**

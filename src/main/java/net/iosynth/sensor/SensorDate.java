@@ -5,7 +5,6 @@ package net.iosynth.sensor;
 
 import java.util.Locale;
 
-import net.iosynth.gen.GeneratorCountry;
 import net.iosynth.gen.GeneratorDate;
 
 /**

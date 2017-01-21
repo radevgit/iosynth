@@ -26,6 +26,9 @@ public class SensorBoolean extends Sensor {
 		state = rnd.nextDouble() < success ? true : false;
 	}
 	
+	/**
+	 * @return boolean
+	 */
 	public boolean getValue(){
 		return state;
 	}
