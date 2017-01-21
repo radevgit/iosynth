@@ -15,7 +15,7 @@ public class SensorEpoch extends Sensor {
 	 */
 	public SensorEpoch() {
 		this.format = "%d";
-		this.epoch = 0L;
+		this.epoch = -1L;
 	}
 
 	/**
