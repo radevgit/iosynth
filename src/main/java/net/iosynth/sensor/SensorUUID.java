@@ -5,11 +5,14 @@ package net.iosynth.sensor;
 
 import java.util.UUID;
 
+import net.iosynth.gen.GeneratorUUID;
+
 /**
  * @author rradev
  *
  */
 public class SensorUUID extends Sensor {
+	private transient GeneratorUUID gen;
 	private transient String value;
 	/**
 	 * 
@@ -23,7 +26,7 @@ public class SensorUUID extends Sensor {
 	 */
 	@Override
 	public void step(long step) {
-		value = UUID.randomUUID().toString();
+		value = gen.getUUID();
 	}
 
 	/**
@@ -51,7 +54,7 @@ public class SensorUUID extends Sensor {
 	 */
 	@Override
 	public void replicate() {
-		value = UUID.randomUUID().toString();
+		gen = new GeneratorUUID(rnd);
 	}
 
 }

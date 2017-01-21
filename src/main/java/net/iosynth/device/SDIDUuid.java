@@ -5,6 +5,8 @@ package net.iosynth.device;
 
 import java.util.UUID;
 
+import net.iosynth.gen.GeneratorUUIDStatic;
+
 /**
  * @author rradev
  *
@@ -31,7 +33,7 @@ public class SDIDUuid extends SDID {
 	 */
 	@Override
 	public void replicate() {
-		sdid = UUID.randomUUID().toString();
+		sdid = GeneratorUUIDStatic.getUUID();
 	}
 
 }

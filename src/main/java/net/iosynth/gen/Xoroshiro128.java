@@ -80,6 +80,18 @@ public class Xoroshiro128 {
         return nextLong() < 0L;
     }
    
+    /**
+     * @param bytes
+     */
+    public void nextBytes(final byte[] bytes) {
+        int i = bytes.length, n = 0;
+        while (i != 0) {
+            n = Math.min(i, 8);
+            for (long bits = nextLong(); n-- != 0; bits >>>= 8) {
+                bytes[--i] = (byte) bits;
+            }
+        }
+    }
    
     static final long jump0 = 0xbeac0467eba5facbL;
     static final long jump1 = 0xd86b048b86aa9922L;

@@ -9,6 +9,7 @@ import java.util.UUID;
 import net.iosynth.gen.GeneratorDevCount;
 import net.iosynth.gen.GeneratorIPv4Static;
 import net.iosynth.gen.GeneratorMACStatic;
+import net.iosynth.gen.GeneratorUUIDStatic;
 import net.iosynth.gen.Xoroshiro128;
 import net.iosynth.sensor.Sensor;
 
@@ -71,7 +72,7 @@ public class DeviceSimple extends Device {
 			if(dev.uuid.length() != 0 || dev.uuid.contains("%")){
 				dev.uuid = String.format(dev.uuid, GeneratorDevCount.getNext());
 			} else {
-				dev.uuid =  UUID.randomUUID().toString();
+				dev.uuid =  GeneratorUUIDStatic.getUUID();
 			}
 		}
 		if(dev.ipv4 != null){

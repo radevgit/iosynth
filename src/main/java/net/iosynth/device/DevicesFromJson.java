@@ -12,6 +12,7 @@ import com.google.gson.GsonBuilder;
 
 import net.iosynth.gen.GeneratorIPv4Static;
 import net.iosynth.gen.GeneratorMACStatic;
+import net.iosynth.gen.GeneratorUUIDStatic;
 import net.iosynth.gen.Xoroshiro128;
 import net.iosynth.sensor.Sensor;
 import net.iosynth.sensor.SensorBoolean;
@@ -60,12 +61,12 @@ public class DevicesFromJson {
 		final net.iosynth.util.RuntimeTypeAdapterFactory<Device> deviceAdapter = RuntimeTypeAdapterFactory.of(Device.class, "type");
 		deviceAdapter.registerSubtype(DeviceSimple.class, "Simple");
 		
-		final RuntimeTypeAdapterFactory<SDID> sdidAdapter = RuntimeTypeAdapterFactory.of(SDID.class, "type");
+		//final RuntimeTypeAdapterFactory<SDID> sdidAdapter = RuntimeTypeAdapterFactory.of(SDID.class, "type");
 		//sdidAdapter.registerSubtype(SDIDString.class, "String");
-		sdidAdapter.registerSubtype(SDIDUuid.class,   "UUID");
-		sdidAdapter.registerSubtype(SDIDIPv4.class,   "IPv4");
-		sdidAdapter.registerSubtype(SDIDMac48.class,  "MAC48");
-		sdidAdapter.registerSubtype(SDIDMac64.class,  "MAC64");
+		//sdidAdapter.registerSubtype(SDIDUuid.class,   "UUID");
+		//sdidAdapter.registerSubtype(SDIDIPv4.class,   "IPv4");
+		//sdidAdapter.registerSubtype(SDIDMac48.class,  "MAC48");
+		//sdidAdapter.registerSubtype(SDIDMac64.class,  "MAC64");
 		
 		
 		final RuntimeTypeAdapterFactory<Sensor> sensorAdapter = RuntimeTypeAdapterFactory.of(Sensor.class, "type");
@@ -110,7 +111,7 @@ public class DevicesFromJson {
 		final Gson gson = new GsonBuilder()
 				.setPrettyPrinting()
 				.registerTypeAdapterFactory(deviceAdapter)
-				.registerTypeAdapterFactory(sdidAdapter)
+				//.registerTypeAdapterFactory(sdidAdapter)
 				.registerTypeAdapterFactory(sensorAdapter)
 				.registerTypeAdapterFactory(samplingAdapter)
 				.create();
@@ -135,6 +136,9 @@ public class DevicesFromJson {
 		}
 		Xoroshiro128 rnd = new Xoroshiro128(seed);
 		// Initialize all static generators;
+		GeneratorUUIDStatic.setRnd(rnd);
+		rnd = rnd.copy();
+		rnd.jump();
 		GeneratorMACStatic.setRnd(rnd);
 		GeneratorMACStatic.getRandom48();
 		rnd = rnd.copy();
@@ -143,6 +147,7 @@ public class DevicesFromJson {
 		GeneratorIPv4Static.getRandomIPv4();
 		rnd = rnd.copy();
 		rnd.jump();
+		
 		
 		int devCount = 0;
 		List<Device> devOut = new ArrayList<Device>();
