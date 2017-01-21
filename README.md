@@ -54,9 +54,9 @@ devices.json - configuration is a json file containing list of device definition
 
 ]
 ```
-Each device can have UUID, IP or MAC address. They can be used as part of the MQTT topic or as part of the json message payload.
+Each device may have UUID, IP or MAC address. They can be used as part of the MQTT topic or as part of the json message payload.
 There are two types of sensors configuration. The first one result in simple json payload. 
-The second one uses json template file and results complex json payload.
+The second one uses json template file and results in complex json payload.
 
 Example of simple **devices.json** file:
 ```sh
@@ -82,18 +82,25 @@ Example of simple **devices.json** file:
         "sensors":[
             {"type":"timestamp",    "name":"ts"},
             {"type":"mac48",        "name":"mac48"},
-            {"type":"StringRandom", "name":"level", "values": ["a","b","c","d","e","f"]}
+            {"type":"String",       "name":"level", "random": ["a","b","c","d","e","f"]}
         ]
     }
 ]
 ```
 This configuration defines two types of devices, each of them replicated 2 times.
+
+
 First device:
-  - device samples data on fixed time interval 10s.
-  - defines "uuid" with pattern "devxxxx", where xxxx is increased number for each replica.
-  - this device publishes data using topic "device/devxxxx".
-  - device have 3 sensors first is device timestamp, the second is device uuid and one double random variable.
-Second device is almost the same as first one except it samples data with variable interval and sets MAC address instead of "uuid".
+  - tThe device samples data on fixed time interval 10s.
+  - It defines "uuid" with pattern "devxxxx", where xxxx is increased number for each replica.
+  - The device publishes data using topic "device/devxxxx".
+  - The device have 3 sensors. The device timestamp, the device uuid and double random variable.
+  
+
+Second device is almost the same, except it samples data with variable interval and sets MAC address instead of UUID.
+
+
+
 The resulting paload looks like this:
  
 ```sh
@@ -116,7 +123,7 @@ iosynth/device/dev0000 {"ts":"2017-01-21T14:24:49.078+0200","uuid":"dev0000","te
 | ------------:|:-------------|
 |"type" | Device type. Currently all provided devices are of "Simple" type.|
 |"uuid", "ipv4", "mac48", "mac64" | Device uuid, ipv4, mac addresses. (optional)|
-|"topic"| String forming the MQTT topic name. May contain variables {$uuid}, {$ipv4}, ... that will be replaced with current device values.|
+|"topic"| String forming the MQTT topic name. May contain variables {$uuid}, {$ipv4}, ... that are replaced with the current device values.|
 |"sampling" | Device data sampling interval. Time parameters are in milliseconds. Sampling functions: Fixed, Uniform, Normal |
 |"copy" | number of replicas for each device.|
 |"out_of_order"| Double number [0..1.0] that sets the probability for out-of-order messages. (optional)|
@@ -200,15 +207,16 @@ iosynth/device/AA:16:4C:49:00:23/out/stream
 }
 
 ```
+### Device Identificators
 
-|  Type    | Parameters | Description  |
-| ------------:|--------:|:-------------|
-|uuid| Generates universally unique identifier per device if empty string is provided "", or increasing identificator if format pattern is provided "abc%06d" |
+|  Type    | Description  |
+| ------------:|:-------------|
+|uuid| Generates universally unique identifier for each device if empty string is provided "", or increasing identificator if format pattern is provided "xxxxx%06d" |
 |mac48| Generates MAC address. Auto-incremented for each device. If string is not empty it is used as prefix: "EE:00:" |
 |mac48| Generates MAC address. Auto-incremented for each device. If string is not empty it is used as prefix: "EE:00:" |
 |ipv4 | Generates ipv4 address. Auto-incremented for each device. If string is not empty it is used as prefix: "123.123." |
 
-**sampling**
+### Sampling types
 
 |  Type    | Parameters | Description  |
 | ------------:|--------:|:-------------|
@@ -225,7 +233,7 @@ Sensors starting with upper-case are value generators ("UUID", "String", ...).
 
 **uuid, ipv4, mac48, mac64**
 
-This sensor shows the device uuid, ipv4, mac48, mac64.
+This sensor shows the device uuid, ipv4, mac48, mac64 identificators.
 
 
 **epoch**
@@ -236,6 +244,8 @@ This sensor shows the internal device epoch counter (increasing number from 1).
 
 Current device timestamp. 
 Optional parameter "format" specifies the date-time format.
+
+
 Example:
 ```sh
 {"type":"Timestamp",   "name":"ts", "format":"yyyy-MM-dd'T'HH:mm:ss.SSSZ"}
@@ -244,6 +254,8 @@ Example:
 **UUID**
 
 This sensor generates random UUID.
+
+
 Example:
 ```sh
 {"type":"UUID", "name":"UUID"}
@@ -253,6 +265,8 @@ Example:
 
 This sensor generates random IPv4 addresses.
 Optional parameter "prefix" specifies fixed prefix.
+
+
 Example:
 ```sh
 {"type":"IPv4", "name":"IP", "prefix":"222."}
@@ -262,6 +276,8 @@ Example:
 
 This sensor generates random MAC48 addresses.
 Optional parameter "prefix" specifies fixed prefix.
+
+
 Example:
 ```sh
 {"type":"MAC48", "name":"MAC", "prefix":"EE:00:"}
@@ -271,21 +287,26 @@ Example:
 
 This sensor generates random MAC64 addresses.
 Optional parameter "prefix" specifies fixed prefix.
+
+
 Example:
 ```sh
 {"type":"MAC64", "name":"MAC", "prefix":"EE:00:"}
 ```
 
 **String**
+
 This sensor generate strings from list of strings or alphabet.
   - "cycle" - Cycle the values from list of strings.
   - "random" - Selects random string from list of strings.
   - "min", "max", "alphabet" - generates random string with size between [min, max) using the "alphabet". 
 
+
 Example:
 ```sh
 {"type":"String", "name":"string", "cycle":["aaa", "bbb", "ccc"]}
 ```
+
 Result:
 ```sh
 iosynth/dev00 {"string":"bbb"}
@@ -340,16 +361,18 @@ Example:
 ```
 
 **TimeStamp**
-This sensor generates random time stamp.
+
+This sensor generates random time-stamp.
 Parameters:
-  - "from" timestamp. The format is in "en_US".
-  - "to" timestamp. If not set, the device creation time is used. The format is in "en_US".
-  - "locale" use locale (optional) to format generated timestamps. One of the supported JVM locales. 
+  - "from" time-stamp. The format is in "en_US" locale.
+  - "to" time-stamp. If not set, the device creation time is used. The format is in "en_US" locale.
+  - "locale" use locale (optional) to format generated time-stamps. One of the supported JVM locales. 
   
 Example:
 ```sh
 {"type":"TimeStamp",  "name":"date", "from":"2000-01-01T11:50:23", "to":"2016-01-01T11:50:23", "locale":"ko_KR", "format":"E, yyyy MM d"}
 ```
+
 Result:
 ```sh
 iosynth/device {"date":"목, 2008 10 23"}
