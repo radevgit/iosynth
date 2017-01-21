@@ -54,7 +54,7 @@ devices.json - configuration is a json file containing list of device definition
 
 ]
 ```
-Each device have UUID, IP and MAC address. They can be used as part of the MQTT topic or as part of the json message payload.
+Each device can have UUID, IP or MAC address. They can be used as part of the MQTT topic or as part of the json message payload.
 There are two types of sensors configuration. The first one result in simple json payload. 
 The second one uses json template file and results complex json payload.
 
@@ -63,50 +63,65 @@ Example of simple **devices.json** file:
 [
     {
         "type":"Simple",
-        "sdid":{"type":"String", "value":"dev"},
-        "topic":"device/{$sdid}",
+        "uuid":"dev%04d",
+        "topic":"device/{$uuid}",
         "sampling":{"type":"Fixed", "interval":10000},
-        "copy":5,
+        "copy":2,
         "sensors":[
-            {"type":"Timestamp",    "name":"ts"},
-            {"type":"sdid",         "name":"sdid"},
+            {"type":"timestamp",    "name":"ts"},
+            {"type":"uuid",         "name":"uuid"},
             {"type":"DoubleRandom", "name":"temp", "min":-15, "max":3}
         ]
     },
     {
         "type":"Simple",
-        "sdid":{"type":"MAC48"},
-        "topic":"device/{$sdid}",
+        "mac48":"",
+        "topic":"device/{$mac48}",
         "sampling":{"type":"Uniform", "min":3000, "max":6000},
-        "copy":5,
+        "copy":2,
         "sensors":[
-            {"type":"Timestamp",    "name":"ts"},
-            {"type":"sdid",         "name":"sdid"},
+            {"type":"timestamp",    "name":"ts"},
+            {"type":"mac48",        "name":"mac48"},
             {"type":"StringRandom", "name":"level", "values": ["a","b","c","d","e","f"]}
         ]
     }
 ]
 ```
-This configuration defines two types of devices with the following topics and payloads.
+This configuration defines two types of devices, each of them replicated 2 times.
+First device:
+  - device samples data on fixed time interval 10s.
+  - defines "uuid" with pattern "devxxxx", where xxxx is increased number for each replica.
+  - this device publishes data using topic "device/devxxxx".
+  - device have 3 sensors first is device timestamp, the second is device uuid and one double random variable.
+Second device is almost the same as first one except it samples data with variable interval and sets MAC address instead of "uuid".
+The resulting paload looks like this:
  
 ```sh
-iosynth/device/dev000002 
-{"ts":"2017-01-17T20:12:47.876+0200","sdid":"dev000002","temp":-8.2032}
+iosynth/device/AA:16:4C:49:00:1D {"ts":"2017-01-21T14:24:32.134+0200","mac48":"AA:16:4C:49:00:1D","level":"c"}
+iosynth/device/AA:16:4C:49:00:1C {"ts":"2017-01-21T14:24:33.163+0200","mac48":"AA:16:4C:49:00:1C","level":"f"}
+iosynth/device/dev0001 {"ts":"2017-01-21T14:24:33.186+0200","uuid":"dev0001","temp":-10.5036}
+iosynth/device/AA:16:4C:49:00:1D {"ts":"2017-01-21T14:24:37.744+0200","mac48":"AA:16:4C:49:00:1D","level":"f"}
+iosynth/device/AA:16:4C:49:00:1C {"ts":"2017-01-21T14:24:38.485+0200","mac48":"AA:16:4C:49:00:1C","level":"a"}
+iosynth/device/dev0000 {"ts":"2017-01-21T14:24:39.079+0200","uuid":"dev0000","temp":-0.9713}
+iosynth/device/AA:16:4C:49:00:1D {"ts":"2017-01-21T14:24:41.714+0200","mac48":"AA:16:4C:49:00:1D","level":"d"}
+iosynth/device/AA:16:4C:49:00:1C {"ts":"2017-01-21T14:24:42.634+0200","mac48":"AA:16:4C:49:00:1C","level":"b"}
+iosynth/device/dev0001 {"ts":"2017-01-21T14:24:43.186+0200","uuid":"dev0001","temp":-10.5112}
+iosynth/device/AA:16:4C:49:00:1D {"ts":"2017-01-21T14:24:46.616+0200","mac48":"AA:16:4C:49:00:1D","level":"d"}
+iosynth/device/AA:16:4C:49:00:1C {"ts":"2017-01-21T14:24:47.386+0200","mac48":"AA:16:4C:49:00:1C","level":"b"}
+iosynth/device/dev0000 {"ts":"2017-01-21T14:24:49.078+0200","uuid":"dev0000","temp":-0.9029} 
 
-iosynth/device/46:FA:D5:7C:AB:E1
-{"ts":"2017-01-17T20:12:45.498+0200","sdid":"46:FA:D5:7C:AB:E1","level":"b"}
 ```
 
 |  Parameter    |  Description  |
 | ------------:|:-------------|
 |"type" | Device type. Currently all provided devices are of "Simple" type.|
-|"sdid" | Device id.|
-|"topic"| String forming the MQTT topic name. May contain {$sdid} that will be replaced with current device "sdid".|
-|"sampling" | Device data sampling interval. Time parameters are in milliseconds.|
-|"copy" | number of replicas of this device. The above configuration defines 5 + 5 = 10 device replicas.|
-|"out_of_order"| Double number [0..1.0] that sets the probability for out-of-order messages.|
-|"message_loss"| Double number [0..1.0] that sets the probability for message loss.|
-|"sensors" | list of sensor configurations.|
+|"uuid", "ipv4", "mac48", "mac64" | Device uuid, ipv4, mac addresses. (optional)|
+|"topic"| String forming the MQTT topic name. May contain variables {$uuid}, {$ipv4}, ... that will be replaced with current device values.|
+|"sampling" | Device data sampling interval. Time parameters are in milliseconds. Sampling functions: Fixed, Uniform, Normal |
+|"copy" | number of replicas for each device.|
+|"out_of_order"| Double number [0..1.0] that sets the probability for out-of-order messages. (optional)|
+|"message_loss"| Double number [0..1.0] that sets the probability for message loss. (optional)|
+|"sensors" | list of sensor definitions.|
 
 The above device configuration provides simple payload of the form:
 ```sh
@@ -117,13 +132,13 @@ The below device configuration **devices.json** defines complex json payload usi
 [
     {
         "type":"Simple",
-        "sdid":{"type":"MAC48"},
-        "topic":"device/{$sdid}/out/stream",
+        "mac48":"",
+        "topic":"device/{$mac48}/out/stream",
         "sampling":{"type":"Fixed", "interval":10000},
         "copy":10,
         "json_template":"template.json",
         "sensors":[
-            {"type":"sdid",      "name":"{$sdid}"},
+            {"type":"mac48",     "name":"{$mac48}"},
             {"type":"IntRandom", "name":"{$light_value}",  "min":0, "max":300000},
             {"type":"IntRandom", "name":"{$temp_value}",  "min":20000, "max":35000},
             {"type":"IntRandom", "name":"{$pressure_value}",  "min":30000, "max":110000},
@@ -135,7 +150,7 @@ The below device configuration **devices.json** defines complex json payload usi
 where the **template.json** file is:
 ```sh
 {
-        "sn": "{$sdid}",
+        "sn": "{$mac48}",
         "data": {
                 "light": {
                         "value": "{$light_value}",
@@ -160,40 +175,38 @@ where the **template.json** file is:
 The sensors in the devices.json use {$var} in name to indicate what variables are replaced in template.json.
 Resulting topic and payload looks like this:
 ```sh
-iosynth/device/46:FA:D5:7C:AB:E1/out/stream 
+iosynth/device/AA:16:4C:49:00:23/out/stream
+ 
 {
-	"sn": "46:FA:D5:7C:AB:E1",
-	"data": {
-		"light": {
-			"value": 254864,
-			"unit": "mLux"
-		},
-		"temp": {
-			"value": 30539,
-			"unit": "mCelsius"
-		},
-		"pressure": {
-			"value": 72157,
-			"unit": "Pascal"
-		},
-		"humidity": {
-			"value": 12,
-			"unit": "%rh"
-		}
-	}
+        "sn": "AA:16:4C:49:00:23",
+        "data": {
+                "light": {
+                        "value": 152698,
+                        "unit": "mLux"
+                },
+                "temp": {
+                        "value": 26588,
+                        "unit": "mCelsius"
+                },
+                "pressure": {
+                        "value": 101330,
+                        "unit": "Pascal"
+                },
+                "humidity": {
+                        "value": 88,
+                        "unit": "%rh"
+                }
+        }
 }
 
 ```
 
-**sdid**
-
 |  Type    | Parameters | Description  |
 | ------------:|--------:|:-------------|
-|String| value | Simple string value + auto-incremented number for each device replica|
-|UUID| | Universally unique identifier|
-|MAC48|prefix| Sets the "sdid" to MAC address. Auto-incremented for each device. Optional "prefix" parameter for fixed prefixes. Example: "prefix":"EE:00:" |
-|MAC64|prefix| Sets the "sdid" to MAC address. Auto-incremented for each device. Optional "prefix" parameter for fixed prefixes.|
-|IPv4|prefix| |
+|uuid| Generates universally unique identifier per device if empty string is provided "", or increasing identificator if format pattern is provided "abc%06d" |
+|mac48| Generates MAC address. Auto-incremented for each device. If string is not empty it is used as prefix: "EE:00:" |
+|mac48| Generates MAC address. Auto-incremented for each device. If string is not empty it is used as prefix: "EE:00:" |
+|ipv4 | Generates ipv4 address. Auto-incremented for each device. If string is not empty it is used as prefix: "123.123." |
 
 **sampling**
 
@@ -207,18 +220,19 @@ iosynth/device/46:FA:D5:7C:AB:E1/out/stream
 
 All sensors have "name" parameter and some have optional "format" parameter. 
 The "format" parameter defines value formatting according to java.lang.String.format rules or java.text.SimpleDateFormat rules.
-Sensors starting with lowercase show current device state ("uuid", "timestamp", "epoch", ...). 
-Sensors starting with uppercase are value generators ("UUID", "String", ...). 
+Sensors starting with lower-case show current device state ("uuid", "timestamp", "epoch", ...). 
+Sensors starting with upper-case are value generators ("UUID", "String", ...). 
 
-**sdid**
+**uuid, ipv4, mac48, mac64**
 
-This sensor shows the device sdid.
+This sensor shows the device uuid, ipv4, mac48, mac64.
 
-**Epoch**
 
-This sensor shows the internal device epoch counter (increasing number from 0).
+**epoch**
 
-**Timestamp**
+This sensor shows the internal device epoch counter (increasing number from 1).
+
+**timestamp**
 
 Current device timestamp. 
 Optional parameter "format" specifies the date-time format.
@@ -227,50 +241,99 @@ Example:
 {"type":"Timestamp",   "name":"ts", "format":"yyyy-MM-dd'T'HH:mm:ss.SSSZ"}
 ```
 
+**UUID**
+
+This sensor generates random UUID.
+Example:
+```sh
+{"type":"UUID", "name":"UUID"}
+```
+
 **IPv4**
 
 This sensor generates random IPv4 addresses.
 Optional parameter "prefix" specifies fixed prefix.
 Example:
 ```sh
-{"type":"IPv4", "name":"ip", "prefix":"222."}
+{"type":"IPv4", "name":"IP", "prefix":"222."}
 ```
+
 **MAC48**
 
 This sensor generates random MAC48 addresses.
 Optional parameter "prefix" specifies fixed prefix.
 Example:
 ```sh
-{"type":"MAC48", "name":"mac", "prefix":"EE:00:"}
+{"type":"MAC48", "name":"MAC", "prefix":"EE:00:"}
 ```
+
 **MAC64**
 
 This sensor generates random MAC64 addresses.
 Optional parameter "prefix" specifies fixed prefix.
 Example:
 ```sh
-{"type":"MAC64", "name":"mac", "prefix":"EE:00:"}
+{"type":"MAC64", "name":"MAC", "prefix":"EE:00:"}
 ```
-
-
-
 
 **Boolean**
 
 This sensor generates random boolean value (true, false).
 Optional parameter "success" - likelihood of success. (0.0 ... 1.0)
+Example:
+```sh
+{"type":"Boolean", "name":"enabled", "success":0.1}
+```
+
+**TimeStamp**
+This sensor generates random time stamp.
+Parameters:
+  - "from" timestamp. The format is in "en_US".
+  - "to" timestamp. If not set, the device creation time is used. The format is in "en_US".
+  - "locale" use locale (optional) to format generated timestamps. One of the supported JVM locales. 
+  
+Example:
+```sh
+{"type":"TimeStamp",  "name":"date", "from":"2000-01-01T11:50:23", "to":"2016-01-01T11:50:23", "locale":"ko_KR", "format":"E, yyyy MM d"}
+```
+Result:
+```sh
+iosynth/device {"date":"목, 2008 10 23"}
+iosynth/device {"date":"목, 2009 08 6"}
+iosynth/device {"date":"화, 2015 08 4"}
+iosynth/device {"date":"월, 2004 12 6"}
+iosynth/device {"date":"월, 2012 10 29"}
+iosynth/device {"date":"수, 2013 09 25"}
+
+```
+
+**Country**
+This sensor generates random country names. Accepts optional "locale" parameter with one of supported JVM locales.
+
+Example:
+```sh
+{"type":"Country", "name":"country"},
+{"type":"Country", "name":"国家", "locale":"zh_CN"}
+```
+Result:
+```sh
+iosynth/device {"country":"Isle Of Man","国家":"阿根廷"}
+iosynth/device {"country":"Romania","国家":"立陶宛"}
+iosynth/device {"country":"Norway","国家":"圣巴泰勒米岛"}
+iosynth/device {"country":"Trinidad and Tobago","国家":"南乔治亚岛和南桑德韦奇岛"}
+iosynth/device {"country":"Belarus","国家":"洪都拉斯"}
+iosynth/device {"country":"Equatorial Guinea","国家":"冰岛"}
+iosynth/device {"country":"Guinea-Bissau","国家":"蒙古"}
+
+```
 
 
 
-|  Type    | Parameters | Description  |
-| ------------:|--------:|:-------------|
-|sdid|| Shows the device "sdid"|
-|String|value| Shows fixed string value|
-|Timestamp|| Curent device timestamp|
-|DoubleCycle|values| Cycle values from list|
-|DoubleRandom|min, max| Random values between min and max|
-|IntCycle|values|Cycle values from list|
-|IntRandom|min, max|Random values between min and max|
-|StringCycle|values|Cycle values from list|
-|StringRandom|values|Random value from list|
+
+
+
+
+
+
+
 
