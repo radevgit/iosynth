@@ -4,7 +4,10 @@
 package net.iosynth.sensor;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Locale;
 
 /**
  * @author rradev
@@ -12,13 +15,20 @@ import java.util.Date;
  */
 public class SensorDevTimeStamp extends Sensor {
 	private transient SimpleDateFormat fmt;
-
+	private transient Calendar cal;
+	private transient static final String s  = "s";
+	private transient static final String ms = "ms";
+	private transient static final String quot = "\"";
+	private transient static final String defaultFormat = "yyyy-MM-dd'T'HH:mm:ssZ";
+	private Locale locale;
+	
 	/**
 	 * 
 	 */
 	public SensorDevTimeStamp() {
-		this.format = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
-		this.fmt = new SimpleDateFormat(format);
+		this.locale = Locale.US;
+		this.format = defaultFormat;
+		this.fmt = new SimpleDateFormat(format, this.locale);
 		setName("time");
 	}
 
@@ -36,8 +46,19 @@ public class SensorDevTimeStamp extends Sensor {
 	 */
 	@Override
 	public String getString() {
-		Date now = new Date(System.currentTimeMillis());
-		return "\"" + fmt.format(now) + "\"";
+		long tt = System.currentTimeMillis();
+		if(format.length() == 0){
+			return quot + String.valueOf(tt) + quot;
+		}
+		if(format.equals(ms)){
+			return String.valueOf(tt);
+		}
+		if(format.equals(s)){
+			return String.valueOf(tt/1000L);
+		}
+		cal.setTimeInMillis(tt);
+		fmt.setCalendar(cal);
+		return quot + fmt.format(cal.getTime()) + quot;
 	}
 
 	/* (non-Javadoc)
@@ -45,11 +66,7 @@ public class SensorDevTimeStamp extends Sensor {
 	 */
 	@Override
 	public void checkParameters() {
-		if(format == null){
-			fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
-		} else {
-			fmt = new SimpleDateFormat(format);
-		}
+		// nothing to do
 	}
 
 	/* (non-Javadoc)
@@ -57,7 +74,10 @@ public class SensorDevTimeStamp extends Sensor {
 	 */
 	@Override
 	public void replicate() {
-		fmt = new SimpleDateFormat(format);
+		fmt = new SimpleDateFormat(format, locale);
+		if(!format.equals(s) && !format.equals(ms)){
+			cal = GregorianCalendar.getInstance();
+		}
 	}
 
 	/**

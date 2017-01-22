@@ -13,6 +13,10 @@ import net.iosynth.gen.GeneratorDate;
  */
 public class SensorTimeStamp extends Sensor {
 	private transient GeneratorDate gen;
+	private transient static final String s  = "s";
+	private transient static final String ms = "ms";
+	private transient static final String quot = "\"";
+	private transient static final String defaultFormat = "yyyy-MM-dd'T'HH:mm:ssZ";
 	private Locale locale;
 	private String from;
 	private String to;
@@ -22,7 +26,7 @@ public class SensorTimeStamp extends Sensor {
 	 */
 	public SensorTimeStamp() {
 		this.locale = Locale.US;
-		this.format = "yyyy-MM-dd'T'HH:mm:ssZ";
+		this.format = defaultFormat;
 		this.from   = "2000-01-01T00:00:00+0000";
 	}
 
@@ -39,8 +43,8 @@ public class SensorTimeStamp extends Sensor {
 	 */
 	@Override
 	public String getString() {
-		if(format == null || (!format.equals("s") && !format.equals("ms"))){
-			return "\"" + gen.getDate() + "\"";
+		if(!format.equals(s) && !format.equals(ms)){
+			return quot + gen.getDate() + quot;
 		} else {
 			return gen.getDate();
 		}
