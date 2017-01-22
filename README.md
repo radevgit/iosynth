@@ -91,17 +91,17 @@ This configuration defines two types of devices, each of them replicated 2 times
 
 
 First device:
-  - tThe device samples data on fixed time interval 10s.
+  - The device samples data on fixed time interval 10s.
   - It defines "uuid" with pattern "devxxxx", where xxxx is increased number for each replica.
   - The device publishes data using topic "device/devxxxx".
-  - The device have 3 sensors. The device timestamp, the device uuid and double random variable.
+  - The device have 3 sensor:the device timestamp, the device uuid and double random variable.
   
 
 Second device is almost the same, except it samples data with variable interval and sets MAC address instead of UUID.
 
 
 
-The resulting paload looks like this:
+The resulting payload looks like this:
  
 ```sh
 iosynth/device/AA:16:4C:49:00:1D {"ts":"2017-01-21T14:24:32.134+0200","mac48":"AA:16:4C:49:00:1D","level":"c"}
@@ -362,15 +362,16 @@ Example:
 
 **TimeStamp**
 
-This sensor generates random time-stamp.
+This sensor generates random timestamp.
 Parameters:
-  - "from" time-stamp. The format is in "en_US" locale.
-  - "to" time-stamp. If not set, the device creation time is used. The format is in "en_US" locale.
-  - "locale" use locale (optional) to format generated time-stamps. One of the supported JVM locales. 
+  - "from" timestamp in ISO format "yyyy-MM-dd'T'HH:mm:ssZ".
+  - "to" timestamp in ISO format "yyyy-MM-dd'T'HH:mm:ssZ". If not set, the device creation time is used.
+  - "locale" use locale (optional) to format generated timestamps. One of the supported JVM locales.
+  - "format" timestamp format in Java SimpleDateFormat. If "format" is "s" or "ms", returns timestamp in seconds or milliseconds since January 1, 1970 UTC. 
   
 Example:
 ```sh
-{"type":"TimeStamp",  "name":"date", "from":"2000-01-01T11:50:23", "to":"2016-01-01T11:50:23", "locale":"ko_KR", "format":"E, yyyy MM d"}
+{"type":"TimeStamp",  "name":"date", "from":"2000-01-01T11:50:23+0000", "to":"2016-01-01T11:50:23+0000", "locale":"ko_KR", "format":"E, yyyy MM d"}
 ```
 
 Result:
