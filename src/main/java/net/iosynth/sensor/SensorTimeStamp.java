@@ -22,8 +22,8 @@ public class SensorTimeStamp extends Sensor {
 	 */
 	public SensorTimeStamp() {
 		this.locale = Locale.US;
-		this.format = "yyyy-MM-dd'T'HH:mm:ss";
-		this.from   = "2000-01-01T00:00:00";
+		this.format = "yyyy-MM-dd'T'HH:mm:ssZ";
+		this.from   = "2000-01-01T00:00:00+0000";
 	}
 
 	/* (non-Javadoc)
@@ -39,7 +39,11 @@ public class SensorTimeStamp extends Sensor {
 	 */
 	@Override
 	public String getString() {
-		return "\"" + gen.getDate() + "\"";
+		if(format == null || (!format.equals("s") && !format.equals("ms"))){
+			return "\"" + gen.getDate() + "\"";
+		} else {
+			return gen.getDate();
+		}
 	}
 
 	/* (non-Javadoc)

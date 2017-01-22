@@ -21,7 +21,9 @@ public class GeneratorDate {
 	private SimpleDateFormat dateFmtE;
 	private Locale loc;
 	private String fmt;
-	private static final String fmtE = "yyyy-MM-dd'T'HH:mm:ss";
+	private static final String fmtE = "yyyy-MM-dd'T'HH:mm:ssZ";
+	private static final String s = "s";
+	private static final String ms = "ms";
 	Calendar cal;
 	long start;
 	long end;
@@ -48,7 +50,9 @@ public class GeneratorDate {
 		} else {
 			this.fmt = fmt;
 		}
-		this.dateFmt = new SimpleDateFormat(this.fmt, this.loc);
+		if(this.fmt.length() != 0 && !this.fmt.equals(s) && !this.fmt.equals(ms)){
+			this.dateFmt = new SimpleDateFormat(this.fmt, this.loc);
+		}
 		this.dateFmtE = new SimpleDateFormat(fmtE, Locale.US);
 		this.cal = GregorianCalendar.getInstance();
 		if(a == null || a.length() == 0){
@@ -77,9 +81,18 @@ public class GeneratorDate {
 	 * @return date
 	 */
 	public String getDate(){
-		cal.setTimeInMillis(rnd.nextLong(end-start+1)+start);
-		dateFmt.setCalendar(cal);
-		return dateFmt.format(cal.getTime());
+		long tt = rnd.nextLong(end-start+1)+start;
+		if(fmt.length() != 0 && !fmt.equals(s) && !fmt.equals(ms)){
+			cal.setTimeInMillis(tt);
+			dateFmt.setCalendar(cal);
+			return dateFmt.format(cal.getTime());
+		} else {
+			if(fmt.equals(s)){
+				return String.valueOf(tt/1000L);
+			} else {
+				return String.valueOf(tt);
+			}
+		}
 	}
 	
 	/**
@@ -88,7 +101,7 @@ public class GeneratorDate {
 	public static void main(String[] args) {
 		// performance: 10^8 getDate() = 55s
 		Xoroshiro128 rnd = new Xoroshiro128(123);
-		GeneratorDate gen = new GeneratorDate(rnd, "1974-04-21T11:50:23", "1974-04-22T11:50:23", Locale.CHINESE, "E yyyy年MM月d日");
+		GeneratorDate gen = new GeneratorDate(rnd, "1974-04-21T11:50:23-0200", "1974-04-22T11:50:23-0200", null, null);
 		long start = System.currentTimeMillis();
 		for (int i = 0; i < 10; i++) {
 			//gen.getDate();

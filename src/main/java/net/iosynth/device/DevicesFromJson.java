@@ -85,7 +85,7 @@ public class DevicesFromJson {
 		
 		sensorAdapter.registerSubtype(SensorString.class,         "String");
 		//sensorAdapter.registerSubtype(SensorStringCycle.class,    "StringCycle");
-		sensorAdapter.registerSubtype(SensorStringRandom.class,   "StringRandom");
+		//sensorAdapter.registerSubtype(SensorStringRandom.class,   "StringRandom");
 		
 		sensorAdapter.registerSubtype(SensorCountry.class,        "Country");
 		sensorAdapter.registerSubtype(SensorTimeStamp.class,      "TimeStamp");
