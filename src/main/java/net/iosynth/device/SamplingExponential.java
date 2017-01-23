@@ -7,15 +7,13 @@ package net.iosynth.device;
  * @author rradev
  *
  */
-public class SamplingNormal extends Sampling {
-	private long mean;
-	private long stdev;
+public class SamplingExponential extends Sampling {
+	private long beta;
 	/**
 	 * 
 	 */
-	public SamplingNormal() {
-		this.mean = 15000;
-		this.stdev = 5000;
+	public SamplingExponential() {
+		this.beta = 10000;
 	}
 
 	/* (non-Javadoc)
@@ -23,11 +21,8 @@ public class SamplingNormal extends Sampling {
 	 */
 	@Override
 	public void checkParameters() {
-		if (mean < 100) {
-			mean = 100;
-		}
-		if (stdev < 100) {
-			stdev = 100;
+		if(beta < 100){
+			beta = 100;
 		}
 	}
 
@@ -36,7 +31,7 @@ public class SamplingNormal extends Sampling {
 	 */
 	@Override
 	public long getInterval() {
-		interval = (long)(rnd.nextGaussian()*stdev + mean);
+		interval = (long)(rnd.nextExponential((double)beta));
 		if(interval<100){
 			interval = 100;
 		}
@@ -48,7 +43,8 @@ public class SamplingNormal extends Sampling {
 	 */
 	@Override
 	public void replicate() {
-		/// nothing to do
+		// TODO Auto-generated method stub
+
 	}
 
 }

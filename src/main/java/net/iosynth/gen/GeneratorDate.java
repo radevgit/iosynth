@@ -24,7 +24,7 @@ public class GeneratorDate {
 	private static final String fmtE = "yyyy-MM-dd'T'HH:mm:ssZ";
 	private static final String s = "s";
 	private static final String ms = "ms";
-	Calendar cal;
+	private Calendar cal;
 	long start;
 	long end;
 	

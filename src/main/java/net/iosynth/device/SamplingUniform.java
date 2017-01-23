@@ -62,7 +62,7 @@ public class SamplingUniform extends Sampling {
 	 */
 	@Override
 	public void replicate() {
-		getInterval();
+		// nothing to do
 	}
 	
 

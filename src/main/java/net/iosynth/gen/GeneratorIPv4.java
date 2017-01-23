@@ -15,6 +15,7 @@ public class GeneratorIPv4 {
 	private int s;
 	private final int state[] = new int[4];
 	private static final String dot = ".";
+	private static final String escapedDot = "\\.";
 	private final Logger logger = Logger.getLogger(GeneratorIPv4.class.getName());
 	
 	/**
@@ -38,7 +39,7 @@ public class GeneratorIPv4 {
 				// remove dot at the end
 				prefix = prefix.substring(0, prefix.length() - 1);
 			}
-			String parts[] = prefix.split("\\.", 4);
+			String parts[] = prefix.split(escapedDot, 4);
 			s = parts.length;
 			for (int i = 0; i < parts.length; i++) {
 				try {
@@ -69,14 +70,14 @@ public class GeneratorIPv4 {
 		switch (s) {
 		case 0:
 			do {
-				state[0] = rnd.nextInt(254);
-			} while (state[0] == 0 || state[0] == 10 || state[0] == 127 || state[0] == 172 || state[0] == 192 || state[0] == 224);
+				state[0] = 1 + rnd.nextInt(254);
+			} while (state[0] == 10 || state[0] == 127 || state[0] == 172 || state[0] == 192 || state[0] == 224);
 		case 1:
-			state[1] = rnd.nextInt(256);
+			state[1] = 1 + rnd.nextInt(254);
 		case 2:
-			state[2] = rnd.nextInt(256);
+			state[2] = 1 + rnd.nextInt(254);
 		case 3:
-			state[3] = rnd.nextInt(256);
+			state[3] = 1 + rnd.nextInt(254);
 			break;
 		default:
 			break;

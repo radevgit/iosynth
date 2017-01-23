@@ -177,6 +177,14 @@ public class Xoroshiro128 {
         }
     }
 
+	/**
+	 * @param beta
+	 * @return next exponential
+	 */
+	public double nextExponential(double beta) {
+        return -Math.log(1.0 - nextDouble()) * beta;
+	}
+	
 	
    
     /**

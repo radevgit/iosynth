@@ -25,11 +25,12 @@ import net.iosynth.sensor.SensorDevTopic;
 import net.iosynth.sensor.SensorDevUUID;
 import net.iosynth.sensor.SensorString;
 import net.iosynth.sensor.SensorDoubleCycle;
+import net.iosynth.sensor.SensorDoubleNormal;
 import net.iosynth.sensor.SensorIntCycle;
 import net.iosynth.sensor.SensorStringCycle;
 import net.iosynth.sensor.SensorDevEpoch;
 import net.iosynth.sensor.SensorIPv4;
-import net.iosynth.sensor.SensorDoubleRandom;
+import net.iosynth.sensor.SensorDoubleUniform;
 import net.iosynth.sensor.SensorIntRandom;
 import net.iosynth.sensor.SensorMAC48;
 import net.iosynth.sensor.SensorMAC64;
@@ -78,7 +79,8 @@ public class DevicesFromJson {
 		sensorAdapter.registerSubtype(SensorBoolean.class,        "Boolean");
 		
 		sensorAdapter.registerSubtype(SensorDoubleCycle.class,    "DoubleCycle");
-		sensorAdapter.registerSubtype(SensorDoubleRandom.class,   "DoubleRandom");
+		sensorAdapter.registerSubtype(SensorDoubleUniform.class,  "DoubleUniform");
+		sensorAdapter.registerSubtype(SensorDoubleNormal.class,   "DoubleNormal");
 		
 		sensorAdapter.registerSubtype(SensorIntCycle.class,       "IntCycle");
 		sensorAdapter.registerSubtype(SensorIntRandom.class,      "IntRandom");
@@ -91,9 +93,10 @@ public class DevicesFromJson {
 		sensorAdapter.registerSubtype(SensorTimeStamp.class,      "TimeStamp");
 		
 		final RuntimeTypeAdapterFactory<Sampling> samplingAdapter = RuntimeTypeAdapterFactory.of(Sampling.class, "type");
-		samplingAdapter.registerSubtype(SamplingFixed.class,   "Fixed");
-		samplingAdapter.registerSubtype(SamplingUniform.class, "Uniform");
-		samplingAdapter.registerSubtype(SamplingNormal.class,  "Normal");
+		samplingAdapter.registerSubtype(SamplingFixed.class,         "Fixed");
+		samplingAdapter.registerSubtype(SamplingUniform.class,       "Uniform");
+		samplingAdapter.registerSubtype(SamplingNormal.class,        "Normal");
+		samplingAdapter.registerSubtype(SamplingExponential.class,   "Exponential");
 		
 
 		final Gson gson = new GsonBuilder()

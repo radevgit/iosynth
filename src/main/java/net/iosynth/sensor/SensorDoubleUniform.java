@@ -8,35 +8,16 @@ package net.iosynth.sensor;
  * @author rradev
  *
  */
-public class SensorDoubleRandom extends Sensor {
-	private double state;
+public class SensorDoubleUniform extends Sensor {
 	private double min, max;
 	
 	/**
 	 * 
 	 */
-	public SensorDoubleRandom() {
-		init(1, 10);
-	}
-
-	/**
-	 * @param min
-	 * @param max
-	 */
-	public SensorDoubleRandom(double min, double max){
-		init(min, max);
-	}
-	
-	/**
-	 * 
-	 * @param min Minimum generated value
-	 * @param max Maximum generated value
-	 */
-	public void init(double min, double max) {
+	public SensorDoubleUniform() {
 		this.format = "%.4f";
-		this.state = 0;
-		this.min = min;
-		this.max = max;
+		this.min = 0.0;
+		this.max = 1.0;
 	}
 	
 	/* (non-Javadoc)
@@ -44,7 +25,7 @@ public class SensorDoubleRandom extends Sensor {
 	 */
 	@Override
 	public void replicate() {
-		state = rnd.nextDouble()*(max-min)+min;
+		// nothing to do
 	}
 	
 	/*
@@ -54,11 +35,8 @@ public class SensorDoubleRandom extends Sensor {
 	 */
 	@Override
 	public void checkParameters() {
-		if (min > max) {
+		if (min >= max) {
 			max = min + 1;
-		}
-		if (state < min || state > max) {
-			state = min;
 		}
 	}
 	
@@ -67,18 +45,14 @@ public class SensorDoubleRandom extends Sensor {
 	 */
 	@Override
 	public void step(long step) {
-		for(int i=0; i<step; i++){
-			state = state + rnd.nextDouble()*0.2 - 0.1;
-			if(state>max) state = max;
-			if(state<min) state = min;
-		}
+		// nothing to do
 	}
 	
 	/**
 	 * @return Sensor value
 	 */
 	public double getValue(){
-		return state;
+		return rnd.nextDouble()*(max - min) + min;
 	}
 
 	@Override
