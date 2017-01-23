@@ -7,16 +7,16 @@ package net.iosynth.sensor;
  * @author rradev
  *
  */
-public class SensorDoubleCycle extends Sensor {
-	private double values[];
-	transient private long state;
+public class SensorIntUniform extends Sensor {
+	private long min, max;
 	
 	/**
 	 * 
 	 */
-	public SensorDoubleCycle() {
-		this.format = "%.4f";
-		this.state = 0;
+	public SensorIntUniform(){
+		this.format = "%d";
+		this.min = 1;
+		this.max = 10;
 	}
 	
 	/* (non-Javadoc)
@@ -24,18 +24,18 @@ public class SensorDoubleCycle extends Sensor {
 	 */
 	@Override
 	public void replicate() {
-		state = rnd.nextInt(values.length);
+		// nothing to do
 	}
 	
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.iosynth.sensor.Sensor#checkParameters()
 	 */
 	@Override
 	public void checkParameters() {
-		if (values == null) {
-			values = new double[2];
-			values[0] = 0.0;
-			values[1] = 1.0;
+		if (min > max) {
+			max = min + 1;
 		}
 	}
 	
@@ -43,21 +43,20 @@ public class SensorDoubleCycle extends Sensor {
 	 * @see net.iosynth.sensor.Sensor#step(long)
 	 */
 	@Override
-	public void step(long step){
-		state = (state + step) % values.length;
+	public void step(long step) {
+		// nothing to do
 	}
 	
 	/**
 	 * @return Sensor value
 	 */
-	public double getValue(){
-		return values[(int)state];
+	public long getValue(){
+		return rnd.nextLong(max-min) + min;
 	}
 
 	@Override
 	public String getString() {
 		return String.format(format, getValue());
 	}
-
 
 }

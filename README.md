@@ -124,7 +124,7 @@ iosynth/device/dev0000 {"ts":"2017-01-21T14:24:49.078+0200","uuid":"dev0000","te
 |"type" | Device type. Currently all provided devices are of "Simple" type.|
 |"uuid", "ipv4", "mac48", "mac64" | Device uuid, ipv4, mac addresses. (optional)|
 |"topic"| String forming the MQTT topic name. May contain variables {$uuid}, {$ipv4}, ... that are replaced with the current device values.|
-|"sampling" | Device data sampling interval. Time parameters are in milliseconds. Sampling functions: Fixed, Uniform, Normal |
+|"sampling" | Device data sampling interval. Time parameters are in milliseconds.|
 |"copy" | number of replicas for each device.|
 |"out_of_order"| Double number [0..1.0] that sets the probability for out-of-order messages. (optional)|
 |"message_loss"| Double number [0..1.0] that sets the probability for message loss. (optional)|
@@ -223,6 +223,7 @@ iosynth/device/AA:16:4C:49:00:23/out/stream
 |Fixed| interval | Fixed interval sampling in milliseconds |
 |Uniform| min, max | Sampling intervals with uniform distribution.|
 |Normal| mean, stdev | Sampling intervals with Normal distribution with mean and standard deviation in milliseconds. |
+|Exponential| beta | Sampling intervals with Exponential distribution with beta in milliseconds. |
 
 ### Sensor types
 
@@ -230,6 +231,9 @@ All sensors have "name" parameter and some have optional "format" parameter.
 The "format" parameter defines value formatting according to java.lang.String.format rules or java.text.SimpleDateFormat rules.
 Sensors starting with lower-case show current device state ("uuid", "timestamp", "epoch", ...). 
 Sensors starting with upper-case are value generators ("UUID", "String", ...). 
+
+**topic**
+This sensor shows the device topic.
 
 **uuid, ipv4, mac48, mac64**
 
@@ -384,6 +388,83 @@ iosynth/device {"date":"월, 2012 10 29"}
 iosynth/device {"date":"수, 2013 09 25"}
 
 ```
+
+**Boolean**
+
+Boolean (true, false) with optional parameter "success" - the success likelihood.
+
+
+**DoubleCycle**
+
+Cycle double "values" provided as array.
+
+Example:
+```sh
+{"type":"DoubleCycle", "values":[1,2,3,4,5]}
+```
+
+**DoubleWalk**
+
+Random walk between "min" and "max" with "step" and initial "state".
+
+Example:
+```sh
+{"type":"DoubleWalk", "min":23, "max":34, "state":24, "step":1}
+```
+
+**DoubleUniform**
+
+Values between "min" and "max" from Uniform random generator.
+
+```sh
+{"type":"DoubleUniform", "min":23, "max":34}
+```
+
+**DoubleNormal**
+
+Values from Normal (Gaussian) random distribution with "mean" and "stdev" parameters. 
+
+```sh
+{"type":"DoubleNormal", "mean":10, "stdev":0.5}
+```
+
+**DoubleExponential**
+
+Values from Exponential random distribution with "beta" parameter
+
+```sh
+{"type":"DoubleExponential", "beta":10}
+```
+
+**IntCycle**
+
+Cycle int (long) "values" provided as array.
+
+Example:
+```sh
+{"type":"IntCycle", "values":[1,2,3,4,5]}
+```
+
+**IntWalk**
+
+Random walk between "min" and "max" with "step" and initial "state".
+
+Example:
+```sh
+{"type":"IntWalk", "min":23, "max":34, "state":24, "step":1}
+```
+
+**IntUniform**
+
+Values between "min" and "max" from Uniform random generator.
+
+```sh
+{"type":"IntUniform", "min":23, "max":34}
+```
+
+
+
+
 
 **Country**
 This sensor generates random country names. Accepts optional "locale" parameter with one of supported JVM locales.

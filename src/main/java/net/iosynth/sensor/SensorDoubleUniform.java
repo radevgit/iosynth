@@ -4,7 +4,6 @@
 package net.iosynth.sensor;
 
 /**
- * Generates random walk with 0.1 step
  * @author rradev
  *
  */

@@ -25,13 +25,15 @@ import net.iosynth.sensor.SensorDevTopic;
 import net.iosynth.sensor.SensorDevUUID;
 import net.iosynth.sensor.SensorString;
 import net.iosynth.sensor.SensorDoubleCycle;
+import net.iosynth.sensor.SensorDoubleExponential;
 import net.iosynth.sensor.SensorDoubleNormal;
 import net.iosynth.sensor.SensorIntCycle;
 import net.iosynth.sensor.SensorStringCycle;
 import net.iosynth.sensor.SensorDevEpoch;
 import net.iosynth.sensor.SensorIPv4;
 import net.iosynth.sensor.SensorDoubleUniform;
-import net.iosynth.sensor.SensorIntRandom;
+import net.iosynth.sensor.SensorDoubleWalk;
+import net.iosynth.sensor.SensorIntUniform;
 import net.iosynth.sensor.SensorMAC48;
 import net.iosynth.sensor.SensorMAC64;
 import net.iosynth.sensor.SensorStringRandom;
@@ -78,12 +80,15 @@ public class DevicesFromJson {
 		
 		sensorAdapter.registerSubtype(SensorBoolean.class,        "Boolean");
 		
-		sensorAdapter.registerSubtype(SensorDoubleCycle.class,    "DoubleCycle");
-		sensorAdapter.registerSubtype(SensorDoubleUniform.class,  "DoubleUniform");
-		sensorAdapter.registerSubtype(SensorDoubleNormal.class,   "DoubleNormal");
+		sensorAdapter.registerSubtype(SensorDoubleCycle.class,         "DoubleCycle");
+		sensorAdapter.registerSubtype(SensorDoubleWalk.class,          "DoubleWalk");
+		sensorAdapter.registerSubtype(SensorDoubleUniform.class,       "DoubleUniform");
+		sensorAdapter.registerSubtype(SensorDoubleNormal.class,        "DoubleNormal");
+		sensorAdapter.registerSubtype(SensorDoubleExponential.class,   "DoubleExponential");
 		
-		sensorAdapter.registerSubtype(SensorIntCycle.class,       "IntCycle");
-		sensorAdapter.registerSubtype(SensorIntRandom.class,      "IntRandom");
+		sensorAdapter.registerSubtype(SensorIntCycle.class,        "IntCycle");
+		sensorAdapter.registerSubtype(SensorIntUniform.class,      "IntWalk");
+		sensorAdapter.registerSubtype(SensorIntUniform.class,      "IntUniform");
 		
 		sensorAdapter.registerSubtype(SensorString.class,         "String");
 		//sensorAdapter.registerSubtype(SensorStringCycle.class,    "StringCycle");

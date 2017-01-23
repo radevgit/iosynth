@@ -8,35 +8,15 @@ package net.iosynth.sensor;
  *
  */
 public class SensorIntCycle extends Sensor {
-	private int values[];
+	private long values[];
 	private long state;
 	
 	/**
 	 * 
 	 */
 	public SensorIntCycle() {
-		final int val[] = {1};
-		init(val);
-	}
-	
-	/**
-	 * @param values
-	 */
-	public SensorIntCycle(int[] values) {
-		init(values);
-	}
-	
-	/**
-	 * @param values 
-	 * 
-	 */
-	public void init(int[] values) {
 		this.format = "%d";
 		this.state = 0;
-		this.values = new int[values.length];
-		for(int i=0; i<values.length; i++){
-			this.values[i] = values[i];
-		}
 	}
 	
 	/* (non-Javadoc)
@@ -44,7 +24,7 @@ public class SensorIntCycle extends Sensor {
 	 */
 	@Override
 	public void replicate() {
-		state = rnd.nextInt(values.length);
+		state = rnd.nextLong(values.length);
 	}
 	
 	/* (non-Javadoc)
@@ -53,8 +33,9 @@ public class SensorIntCycle extends Sensor {
 	@Override
 	public void checkParameters() {
 		if (values == null) {
-			values = new int[1];
-			values[0] = 1;
+			values = new long[2];
+			values[0] = 0;
+			values[1] = 1;
 		}
 	}
 
@@ -69,7 +50,7 @@ public class SensorIntCycle extends Sensor {
 	/**
 	 * @return Sensor value
 	 */
-	public int getValue(){
+	public long getValue(){
 		return values[(int)state];
 	}
 
