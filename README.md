@@ -70,7 +70,7 @@ Example of simple **devices.json** file:
         "sensors":[
             {"type":"timestamp",    "name":"ts"},
             {"type":"uuid",         "name":"uuid"},
-            {"type":"DoubleRandom", "name":"temp", "min":-15, "max":3}
+            {"type":"DoubleWalk", "name":"temp", "min":-15, "max":3}
         ]
     },
     {
@@ -145,11 +145,11 @@ The below device configuration **devices.json** defines complex json payload usi
         "copy":10,
         "json_template":"template.json",
         "sensors":[
-            {"type":"mac48",     "name":"{$mac48}"},
-            {"type":"IntRandom", "name":"{$light_value}",  "min":0, "max":300000},
-            {"type":"IntRandom", "name":"{$temp_value}",  "min":20000, "max":35000},
-            {"type":"IntRandom", "name":"{$pressure_value}",  "min":30000, "max":110000},
-            {"type":"IntRandom", "name":"{$humidity_value}",  "min":10, "max":90}
+            {"type":"mac48",   "name":"{$mac48}"},
+            {"type":"IntWalk", "name":"{$light_value}",     "min":0,     "max":300000},
+            {"type":"IntWalk", "name":"{$temp_value}",      "min":20000, "max":35000},
+            {"type":"IntWalk", "name":"{$pressure_value}",  "min":30000, "max":110000},
+            {"type":"IntWalk", "name":"{$humidity_value}",  "min":10,    "max":90}
         ]
     }
 ]

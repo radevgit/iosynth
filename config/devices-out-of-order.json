@@ -11,7 +11,7 @@
             {"type":"timestamp",   "name":"ts", "format":"yyyy-MM-dd'T'HH:mm:ss.SSSZ"},
             {"type":"epoch",       "name":"epoch"},
             {"type":"String",      "name":"command", "cycle":["Alfa","Bravo","Charlie","Delta","Echo","Foxtrot"]},
-            {"type":"IntRandom",   "name":"state",   "min":0, "max":5, "format":"%03d"},
+            {"type":"IntUniform",  "name":"state",   "min":0, "max":5, "format":"%03d"},
             {"type":"IntCycle",    "name":"level",   "values":[1,2,8,9,11,2,3,4]},
             {"type":"String",      "name":"switch",  "cycle":["on", "off"]}
         ]

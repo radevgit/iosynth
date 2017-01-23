@@ -8,19 +8,19 @@
         "json_template":"template-bosch-xdk.json",
         "sensors":[
             {"type":"mac48",     "name":"{$mac48}"},
-            {"type":"IntRandom", "name":"{$acc_x}", "min":-2000, "max":2000},
-            {"type":"IntRandom", "name":"{$acc_y}", "min":-2000, "max":2000},
-            {"type":"IntRandom", "name":"{$acc_z}", "min":-2000, "max":2000},
-            {"type":"IntRandom", "name":"{$gyro_x}", "min":-7000, "max":7000},
-            {"type":"IntRandom", "name":"{$gyro_y}", "min":-7000, "max":7000},
-            {"type":"IntRandom", "name":"{$gyro_z}", "min":-7000, "max":7000},
-            {"type":"IntRandom", "name":"{$mag_x}",  "min":-500, "max":500},
-            {"type":"IntRandom", "name":"{$mag_y}",  "min":-500, "max":500},
-            {"type":"IntRandom", "name":"{$mag_z}",  "min":-500, "max":500},
-            {"type":"IntRandom", "name":"{$light_value}",  "min":0, "max":300000},
-            {"type":"IntRandom", "name":"{$temp_value}",  "min":20000, "max":35000},
-            {"type":"IntRandom", "name":"{$pressure_value}",  "min":30000, "max":110000},
-            {"type":"IntRandom", "name":"{$humidity_value}",  "min":10, "max":90}
+            {"type":"IntWalk", "name":"{$acc_x}", "min":-2000, "max":2000},
+            {"type":"IntWalk", "name":"{$acc_y}", "min":-2000, "max":2000},
+            {"type":"IntWalk", "name":"{$acc_z}", "min":-2000, "max":2000},
+            {"type":"IntWalk", "name":"{$gyro_x}", "min":-7000, "max":7000},
+            {"type":"IntWalk", "name":"{$gyro_y}", "min":-7000, "max":7000},
+            {"type":"IntWalk", "name":"{$gyro_z}", "min":-7000, "max":7000},
+            {"type":"IntWalk", "name":"{$mag_x}",  "min":-500, "max":500},
+            {"type":"IntWalk", "name":"{$mag_y}",  "min":-500, "max":500},
+            {"type":"IntWalk", "name":"{$mag_z}",  "min":-500, "max":500},
+            {"type":"IntWalk", "name":"{$light_value}",  "min":0, "max":300000},
+            {"type":"IntWalk", "name":"{$temp_value}",  "min":20000, "max":35000},
+            {"type":"IntWalk", "name":"{$pressure_value}",  "min":30000, "max":110000},
+            {"type":"IntWalk", "name":"{$humidity_value}",  "min":10, "max":90}
         ]
     }
 ]
