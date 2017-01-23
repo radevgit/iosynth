@@ -233,7 +233,9 @@ Sensors starting with lower-case show current device state ("uuid", "timestamp",
 Sensors starting with upper-case are value generators ("UUID", "String", ...). 
 
 **topic**
+
 This sensor shows the device topic.
+
 
 **uuid, ipv4, mac48, mac64**
 
@@ -354,16 +356,6 @@ iosynth/dev00 {"string":"ebcefdb"}
 iosynth/dev00 {"string":"djdeffe"}
 ```
 
-
-**Boolean**
-
-This sensor generates random boolean value (true, false).
-Optional parameter "success" - likelihood of success. (0.0 ... 1.0)
-Example:
-```sh
-{"type":"Boolean", "name":"enabled", "success":0.1}
-```
-
 **TimeStamp**
 
 This sensor generates random timestamp.
@@ -389,9 +381,17 @@ iosynth/device {"date":"수, 2013 09 25"}
 
 ```
 
+
+
 **Boolean**
 
-Boolean (true, false) with optional parameter "success" - the success likelihood.
+This sensor generates random boolean value (true, false).
+Optional parameter "success" - likelihood of success. (0.0 ... 1.0)
+Example:
+```sh
+{"type":"Boolean", "name":"enabled", "success":0.1}
+```
+
 
 
 **DoubleCycle**
@@ -467,6 +467,7 @@ Values between "min" and "max" from Uniform random generator.
 
 
 **Country**
+
 This sensor generates random country names. Accepts optional "locale" parameter with one of supported JVM locales.
 
 Example:
