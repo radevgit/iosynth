@@ -122,7 +122,7 @@ iosynth/device/dev0000 {"ts":"2017-01-21T14:24:49.078+0200","uuid":"dev0000","te
 |  Parameter    |  Description  |
 | ------------:|:-------------|
 |`type` | Device type. Currently all provided devices are of "simple" type.|
-|`uuid`, "ipv4", "mac48", "mac64" | Device uuid, ipv4, mac addresses. (optional)|
+|`uuid`, `ipv4`, `mac48`, `mac64` | Device uuid, ipv4, mac addresses. (optional)|
 |`topic`| String forming the MQTT topic name. May contain variables {$uuid}, {$ipv4}, ... that are replaced with the current device values.|
 |`sampling` | Device data sampling interval. Time parameters are in milliseconds.|
 |`copy` | number of replicas for each device.|
@@ -396,7 +396,7 @@ Example:
 
 
 
-**DoubleCycle**
+**double_cycle**
 
 Cycle double "values" provided as array.
 
