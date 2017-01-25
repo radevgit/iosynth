@@ -34,6 +34,7 @@ import net.iosynth.sensor.SensorIPv4;
 import net.iosynth.sensor.SensorDoubleUniform;
 import net.iosynth.sensor.SensorDoubleWalk;
 import net.iosynth.sensor.SensorIntUniform;
+import net.iosynth.sensor.SensorIntWalk;
 import net.iosynth.sensor.SensorMAC48;
 import net.iosynth.sensor.SensorMAC64;
 import net.iosynth.sensor.SensorStringRandom;
@@ -65,43 +66,43 @@ public class DevicesFromJson {
 		deviceAdapter.registerSubtype(DeviceSimple.class, "Simple");
 		
 		final RuntimeTypeAdapterFactory<Sensor> sensorAdapter = RuntimeTypeAdapterFactory.of(Sensor.class, "type");
-		sensorAdapter.registerSubtype(SensorDevTopic.class,       "topic");
-		sensorAdapter.registerSubtype(SensorDevUUID.class,        "uuid");
-		sensorAdapter.registerSubtype(SensorDevIPv4.class,        "ipv4");
-		sensorAdapter.registerSubtype(SensorDevMAC48.class,       "mac48");
-		sensorAdapter.registerSubtype(SensorDevMAC64.class,       "mac64");
-		sensorAdapter.registerSubtype(SensorDevEpoch.class,       "epoch");
-		sensorAdapter.registerSubtype(SensorDevTimeStamp.class,   "timestamp");
+		sensorAdapter.registerSubtype(SensorDevTopic.class,       "dev.topic");
+		sensorAdapter.registerSubtype(SensorDevUUID.class,        "dev.uuid");
+		sensorAdapter.registerSubtype(SensorDevIPv4.class,        "dev.ipv4");
+		sensorAdapter.registerSubtype(SensorDevMAC48.class,       "dev.mac48");
+		sensorAdapter.registerSubtype(SensorDevMAC64.class,       "dev.mac64");
+		sensorAdapter.registerSubtype(SensorDevEpoch.class,       "dev.epoch");
+		sensorAdapter.registerSubtype(SensorDevTimeStamp.class,   "dev.timestamp");
 		
-		sensorAdapter.registerSubtype(SensorUUID.class,           "UUID");
-		sensorAdapter.registerSubtype(SensorIPv4.class,           "IPv4");
-		sensorAdapter.registerSubtype(SensorMAC48.class,          "MAC48");
-		sensorAdapter.registerSubtype(SensorMAC64.class,          "MAC64");
+		sensorAdapter.registerSubtype(SensorUUID.class,           "uuid");
+		sensorAdapter.registerSubtype(SensorIPv4.class,           "ipv4");
+		sensorAdapter.registerSubtype(SensorMAC48.class,          "mac48");
+		sensorAdapter.registerSubtype(SensorMAC64.class,          "mac64");
 		
-		sensorAdapter.registerSubtype(SensorBoolean.class,        "Boolean");
+		sensorAdapter.registerSubtype(SensorBoolean.class,        "boolean");
 		
-		sensorAdapter.registerSubtype(SensorDoubleCycle.class,         "DoubleCycle");
-		sensorAdapter.registerSubtype(SensorDoubleWalk.class,          "DoubleWalk");
-		sensorAdapter.registerSubtype(SensorDoubleUniform.class,       "DoubleUniform");
-		sensorAdapter.registerSubtype(SensorDoubleNormal.class,        "DoubleNormal");
-		sensorAdapter.registerSubtype(SensorDoubleExponential.class,   "DoubleExponential");
+		sensorAdapter.registerSubtype(SensorDoubleCycle.class,         "double_cycle");
+		sensorAdapter.registerSubtype(SensorDoubleWalk.class,          "double_walk");
+		sensorAdapter.registerSubtype(SensorDoubleUniform.class,       "double_uniform");
+		sensorAdapter.registerSubtype(SensorDoubleNormal.class,        "double_normal");
+		sensorAdapter.registerSubtype(SensorDoubleExponential.class,   "double_exp");
 		
-		sensorAdapter.registerSubtype(SensorIntCycle.class,        "IntCycle");
-		sensorAdapter.registerSubtype(SensorIntUniform.class,      "IntWalk");
-		sensorAdapter.registerSubtype(SensorIntUniform.class,      "IntUniform");
+		sensorAdapter.registerSubtype(SensorIntCycle.class,        "int_cycle");
+		sensorAdapter.registerSubtype(SensorIntWalk.class,         "int_walk");
+		sensorAdapter.registerSubtype(SensorIntUniform.class,      "int_uniform");
 		
-		sensorAdapter.registerSubtype(SensorString.class,         "String");
+		sensorAdapter.registerSubtype(SensorString.class,         "string");
 		//sensorAdapter.registerSubtype(SensorStringCycle.class,    "StringCycle");
 		//sensorAdapter.registerSubtype(SensorStringRandom.class,   "StringRandom");
 		
-		sensorAdapter.registerSubtype(SensorCountry.class,        "Country");
-		sensorAdapter.registerSubtype(SensorTimeStamp.class,      "TimeStamp");
+		sensorAdapter.registerSubtype(SensorCountry.class,        "country");
+		sensorAdapter.registerSubtype(SensorTimeStamp.class,      "timestamp");
 		
 		final RuntimeTypeAdapterFactory<Sampling> samplingAdapter = RuntimeTypeAdapterFactory.of(Sampling.class, "type");
-		samplingAdapter.registerSubtype(SamplingFixed.class,         "Fixed");
-		samplingAdapter.registerSubtype(SamplingUniform.class,       "Uniform");
-		samplingAdapter.registerSubtype(SamplingNormal.class,        "Normal");
-		samplingAdapter.registerSubtype(SamplingExponential.class,   "Exponential");
+		samplingAdapter.registerSubtype(SamplingFixed.class,         "fixed");
+		samplingAdapter.registerSubtype(SamplingUniform.class,       "uniform");
+		samplingAdapter.registerSubtype(SamplingNormal.class,        "normal");
+		samplingAdapter.registerSubtype(SamplingExponential.class,   "exp");
 		
 
 		final Gson gson = new GsonBuilder()

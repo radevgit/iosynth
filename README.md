@@ -59,7 +59,7 @@ There are two types of sensors configuration. The first one result in simple jso
 The second one uses json template file and results in complex json payload.
 
 Example of simple **devices.json** file:
-```sh
+```json
 [
     {
         "type":"Simple",
@@ -135,7 +135,7 @@ The above device configuration provides simple payload of the form:
 { "a":a, "b":b, "c":c, .....}
 ```
 The below device configuration **devices.json** defines complex json payload using additional template file:
-```sh
+```json
 [
     {
         "type":"Simple",
@@ -155,7 +155,7 @@ The below device configuration **devices.json** defines complex json payload usi
 ]
 ```
 where the **template.json** file is:
-```sh
+```json
 {
         "sn": "{$mac48}",
         "data": {
@@ -181,9 +181,11 @@ where the **template.json** file is:
 
 The sensors in the devices.json use {$var} in name to indicate what variables are replaced in template.json.
 Resulting topic and payload looks like this:
-```sh
+
 iosynth/device/AA:16:4C:49:00:23/out/stream
- 
+
+
+```json 
 {
         "sn": "AA:16:4C:49:00:23",
         "data": {
@@ -253,7 +255,7 @@ Optional parameter "format" specifies the date-time format.
 
 
 Example:
-```sh
+```json
 {"type":"Timestamp",   "name":"ts", "format":"yyyy-MM-dd'T'HH:mm:ss.SSSZ"}
 ```
 
@@ -263,7 +265,7 @@ This sensor generates random UUID.
 
 
 Example:
-```sh
+```json
 {"type":"UUID", "name":"UUID"}
 ```
 
@@ -274,7 +276,7 @@ Optional parameter "prefix" specifies fixed prefix.
 
 
 Example:
-```sh
+```json
 {"type":"IPv4", "name":"IP", "prefix":"222."}
 ```
 
@@ -285,7 +287,7 @@ Optional parameter "prefix" specifies fixed prefix.
 
 
 Example:
-```sh
+```json
 {"type":"MAC48", "name":"MAC", "prefix":"EE:00:"}
 ```
 
@@ -296,7 +298,7 @@ Optional parameter "prefix" specifies fixed prefix.
 
 
 Example:
-```sh
+```json
 {"type":"MAC64", "name":"MAC", "prefix":"EE:00:"}
 ```
 
@@ -309,7 +311,7 @@ This sensor generate strings from list of strings or alphabet.
 
 
 Example:
-```sh
+```json
 {"type":"String", "name":"string", "cycle":["aaa", "bbb", "ccc"]}
 ```
 
@@ -325,7 +327,7 @@ iosynth/dev00 {"string":"aaa"}
 ```
 
 Example:
-```sh
+```json
 {"type":"String", "name":"string", "random":["aaa", "bbb", "ccc"]}
 ```
 
@@ -341,7 +343,7 @@ iosynth/dev00 {"string":"aaa"}
 ```
 
 Example:
-```sh
+```json
 {"type":"String", "name":"string", "min":5, "max":8, "alphabet":"abcdefghijk"}
 ```
 
@@ -366,7 +368,7 @@ Parameters:
   - "format" timestamp format in Java SimpleDateFormat. If "format" is "s" or "ms", returns timestamp in seconds or milliseconds since January 1, 1970 UTC. 
   
 Example:
-```sh
+```json
 {"type":"TimeStamp",  "name":"date", "from":"2000-01-01T11:50:23+0000", "to":"2016-01-01T11:50:23+0000", "locale":"ko_KR", "format":"E, yyyy MM d"}
 ```
 
@@ -388,7 +390,7 @@ iosynth/device {"date":"수, 2013 09 25"}
 This sensor generates random boolean value (true, false).
 Optional parameter "success" - likelihood of success. (0.0 ... 1.0)
 Example:
-```sh
+```json
 {"type":"Boolean", "name":"enabled", "success":0.1}
 ```
 
@@ -399,7 +401,7 @@ Example:
 Cycle double "values" provided as array.
 
 Example:
-```sh
+```json
 {"type":"DoubleCycle", "values":[1,2,3,4,5]}
 ```
 
@@ -408,7 +410,7 @@ Example:
 Random walk between "min" and "max" with "step" and initial "state".
 
 Example:
-```sh
+```json
 {"type":"DoubleWalk", "min":23, "max":34, "state":24, "step":1}
 ```
 
@@ -416,7 +418,7 @@ Example:
 
 Values between "min" and "max" from Uniform random generator.
 
-```sh
+```json
 {"type":"DoubleUniform", "min":23, "max":34}
 ```
 
@@ -424,7 +426,7 @@ Values between "min" and "max" from Uniform random generator.
 
 Values from Normal (Gaussian) random distribution with "mean" and "stdev" parameters. 
 
-```sh
+```json
 {"type":"DoubleNormal", "mean":10, "stdev":0.5}
 ```
 
@@ -432,7 +434,7 @@ Values from Normal (Gaussian) random distribution with "mean" and "stdev" parame
 
 Values from Exponential random distribution with "beta" parameter
 
-```sh
+```json
 {"type":"DoubleExponential", "beta":10}
 ```
 
@@ -441,7 +443,7 @@ Values from Exponential random distribution with "beta" parameter
 Cycle int (long) "values" provided as array.
 
 Example:
-```sh
+```json
 {"type":"IntCycle", "values":[1,2,3,4,5]}
 ```
 
@@ -450,7 +452,7 @@ Example:
 Random walk between "min" and "max" with "step" and initial "state".
 
 Example:
-```sh
+```json
 {"type":"IntWalk", "min":23, "max":34, "state":24, "step":1}
 ```
 
@@ -458,7 +460,7 @@ Example:
 
 Values between "min" and "max" from Uniform random generator.
 
-```sh
+```json
 {"type":"IntUniform", "min":23, "max":34}
 ```
 
@@ -471,7 +473,7 @@ Values between "min" and "max" from Uniform random generator.
 This sensor generates random country names. Accepts optional "locale" parameter with one of supported JVM locales.
 
 Example:
-```sh
+```json
 {"type":"Country", "name":"country"},
 {"type":"Country", "name":"国家", "locale":"zh_CN"}
 ```
