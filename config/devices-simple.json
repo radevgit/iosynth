@@ -1,16 +1,16 @@
 [
     {
-        "type":"Simple",
+        "type":"simple",
         "uuid":"",
         "topic":"device/{$uuid}",
-        "sampling":{"type":"Fixed", "interval":10000},
+        "sampling":{"type":"fixed", "interval":10000},
         "copy":2,
         "sensors":[
-            {"type":"timestamp",    "name":"ts"},
-            {"type":"uuid",         "name":"uuid"},
-            {"type":"DoubleWalk",   "name":"temp",  "min":-15, "max":3},
-            {"type":"DoubleCycle",  "name":"level", "values": [1.1,3.2,8.3,9.4]},
-            {"type":"String",       "name":"level", "random": ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o"]}
+            {"type":"dev.timestamp",    "name":"ts"},
+            {"type":"dev.uuid",         "name":"uuid"},
+            {"type":"double_walk",   "name":"temp",  "min":-15, "max":3},
+            {"type":"double_cycle",  "name":"level", "values": [1.1,3.2,8.3,9.4]},
+            {"type":"string",        "name":"level", "random": ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o"]}
         ]
     }
 ]

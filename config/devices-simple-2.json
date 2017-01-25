@@ -1,18 +1,18 @@
 [
     {
-        "type":"Simple",
+        "type":"simple",
         "ipv4":"123.123.",
         "topic":"device/{$ipv4}",
-        "sampling":{"type":"Fixed", "interval":10000},
+        "sampling":{"type":"fixed", "interval":10000},
         "copy":2,
         "sensors":[
-            {"type":"timestamp",    "name":"ts"},
-            {"type":"Country",      "name":"country"},
-            {"type":"Country",      "name":"trans", "locale":"zh_CN"},
-            {"type":"TimeStamp",    "name":"date1", "from":"2000-01-01T11:50:23+0000", "to":"2100-01-01T11:50:23+0000"},
-            {"type":"TimeStamp",    "name":"date2", "from":"2000-01-01T11:50:23+0000", "to":"2100-01-01T11:50:23+0000", "locale":"fr_FR", "format":"E, yyyy MM d"},
-            {"type":"IPv4",         "name":"ip", "prefix":"222."},
-            {"type":"MAC48",        "name":"ip", "prefix":"EE:"}
+            {"type":"dev.timestamp",    "name":"ts"},
+            {"type":"country",      "name":"country"},
+            {"type":"country",      "name":"trans", "locale":"zh_CN"},
+            {"type":"timestamp",    "name":"date1", "from":"2000-01-01T11:50:23+0000", "to":"2100-01-01T11:50:23+0000"},
+            {"type":"timestamp",    "name":"date2", "from":"2000-01-01T11:50:23+0000", "to":"2100-01-01T11:50:23+0000", "locale":"fr_FR", "format":"E, yyyy MM d"},
+            {"type":"ipv4",         "name":"ip", "prefix":"222."},
+            {"type":"mac48",        "name":"ip", "prefix":"EE:"}
         ]
     }
 ]

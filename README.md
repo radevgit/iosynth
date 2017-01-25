@@ -38,11 +38,11 @@ Example **config-mqtt.json** configuration:
 
 |  Parameter    |  Description  |
 | ------------:|:-------------|
-| uri   | **tcp://host[:port]**  - MQTT broker address |
-| topic  | Prefix of the *MQTT topic* that together with the device *topic* create the full topic name |
-| clients | Number of MQTT clients. Each client sends the data from selected devices only. | 
-| qos      | Quality of Service: 0, 1, 2    |
-| seed | Random Generator seed used to create reproducible scenarios. It can be omitted in other cases.|
+| `uri`   | **tcp://host[:port]**  - MQTT broker address |
+| `topic`  | Prefix of the *MQTT topic* that together with the device *topic* create the full topic name |
+| `clients` | Number of MQTT clients. Each client sends the data from selected devices only. | 
+| `qos`      | Quality of Service: 0, 1, 2    |
+| `seed` | Random Generator seed used to create reproducible scenarios. It can be omitted in other cases.|
 
 ### devices.json
 devices.json - configuration is a json file containing list of device definitions:
@@ -62,27 +62,27 @@ Example of simple **devices.json** file:
 ```json
 [
     {
-        "type":"Simple",
+        "type":"simple",
         "uuid":"dev%04d",
         "topic":"device/{$uuid}",
-        "sampling":{"type":"Fixed", "interval":10000},
+        "sampling":{"type":"fixed", "interval":10000},
         "copy":2,
         "sensors":[
-            {"type":"timestamp",    "name":"ts"},
-            {"type":"uuid",         "name":"uuid"},
-            {"type":"DoubleWalk", "name":"temp", "min":-15, "max":3}
+            {"type":"dev.timestamp",    "name":"ts"},
+            {"type":"dev.uuid",         "name":"uuid"},
+            {"type":"double_walk", "name":"temp", "min":-15, "max":3}
         ]
     },
     {
-        "type":"Simple",
+        "type":"simple",
         "mac48":"",
         "topic":"device/{$mac48}",
-        "sampling":{"type":"Uniform", "min":3000, "max":6000},
+        "sampling":{"type":"uniform", "min":3000, "max":6000},
         "copy":2,
         "sensors":[
-            {"type":"timestamp",    "name":"ts"},
-            {"type":"mac48",        "name":"mac48"},
-            {"type":"String",       "name":"level", "random": ["a","b","c","d","e","f"]}
+            {"type":"dev.timestamp",    "name":"ts"},
+            {"type":"dev.mac48",        "name":"mac48"},
+            {"type":"string",       "name":"level", "random": ["a","b","c","d","e","f"]}
         ]
     }
 ]
@@ -121,14 +121,14 @@ iosynth/device/dev0000 {"ts":"2017-01-21T14:24:49.078+0200","uuid":"dev0000","te
 
 |  Parameter    |  Description  |
 | ------------:|:-------------|
-|"type" | Device type. Currently all provided devices are of "Simple" type.|
-|"uuid", "ipv4", "mac48", "mac64" | Device uuid, ipv4, mac addresses. (optional)|
-|"topic"| String forming the MQTT topic name. May contain variables {$uuid}, {$ipv4}, ... that are replaced with the current device values.|
-|"sampling" | Device data sampling interval. Time parameters are in milliseconds.|
-|"copy" | number of replicas for each device.|
-|"out_of_order"| Double number [0..1.0] that sets the probability for out-of-order messages. (optional)|
-|"message_loss"| Double number [0..1.0] that sets the probability for message loss. (optional)|
-|"sensors" | list of sensor definitions.|
+|`type` | Device type. Currently all provided devices are of "simple" type.|
+|`uuid`, "ipv4", "mac48", "mac64" | Device uuid, ipv4, mac addresses. (optional)|
+|`topic`| String forming the MQTT topic name. May contain variables {$uuid}, {$ipv4}, ... that are replaced with the current device values.|
+|`sampling` | Device data sampling interval. Time parameters are in milliseconds.|
+|`copy` | number of replicas for each device.|
+|`out_of_order`| Double number [0..1.0] that sets the probability for out-of-order messages. (optional)|
+|`message_loss`| Double number [0..1.0] that sets the probability for message loss. (optional)|
+|`sensors` | list of sensor definitions.|
 
 The above device configuration provides simple payload of the form:
 ```sh
@@ -138,14 +138,14 @@ The below device configuration **devices.json** defines complex json payload usi
 ```json
 [
     {
-        "type":"Simple",
+        "type":"simple",
         "mac48":"",
         "topic":"device/{$mac48}/out/stream",
         "sampling":{"type":"Fixed", "interval":10000},
         "copy":10,
         "json_template":"template.json",
         "sensors":[
-            {"type":"mac48",   "name":"{$mac48}"},
+            {"type":"dev.mac48",   "name":"{$mac48}"},
             {"type":"IntWalk", "name":"{$light_value}",     "min":0,     "max":300000},
             {"type":"IntWalk", "name":"{$temp_value}",      "min":20000, "max":35000},
             {"type":"IntWalk", "name":"{$pressure_value}",  "min":30000, "max":110000},
@@ -213,42 +213,42 @@ iosynth/device/AA:16:4C:49:00:23/out/stream
 
 |  Type    | Description  |
 | ------------:|:-------------|
-|uuid| Generates universally unique identifier for each device if empty string is provided "", or increasing identificator if format pattern is provided "xxxxx%06d" |
-|mac48| Generates MAC address. Auto-incremented for each device. If string is not empty it is used as prefix: "EE:00:" |
-|mac48| Generates MAC address. Auto-incremented for each device. If string is not empty it is used as prefix: "EE:00:" |
-|ipv4 | Generates ipv4 address. Auto-incremented for each device. If string is not empty it is used as prefix: "123.123." |
+|`uuid`| Generates universally unique identifier for each device if empty string is provided "", or increasing identificator if format pattern is provided "xxxxx%06d" |
+|`mac48`| Generates MAC address. Auto-incremented for each device. If string is not empty it is used as prefix: "EE:00:" |
+|`mac48`| Generates MAC address. Auto-incremented for each device. If string is not empty it is used as prefix: "EE:00:" |
+|`ipv4` | Generates ipv4 address. Auto-incremented for each device. If string is not empty it is used as prefix: "123.123." |
 
 ### Sampling types
 
-|  Type    | Parameters | Description  |
-| ------------:|--------:|:-------------|
-|Fixed| interval | Fixed interval sampling in milliseconds |
-|Uniform| min, max | Sampling intervals with uniform distribution.|
-|Normal| mean, stdev | Sampling intervals with Normal distribution with mean and standard deviation in milliseconds. |
-|Exponential| beta | Sampling intervals with Exponential distribution with beta in milliseconds. |
+|  Type        | Parameters | Description  |
+| ------------:|-----------:|:-------------|
+|`fixed`| interval | Fixed interval sampling in milliseconds |
+|`uniform`| min, max | Sampling intervals with uniform distribution.|
+|`normal`| mean, stdev | Sampling intervals with Normal distribution with mean and standard deviation in milliseconds. |
+|`exp`| beta | Sampling intervals with Exponential distribution with beta in milliseconds. |
 
 ### Sensor types
 
 All sensors have "name" parameter and some have optional "format" parameter. 
 The "format" parameter defines value formatting according to java.lang.String.format rules or java.text.SimpleDateFormat rules.
-Sensors starting with lower-case show current device state ("uuid", "timestamp", "epoch", ...). 
-Sensors starting with upper-case are value generators ("UUID", "String", ...). 
+Sensors starting with "dev." show current device state ("dev.uuid", "dev.timestamp", "dev.epoch", ...). 
+The rest a value generator sensors ("uuid", "string", "double_normal", ...). 
 
-**topic**
+**dev.topic**
 
 This sensor shows the device topic.
 
 
-**uuid, ipv4, mac48, mac64**
+**dev.uuid, dev.ipv4, dev.mac48, dev.mac64**
 
 This sensor shows the device uuid, ipv4, mac48, mac64 identificators.
 
 
-**epoch**
+**dev.epoch**
 
 This sensor shows the internal device epoch counter (increasing number from 1).
 
-**timestamp**
+**dev.timestamp**
 
 Current device timestamp. 
 Optional parameter "format" specifies the date-time format.
@@ -256,20 +256,20 @@ Optional parameter "format" specifies the date-time format.
 
 Example:
 ```json
-{"type":"Timestamp",   "name":"ts", "format":"yyyy-MM-dd'T'HH:mm:ss.SSSZ"}
+{"type":"dev.timestamp",   "name":"ts", "format":"yyyy-MM-dd'T'HH:mm:ss.SSSZ"}
 ```
 
-**UUID**
+**uuid**
 
 This sensor generates random UUID.
 
 
 Example:
 ```json
-{"type":"UUID", "name":"UUID"}
+{"type":"uuid", "name":"UUID"}
 ```
 
-**IPv4**
+**ipv4**
 
 This sensor generates random IPv4 addresses.
 Optional parameter "prefix" specifies fixed prefix.
@@ -277,10 +277,10 @@ Optional parameter "prefix" specifies fixed prefix.
 
 Example:
 ```json
-{"type":"IPv4", "name":"IP", "prefix":"222."}
+{"type":"ipv4", "name":"IP", "prefix":"222."}
 ```
 
-**MAC48**
+**mac48**
 
 This sensor generates random MAC48 addresses.
 Optional parameter "prefix" specifies fixed prefix.
@@ -288,10 +288,10 @@ Optional parameter "prefix" specifies fixed prefix.
 
 Example:
 ```json
-{"type":"MAC48", "name":"MAC", "prefix":"EE:00:"}
+{"type":"mac48", "name":"MAC", "prefix":"EE:00:"}
 ```
 
-**MAC64**
+**mac64**
 
 This sensor generates random MAC64 addresses.
 Optional parameter "prefix" specifies fixed prefix.
@@ -299,10 +299,10 @@ Optional parameter "prefix" specifies fixed prefix.
 
 Example:
 ```json
-{"type":"MAC64", "name":"MAC", "prefix":"EE:00:"}
+{"type":"mac64", "name":"MAC", "prefix":"EE:00:"}
 ```
 
-**String**
+**string**
 
 This sensor generate strings from list of strings or alphabet.
   - "cycle" - Cycle the values from list of strings.
@@ -312,7 +312,7 @@ This sensor generate strings from list of strings or alphabet.
 
 Example:
 ```json
-{"type":"String", "name":"string", "cycle":["aaa", "bbb", "ccc"]}
+{"type":"string", "name":"string", "cycle":["aaa", "bbb", "ccc"]}
 ```
 
 Result:
@@ -328,7 +328,7 @@ iosynth/dev00 {"string":"aaa"}
 
 Example:
 ```json
-{"type":"String", "name":"string", "random":["aaa", "bbb", "ccc"]}
+{"type":"string", "name":"string", "random":["aaa", "bbb", "ccc"]}
 ```
 
 Result:
@@ -344,7 +344,7 @@ iosynth/dev00 {"string":"aaa"}
 
 Example:
 ```json
-{"type":"String", "name":"string", "min":5, "max":8, "alphabet":"abcdefghijk"}
+{"type":"string", "name":"string", "min":5, "max":8, "alphabet":"abcdefghijk"}
 ```
 
 Result:
@@ -358,7 +358,7 @@ iosynth/dev00 {"string":"ebcefdb"}
 iosynth/dev00 {"string":"djdeffe"}
 ```
 
-**TimeStamp**
+**timestamp**
 
 This sensor generates random timestamp.
 Parameters:
@@ -369,7 +369,7 @@ Parameters:
   
 Example:
 ```json
-{"type":"TimeStamp",  "name":"date", "from":"2000-01-01T11:50:23+0000", "to":"2016-01-01T11:50:23+0000", "locale":"ko_KR", "format":"E, yyyy MM d"}
+{"type":"timestamp",  "name":"date", "from":"2000-01-01T11:50:23+0000", "to":"2016-01-01T11:50:23+0000", "locale":"ko_KR", "format":"E, yyyy MM d"}
 ```
 
 Result:
@@ -385,13 +385,13 @@ iosynth/device {"date":"수, 2013 09 25"}
 
 
 
-**Boolean**
+**boolean**
 
 This sensor generates random boolean value (true, false).
 Optional parameter "success" - likelihood of success. (0.0 ... 1.0)
 Example:
 ```json
-{"type":"Boolean", "name":"enabled", "success":0.1}
+{"type":"boolean", "name":"enabled", "success":0.1}
 ```
 
 
@@ -405,77 +405,77 @@ Example:
 {"type":"DoubleCycle", "values":[1,2,3,4,5]}
 ```
 
-**DoubleWalk**
+**double_walk**
 
 Random walk between "min" and "max" with "step" and initial "state".
 
 Example:
 ```json
-{"type":"DoubleWalk", "min":23, "max":34, "state":24, "step":1}
+{"type":"double_walk", "min":23, "max":34, "state":24, "step":1}
 ```
 
-**DoubleUniform**
+**double_uniform**
 
 Values between "min" and "max" from Uniform random generator.
 
 ```json
-{"type":"DoubleUniform", "min":23, "max":34}
+{"type":"double_uniform", "min":23, "max":34}
 ```
 
-**DoubleNormal**
+**double_normal**
 
 Values from Normal (Gaussian) random distribution with "mean" and "stdev" parameters. 
 
 ```json
-{"type":"DoubleNormal", "mean":10, "stdev":0.5}
+{"type":"double_normal", "mean":10, "stdev":0.5}
 ```
 
-**DoubleExponential**
+**double_exp**
 
 Values from Exponential random distribution with "beta" parameter
 
 ```json
-{"type":"DoubleExponential", "beta":10}
+{"type":"double_exp", "beta":10}
 ```
 
-**IntCycle**
+**int_cycle**
 
 Cycle int (long) "values" provided as array.
 
 Example:
 ```json
-{"type":"IntCycle", "values":[1,2,3,4,5]}
+{"type":"int_cycle", "values":[1,2,3,4,5]}
 ```
 
-**IntWalk**
+**int_walk**
 
 Random walk between "min" and "max" with "step" and initial "state".
 
 Example:
 ```json
-{"type":"IntWalk", "min":23, "max":34, "state":24, "step":1}
+{"type":"int_walk", "min":23, "max":34, "state":24, "step":1}
 ```
 
-**IntUniform**
+**int_uniform**
 
 Values between "min" and "max" from Uniform random generator.
 
 ```json
-{"type":"IntUniform", "min":23, "max":34}
+{"type":"int_uniform", "min":23, "max":34}
 ```
 
 
 
 
 
-**Country**
+**country**
 
 This sensor generates random country names. Accepts optional "locale" parameter with one of supported JVM locales.
 
 Example:
 ```json
-{"type":"Country", "name":"country"},
-{"type":"Country", "name":"国家", "locale":"zh_CN"}
+{"type":"country", "name":"country"},
+{"type":"country", "name":"国家", "locale":"zh_CN"}
 ```
 Result:
 ```sh

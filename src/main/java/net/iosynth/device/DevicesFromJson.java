@@ -63,7 +63,7 @@ public class DevicesFromJson {
 			return gson;
 		}
 		final net.iosynth.util.RuntimeTypeAdapterFactory<Device> deviceAdapter = RuntimeTypeAdapterFactory.of(Device.class, "type");
-		deviceAdapter.registerSubtype(DeviceSimple.class, "Simple");
+		deviceAdapter.registerSubtype(DeviceSimple.class, "simple");
 		
 		final RuntimeTypeAdapterFactory<Sensor> sensorAdapter = RuntimeTypeAdapterFactory.of(Sensor.class, "type");
 		sensorAdapter.registerSubtype(SensorDevTopic.class,       "dev.topic");
