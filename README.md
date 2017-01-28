@@ -24,6 +24,17 @@ Check the [**config**](https://github.com/rradev/iosynth/tree/master/config) dir
 To run the above command get the [**latest release of iosynth.jar**](https://github.com/rradev/iosynth/releases).
 It is also assumed that you have  Java 1.7 installed.
 
+If you want to build from sources:
+
+```sh
+git clone https://github.com/rradev/iosynth.git
+cd iosynth
+mvn package
+```
+
+The resulting *.jar file is created in "target" directory.
+ 
+
 
 Example **config-mqtt.json** configuration:
 ```json
