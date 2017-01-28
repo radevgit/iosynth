@@ -1,26 +1,26 @@
 [
     {
-        "type":"Simple",
+        "type":"simple",
         "mac48":"EE:00",
         "topic":"BCDS/XDK/single/{$mac48}/out/stream",
-        "sampling":{"type":"Fixed", "interval":10000},
+        "sampling":{"type":"fixed", "interval":10000},
         "copy":1,
         "json_template":"template-bosch-xdk.json",
         "sensors":[
-            {"type":"mac48",     "name":"{$mac48}"},
-            {"type":"IntWalk", "name":"{$acc_x}", "min":-2000, "max":2000},
-            {"type":"IntWalk", "name":"{$acc_y}", "min":-2000, "max":2000},
-            {"type":"IntWalk", "name":"{$acc_z}", "min":-2000, "max":2000},
-            {"type":"IntWalk", "name":"{$gyro_x}", "min":-7000, "max":7000},
-            {"type":"IntWalk", "name":"{$gyro_y}", "min":-7000, "max":7000},
-            {"type":"IntWalk", "name":"{$gyro_z}", "min":-7000, "max":7000},
-            {"type":"IntWalk", "name":"{$mag_x}",  "min":-500, "max":500},
-            {"type":"IntWalk", "name":"{$mag_y}",  "min":-500, "max":500},
-            {"type":"IntWalk", "name":"{$mag_z}",  "min":-500, "max":500},
-            {"type":"IntWalk", "name":"{$light_value}",  "min":0, "max":300000},
-            {"type":"IntWalk", "name":"{$temp_value}",  "min":20000, "max":35000},
-            {"type":"IntWalk", "name":"{$pressure_value}",  "min":30000, "max":110000},
-            {"type":"IntWalk", "name":"{$humidity_value}",  "min":10, "max":90}
+            {"type":"dev.mac48",     "name":"{$mac48}"},
+            {"type":"int_walk", "name":"{$acc_x}", "min":-2000, "max":2000},
+            {"type":"int_walk", "name":"{$acc_y}", "min":-2000, "max":2000},
+            {"type":"int_walk", "name":"{$acc_z}", "min":-2000, "max":2000},
+            {"type":"int_walk", "name":"{$gyro_x}", "min":-7000, "max":7000},
+            {"type":"int_walk", "name":"{$gyro_y}", "min":-7000, "max":7000},
+            {"type":"int_walk", "name":"{$gyro_z}", "min":-7000, "max":7000},
+            {"type":"int_walk", "name":"{$mag_x}",  "min":-500, "max":500},
+            {"type":"int_walk", "name":"{$mag_y}",  "min":-500, "max":500},
+            {"type":"int_walk", "name":"{$mag_z}",  "min":-500, "max":500},
+            {"type":"int_walk", "name":"{$light_value}",  "min":0, "max":300000},
+            {"type":"int_walk", "name":"{$temp_value}",  "min":20000, "max":35000},
+            {"type":"int_walk", "name":"{$pressure_value}",  "min":30000, "max":110000},
+            {"type":"int_walk", "name":"{$humidity_value}",  "min":10, "max":90}
         ]
     }
 ]
