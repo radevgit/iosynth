@@ -234,21 +234,21 @@ The "format" parameter defines value formatting according to java.lang.String.fo
 Sensors starting with "dev." show current device state ("dev.uuid", "dev.timestamp", "dev.epoch", ...). 
 The rest a value generator sensors ("uuid", "string", "double_normal", ...). 
 
-**dev.topic**
+**`dev.topic`**
 
 This sensor shows the device topic.
 
 
-**dev.uuid, dev.ipv4, dev.mac48, dev.mac64**
+**`dev.uuid`, `dev.ipv4`, `dev.mac48`, `dev.mac64`**
 
 This sensor shows the device uuid, ipv4, mac48, mac64 identificators.
 
 
-**dev.epoch**
+**`dev.epoch`**
 
 This sensor shows the internal device epoch counter (increasing number from 1).
 
-**dev.timestamp**
+**`dev.timestamp`**
 
 Current device timestamp. 
 Optional parameter "format" specifies the date-time format.
@@ -259,7 +259,7 @@ Example:
 {"type":"dev.timestamp",   "name":"ts", "format":"yyyy-MM-dd'T'HH:mm:ss.SSSZ"}
 ```
 
-**uuid**
+**`uuid`**
 
 This sensor generates random UUID.
 
@@ -269,7 +269,7 @@ Example:
 {"type":"uuid", "name":"UUID"}
 ```
 
-**ipv4**
+**`ipv4`**
 
 This sensor generates random IPv4 addresses.
 Optional parameter "prefix" specifies fixed prefix.
@@ -280,7 +280,7 @@ Example:
 {"type":"ipv4", "name":"IP", "prefix":"222."}
 ```
 
-**mac48**
+**`mac48`**
 
 This sensor generates random MAC48 addresses.
 Optional parameter "prefix" specifies fixed prefix.
@@ -291,7 +291,7 @@ Example:
 {"type":"mac48", "name":"MAC", "prefix":"EE:00:"}
 ```
 
-**mac64**
+**`mac64`**
 
 This sensor generates random MAC64 addresses.
 Optional parameter "prefix" specifies fixed prefix.
@@ -302,7 +302,7 @@ Example:
 {"type":"mac64", "name":"MAC", "prefix":"EE:00:"}
 ```
 
-**string**
+**`string`**
 
 This sensor generate strings from list of strings or alphabet.
   - "cycle" - Cycle the values from list of strings.
@@ -358,7 +358,7 @@ iosynth/dev00 {"string":"ebcefdb"}
 iosynth/dev00 {"string":"djdeffe"}
 ```
 
-**timestamp**
+**`timestamp`**
 
 This sensor generates random timestamp.
 Parameters:
@@ -385,7 +385,7 @@ iosynth/device {"date":"수, 2013 09 25"}
 
 
 
-**boolean**
+**`boolean`**
 
 This sensor generates random boolean value (true, false).
 Optional parameter "success" - likelihood of success. (0.0 ... 1.0)
@@ -396,7 +396,7 @@ Example:
 
 
 
-**double_cycle**
+**`double_cycle`**
 
 Cycle double "values" provided as array.
 
@@ -405,7 +405,7 @@ Example:
 {"type":"DoubleCycle", "values":[1,2,3,4,5]}
 ```
 
-**double_walk**
+**`double_walk`**
 
 Random walk between "min" and "max" with "step" and initial "state".
 
@@ -414,7 +414,7 @@ Example:
 {"type":"double_walk", "min":23, "max":34, "state":24, "step":1}
 ```
 
-**double_uniform**
+**`double_uniform`**
 
 Values between "min" and "max" from Uniform random generator.
 
@@ -422,7 +422,7 @@ Values between "min" and "max" from Uniform random generator.
 {"type":"double_uniform", "min":23, "max":34}
 ```
 
-**double_normal**
+**`double_normal`**
 
 Values from Normal (Gaussian) random distribution with "mean" and "stdev" parameters. 
 
@@ -430,7 +430,7 @@ Values from Normal (Gaussian) random distribution with "mean" and "stdev" parame
 {"type":"double_normal", "mean":10, "stdev":0.5}
 ```
 
-**double_exp**
+**`double_exp`**
 
 Values from Exponential random distribution with "beta" parameter
 
@@ -438,7 +438,7 @@ Values from Exponential random distribution with "beta" parameter
 {"type":"double_exp", "beta":10}
 ```
 
-**int_cycle**
+**`int_cycle`**
 
 Cycle int (long) "values" provided as array.
 
@@ -447,7 +447,7 @@ Example:
 {"type":"int_cycle", "values":[1,2,3,4,5]}
 ```
 
-**int_walk**
+**`int_walk`**
 
 Random walk between "min" and "max" with "step" and initial "state".
 
@@ -456,7 +456,7 @@ Example:
 {"type":"int_walk", "min":23, "max":34, "state":24, "step":1}
 ```
 
-**int_uniform**
+**`int_uniform`**
 
 Values between "min" and "max" from Uniform random generator.
 
@@ -468,7 +468,7 @@ Values between "min" and "max" from Uniform random generator.
 
 
 
-**country**
+**`country`**
 
 This sensor generates random country names. Accepts optional "locale" parameter with one of supported JVM locales.
 
