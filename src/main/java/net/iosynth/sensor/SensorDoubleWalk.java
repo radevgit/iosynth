@@ -27,7 +27,7 @@ public class SensorDoubleWalk extends Sensor {
 	 */
 	@Override
 	public void step(long step) {
-		state = state + rnd.nextGaussian() * step;
+		state = state + (long)(rnd.nextGaussian()*2.0*this.step);
 		if(state > max){
 			state = max;
 		}

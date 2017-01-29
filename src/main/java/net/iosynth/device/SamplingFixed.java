@@ -41,7 +41,7 @@ public class SamplingFixed extends Sampling {
 	 */
 	@Override
 	public void replicate() {
-		jitter = rnd.nextLong(10000);
+		jitter = rnd.nextLong(5000);
 	}
 		
 	/**

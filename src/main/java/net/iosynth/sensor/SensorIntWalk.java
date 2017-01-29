@@ -9,7 +9,7 @@ package net.iosynth.sensor;
  */
 public class SensorIntWalk extends Sensor {
 	private long state;
-	private long step;
+	private double step;
 	private long min, max;
 	/**
 	 * 
@@ -27,7 +27,7 @@ public class SensorIntWalk extends Sensor {
 	 */
 	@Override
 	public void step(long step) {
-		state = state + (rnd.nextBoolean() ? step: -step);
+		state = state + (long)(rnd.nextGaussian()*2.0*this.step);
 		if(state > max){
 			state = max;
 		}
@@ -62,8 +62,8 @@ public class SensorIntWalk extends Sensor {
 		if(state < min){
 			state = min;
 		}
-		if(step < 1){
-			step = 1;
+		if(step < 0.001){
+			step = 0.001;
 		}
 	}
 
