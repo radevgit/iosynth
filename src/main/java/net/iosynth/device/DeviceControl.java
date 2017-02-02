@@ -64,11 +64,11 @@ public class DeviceControl {
 		// Devices with fixed sampling interval
 		for(final Runnable devR: devsFixedList){
 			final Device dev = (Device)devR;
-			scheduler.scheduleAtFixedRate(dev, ((SamplingFixed)dev.getSampling()).getJitter(), dev.getSampling().getInterval(), TimeUnit.MILLISECONDS);
+			scheduler.scheduleAtFixedRate(dev, ((SamplingFixed)dev.getSampling()).getJitter(), dev.getSampling().nextInterval(), TimeUnit.MILLISECONDS);
 		}
 		// Devices with variable sampling interval. They have to be re-scheduled each time.
 		for(Runnable dev: devsDelayList){
-			scheduler.schedule(dev, ((Device)dev).getSampling().getInterval(), TimeUnit.MILLISECONDS);
+			scheduler.schedule(dev, ((Device)dev).getSampling().nextInterval(), TimeUnit.MILLISECONDS);
 		}
 		
 		try {
@@ -78,7 +78,7 @@ public class DeviceControl {
 				if(k%100000==0){
 					logger.info("sampling queue: " + delayQueue.size());
 				}
-				scheduler.schedule(dev, dev.getSampling().getInterval(), TimeUnit.MILLISECONDS);
+				scheduler.schedule(dev, dev.getSampling().nextInterval(), TimeUnit.MILLISECONDS);
 				k++;
 			}
 		} catch (InterruptedException ie) {

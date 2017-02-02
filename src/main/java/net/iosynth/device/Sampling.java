@@ -26,7 +26,7 @@ public abstract class Sampling {
 	/**
 	 * @return sampling interval value
 	 */
-	abstract public long getInterval();
+	abstract public long nextInterval();
 	/**
 	 * 
 	 */
@@ -37,6 +37,13 @@ public abstract class Sampling {
 	 */
 	public void setInterval(long interval) {
 		this.interval = interval;
+	}
+	
+	/**
+	 * @return interval
+	 */
+	public long getInterval(){
+		return interval;
 	}
 
 	/**

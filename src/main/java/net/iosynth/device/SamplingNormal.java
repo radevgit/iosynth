@@ -14,7 +14,7 @@ public class SamplingNormal extends Sampling {
 	 * 
 	 */
 	public SamplingNormal() {
-		this.mean = 15000;
+		this.mean = 10000;
 		this.stdev = 5000;
 	}
 
@@ -23,11 +23,11 @@ public class SamplingNormal extends Sampling {
 	 */
 	@Override
 	public void checkParameters() {
-		if (mean < 100) {
-			mean = 100;
+		if (mean < 50) {
+			mean = 50;
 		}
-		if (stdev < 100) {
-			stdev = 100;
+		if (stdev < 50) {
+			stdev = 50;
 		}
 	}
 
@@ -35,10 +35,10 @@ public class SamplingNormal extends Sampling {
 	 * @see net.iosynth.device.Sampling#getInterval()
 	 */
 	@Override
-	public long getInterval() {
-		interval = (long)(rnd.nextGaussian()*stdev + mean);
-		if(interval<100){
-			interval = 100;
+	public long nextInterval() {
+		interval = (long) (rnd.nextGaussian() * stdev + mean);
+		if (interval < 50) {
+			interval = 50;
 		}
 		return interval;
 	}

@@ -22,7 +22,7 @@ public class SamplingFixed extends Sampling {
 	 * @see net.iosynth.device.Sampling#getInterval()
 	 */
 	@Override
-	public long getInterval() {
+	public long nextInterval() {
 		return interval;
 	}
 
@@ -31,8 +31,8 @@ public class SamplingFixed extends Sampling {
 	 */
 	@Override
 	public void checkParameters(){
-		if(interval<100){
-			interval=100;
+		if(interval<50){
+			interval=50;
 		}
 	}
 	
@@ -41,7 +41,10 @@ public class SamplingFixed extends Sampling {
 	 */
 	@Override
 	public void replicate() {
-		jitter = rnd.nextLong(5000);
+		jitter = (long) (rnd.nextGaussian() * 3000 + 5000);
+		if (jitter < 0) {
+			jitter = 0;
+		}
 	}
 		
 	/**

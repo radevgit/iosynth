@@ -23,11 +23,11 @@ public class SamplingUniform extends Sampling {
 	 */
 	@Override
 	public void checkParameters() {
-		if (interval < 100) {
-			interval = 100;
+		if (interval < 50) {
+			interval = 50;
 		}
-		if (min < 100) {
-			min = 100;
+		if (min < 50) {
+			min = 50;
 		}
 		if (max < min) {
 			max = min + 1;
@@ -52,7 +52,7 @@ public class SamplingUniform extends Sampling {
 	 * @see net.iosynth.device.Sampling#getInterval()
 	 */
 	@Override
-	public long getInterval() {
+	public long nextInterval() {
 		interval  = rnd.nextLong(max-min)+min;
 		return interval;
 	}

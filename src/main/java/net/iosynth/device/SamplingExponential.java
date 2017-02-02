@@ -30,10 +30,10 @@ public class SamplingExponential extends Sampling {
 	 * @see net.iosynth.device.Sampling#getInterval()
 	 */
 	@Override
-	public long getInterval() {
+	public long nextInterval() {
 		interval = (long)(rnd.nextExponential((double)beta));
-		if(interval<100){
-			interval = 100;
+		if(interval<50){
+			interval = 50;
 		}
 		return interval;
 	}

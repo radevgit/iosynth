@@ -413,7 +413,7 @@ Cycle double "values" provided as array.
 
 Example:
 ```json
-{"type":"DoubleCycle", "values":[1,2,3,4,5]}
+{"type":"double_cycle", "name":"state", "values":[1,2,3,4,5]}
 ```
 
 **`double_walk`**
@@ -422,23 +422,35 @@ Random walk between "min" and "max" with "step" and initial "state".
 
 Example:
 ```json
-{"type":"double_walk", "min":23, "max":34, "state":24, "step":1}
+{"type":"double_walk", "name":"temp", "min":23, "max":34, "state":24, "step":1}
 ```
+
+**`double_oscillator`**
+
+Random oscillator with "period" in milliseconds and values between "min" and "max".
+"noise" is Gaussian noise in percents from (max-min). 
+
+Example:
+```json
+{"type":"double_oscillator", "name":"temperature", "min":10.0, "max":34.0, "period":86400000, "noise":10.0}
+```
+
 
 **`double_uniform`**
 
 Values between "min" and "max" from Uniform random generator.
 
 ```json
-{"type":"double_uniform", "min":23, "max":34}
+{"type":"double_uniform", "name":"state", "min":23, "max":34}
 ```
+
 
 **`double_normal`**
 
 Values from Normal (Gaussian) random distribution with "mean" and "stdev" parameters. 
 
 ```json
-{"type":"double_normal", "mean":10, "stdev":0.5}
+{"type":"double_normal", "name":"state", "mean":10, "stdev":0.5}
 ```
 
 **`double_exp`**
@@ -446,7 +458,7 @@ Values from Normal (Gaussian) random distribution with "mean" and "stdev" parame
 Values from Exponential random distribution with "beta" parameter
 
 ```json
-{"type":"double_exp", "beta":10}
+{"type":"double_exp", "name":"state", "beta":10}
 ```
 
 **`int_cycle`**
@@ -455,7 +467,7 @@ Cycle int (long) "values" provided as array.
 
 Example:
 ```json
-{"type":"int_cycle", "values":[1,2,3,4,5]}
+{"type":"int_cycle", "name":"state", "values":[1,2,3,4,5]}
 ```
 
 **`int_walk`**
@@ -464,7 +476,7 @@ Random walk between "min" and "max" with "step" and initial "state".
 
 Example:
 ```json
-{"type":"int_walk", "min":23, "max":34, "state":24, "step":1}
+{"type":"int_walk", "name":"state", "min":23, "max":34, "state":24, "step":1}
 ```
 
 **`int_uniform`**
@@ -472,7 +484,7 @@ Example:
 Values between "min" and "max" from Uniform random generator.
 
 ```json
-{"type":"int_uniform", "min":23, "max":34}
+{"type":"int_uniform", "name":"state", "min":23, "max":34}
 ```
 
 
