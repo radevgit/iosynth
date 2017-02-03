@@ -3,6 +3,10 @@
  */
 package net.iosynth.sensor;
 
+import java.util.logging.Logger;
+
+import net.iosynth.adapter.AdapterMqtt;
+
 /**
  * @author rradev
  *
@@ -13,6 +17,11 @@ public class SensorDoubleOscillator extends Sensor {
 	private double min, max;
 	private long   period;
 	private double noise;
+	private double   anomaly;
+	private transient double minD, maxD, noiseD;
+	private transient boolean isAnomaly;
+	
+	private transient final Logger logger = Logger.getLogger(AdapterMqtt.class.getName());
 	/**
 	 * 
 	 */
@@ -24,6 +33,8 @@ public class SensorDoubleOscillator extends Sensor {
 		this.max   = 10.0;
 		this.period = 1000000;
 		this.noise  = 5.0;
+		this.anomaly = Long.MAX_VALUE;
+		this.isAnomaly = false;
 	}
 
 	/* (non-Javadoc)
@@ -32,11 +43,32 @@ public class SensorDoubleOscillator extends Sensor {
 	@Override
 	public void step(long step) {
 		double delta = ((double)this.getDev().getSampling().getInterval());
+		if (rnd.nextDouble() + 0.000000001 < anomaly) {
+			if (isAnomaly) {
+				logger.info("Device: " + getDev().getUuid() + " anomaly end");
+				isAnomaly = !isAnomaly;
+				min = min + minD;
+				max = max - maxD;
+				noise = noise - noiseD;
+				minD = maxD = noiseD = 0.0;
+			} else {
+				logger.info("Device: " + getDev().getUuid() + " anomaly");
+				isAnomaly = !isAnomaly;
+				minD = (max - min) * rnd.nextGaussian() * 0.1;
+				maxD = (max - min) * rnd.nextGaussian() * 0.1;
+				noiseD = noise * 1.0;
+				min = min - minD;
+				max = max + maxD;
+				noise = noise + noiseD;
+			}
+		}
+		
 		double x = (delta * Math.PI * 2.0)/ (double)period;
 		rad = (rad + x) % (Math.PI * 2.0);
 		double noisePersent = noise/100.0;
 	    double noiseAdd = rnd.nextGaussian() * (max - min) * noisePersent;
 	    // here we subtract noise from min and max to avoid clipping.
+	    double spike = isAnomaly && rnd.nextDouble() < 0.01 ? rnd.nextExponential(state): 0.0;
 		state = 0.5 * (Math.sin(rad) + 1.0) * (max - min - 2 * noisePersent) + min + noisePersent + noiseAdd;
 		if(state > max){
 			state = max;
@@ -44,6 +76,7 @@ public class SensorDoubleOscillator extends Sensor {
 		if(state < min){
 			state = min;
 		}
+		state = state + spike;
 	}
 
 	/**
@@ -77,6 +110,9 @@ public class SensorDoubleOscillator extends Sensor {
 		}
 		if(noise < 0.00001){
 			noise = 0.00001;
+		}
+		if(anomaly < 0.0){
+			anomaly = 0.0;
 		}
 	}
 

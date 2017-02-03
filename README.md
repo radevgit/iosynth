@@ -7,7 +7,8 @@ What is it useful for:
 -	You present a product to customers and want to show realistically looking demos.
 -	You measure the performance of a product and require large-scale real test bed.
 -	You develop a tests cases that require reproducible tests scenarios.
--	You frequently change experiment configurations and want to do it in cost and time effective way. 
+-	You frequently change experiment configurations and want to do it in cost and time effective way.
+-	You wan to wan to perform Predictive Maintenance analysis on data with anomalies.
 
 ### Usage
 Currently supported protocols:
@@ -428,11 +429,12 @@ Example:
 **`double_oscillator`**
 
 Random oscillator with "period" in milliseconds and values between "min" and "max".
-"noise" is Gaussian noise in percents from (max-min). 
+"noise" is Gaussian noise in percents from (max-min).
+"anomaly" is probability to switch between normal data and anomaly data. This can be used for Predictive Maintenance analysis.
 
 Example:
 ```json
-{"type":"double_oscillator", "name":"temperature", "min":10.0, "max":34.0, "period":86400000, "noise":10.0}
+{"type":"double_oscillator", "name":"temperature", "min":10.0, "max":34.0, "period":86400000, "noise":5.0, "anomaly":0.00001}
 ```
 
 
