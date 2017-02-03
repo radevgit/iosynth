@@ -11,6 +11,9 @@ public class SensorDoubleWalk extends Sensor {
 	private double state;
 	private double step;
 	private double min, max;
+	private double anomaly;
+	private transient boolean isAnomaly;
+	
 	/**
 	 * 
 	 */
@@ -27,13 +30,22 @@ public class SensorDoubleWalk extends Sensor {
 	 */
 	@Override
 	public void step(long step) {
-		state = state + (long)(rnd.nextGaussian()*2.0*this.step);
+		if (rnd.nextDouble() + 0.000000001 < anomaly) {
+			if (isAnomaly) {
+				isAnomaly = !isAnomaly;
+			} else {
+				isAnomaly = !isAnomaly;
+			}
+		}
+		double spike = isAnomaly && rnd.nextDouble() < 0.01 ? rnd.nextExponential(state*0.5): 0.0;
+		state = state + rnd.nextGaussian()*2.0*this.step;
 		if(state > max){
 			state = max;
 		}
 		if(state < min){
 			state = min;
 		}
+		state = state + spike;
 	}
 
 	/**
@@ -64,6 +76,9 @@ public class SensorDoubleWalk extends Sensor {
 		}
 		if(step < 0.00000001){
 			step = 0.00000001;
+		}
+		if(anomaly < 0.0){
+			anomaly = 0.0;
 		}
 	}
 

@@ -21,7 +21,7 @@ public class SensorDoubleOscillator extends Sensor {
 	private transient double minD, maxD, noiseD;
 	private transient boolean isAnomaly;
 	
-	private transient final Logger logger = Logger.getLogger(AdapterMqtt.class.getName());
+	//private transient final Logger logger = Logger.getLogger(AdapterMqtt.class.getName());
 	/**
 	 * 
 	 */
@@ -45,14 +45,14 @@ public class SensorDoubleOscillator extends Sensor {
 		double delta = ((double)this.getDev().getSampling().getInterval());
 		if (rnd.nextDouble() + 0.000000001 < anomaly) {
 			if (isAnomaly) {
-				logger.info("Device: " + getDev().getUuid() + " anomaly end");
+				//logger.info("Device: " + getDev().getUuid() + " anomaly end");
 				isAnomaly = !isAnomaly;
 				min = min + minD;
 				max = max - maxD;
 				noise = noise - noiseD;
 				minD = maxD = noiseD = 0.0;
 			} else {
-				logger.info("Device: " + getDev().getUuid() + " anomaly");
+				//logger.info("Device: " + getDev().getUuid() + " anomaly");
 				isAnomaly = !isAnomaly;
 				minD = (max - min) * rnd.nextGaussian() * 0.1;
 				maxD = (max - min) * rnd.nextGaussian() * 0.1;
@@ -68,7 +68,7 @@ public class SensorDoubleOscillator extends Sensor {
 		double noisePersent = noise/100.0;
 	    double noiseAdd = rnd.nextGaussian() * (max - min) * noisePersent;
 	    // here we subtract noise from min and max to avoid clipping.
-	    double spike = isAnomaly && rnd.nextDouble() < 0.01 ? rnd.nextExponential(state): 0.0;
+	    double spike = isAnomaly && rnd.nextDouble() < 0.01 ? rnd.nextExponential(state*0.5): 0.0;
 		state = 0.5 * (Math.sin(rad) + 1.0) * (max - min - 2 * noisePersent) + min + noisePersent + noiseAdd;
 		if(state > max){
 			state = max;

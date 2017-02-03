@@ -8,7 +8,7 @@ What is it useful for:
 -	You measure the performance of a product and require large-scale real test bed.
 -	You develop a tests cases that require reproducible tests scenarios.
 -	You frequently change experiment configurations and want to do it in cost and time effective way.
--	You wan to wan to perform Predictive Maintenance analysis on data with anomalies.
+-	You want to perform analysis on data with anomalies.
 
 ### Usage
 Currently supported protocols:
@@ -420,17 +420,19 @@ Example:
 **`double_walk`**
 
 Random walk between "min" and "max" with "step" and initial "state".
+"anomaly" is probability to switch between normal data and anomaly data regime. 
 
 Example:
 ```json
-{"type":"double_walk", "name":"temp", "min":23, "max":34, "state":24, "step":1}
+{"type":"double_walk", "name":"temp", "min":23, "max":34, "state":24, "step":1, "anomaly":0.00001}
 ```
 
 **`double_oscillator`**
 
 Random oscillator with "period" in milliseconds and values between "min" and "max".
 "noise" is Gaussian noise in percents from (max-min).
-"anomaly" is probability to switch between normal data and anomaly data. This can be used for Predictive Maintenance analysis.
+"anomaly" is probability to switch between normal data and anomaly data regime. 
+This can be used for Predictive Maintenance analysis.
 
 Example:
 ```json
