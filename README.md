@@ -436,7 +436,7 @@ This can be used for Predictive Maintenance analysis.
 
 Example:
 ```json
-{"type":"double_oscillator", "name":"temperature", "min":10.0, "max":34.0, "period":86400000, "noise":5.0, "anomaly":0.00001}
+{"type":"double_oscillator", "name":"temp", "min":25.0, "max":35.0, "period":300000, "noise":4.0, "anomaly":0.005}
 ```
 
 

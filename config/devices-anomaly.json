@@ -1,0 +1,13 @@
+[
+    {
+        "type":"simple",
+        "uuid":"device",
+        "topic":"{$uuid}",
+        "sampling":{"type":"fixed", "interval":1000},
+        "copy":1,
+        "sensors":[
+            {"type":"dev.timestamp",    "name":"ts", "format":"ms"},
+            {"type":"double_oscillator", "name":"temp", "min":25.0, "max":35.0, "period":300000, "noise":4.0, "anomaly":0.005}
+        ]
+    }
+]

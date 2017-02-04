@@ -21,7 +21,7 @@ public class SensorDoubleOscillator extends Sensor {
 	private transient double minD, maxD, noiseD;
 	private transient boolean isAnomaly;
 	
-	//private transient final Logger logger = Logger.getLogger(AdapterMqtt.class.getName());
+	private transient final Logger logger = Logger.getLogger(AdapterMqtt.class.getName());
 	/**
 	 * 
 	 */
@@ -43,20 +43,22 @@ public class SensorDoubleOscillator extends Sensor {
 	@Override
 	public void step(long step) {
 		double delta = ((double)this.getDev().getSampling().getInterval());
+		double gap = max-min;
+		
 		if (rnd.nextDouble() + 0.000000001 < anomaly) {
 			if (isAnomaly) {
-				//logger.info("Device: " + getDev().getUuid() + " anomaly end");
+				logger.info("Device: " + getDev().getUuid() + " anomaly end");
 				isAnomaly = !isAnomaly;
 				min = min + minD;
 				max = max - maxD;
 				noise = noise - noiseD;
 				minD = maxD = noiseD = 0.0;
 			} else {
-				//logger.info("Device: " + getDev().getUuid() + " anomaly");
+				logger.info("Device: " + getDev().getUuid() + " anomaly");
 				isAnomaly = !isAnomaly;
-				minD = (max - min) * rnd.nextGaussian() * 0.1;
-				maxD = (max - min) * rnd.nextGaussian() * 0.1;
-				noiseD = noise * 1.0;
+				minD = gap * rnd.nextGaussian() * 0.1;
+				maxD = gap * rnd.nextGaussian() * 0.1;
+				noiseD = noise * 1.5;
 				min = min - minD;
 				max = max + maxD;
 				noise = noise + noiseD;
@@ -65,16 +67,20 @@ public class SensorDoubleOscillator extends Sensor {
 		
 		double x = (delta * Math.PI * 2.0)/ (double)period;
 		rad = (rad + x) % (Math.PI * 2.0);
+		
 		double noisePersent = noise/100.0;
-	    double noiseAdd = rnd.nextGaussian() * (max - min) * noisePersent;
+	    double noiseAdd = rnd.nextGaussian() * gap * noisePersent;
 	    // here we subtract noise from min and max to avoid clipping.
-	    double spike = isAnomaly && rnd.nextDouble() < 0.01 ? rnd.nextExponential(state*0.5): 0.0;
-		state = 0.5 * (Math.sin(rad) + 1.0) * (max - min - 2 * noisePersent) + min + noisePersent + noiseAdd;
-		if(state > max){
+		state = 0.5 * (Math.sin(rad) + 1.0) * (gap * (1 - 2*noisePersent)) + min + gap * noisePersent + noiseAdd;
+		if(!isAnomaly && state > max){
 			state = max;
 		}
-		if(state < min){
+		if(!isAnomaly && state < min){
 			state = min;
+		}
+		double spike = 0.0	;
+		if(isAnomaly && (rnd.nextDouble() < 0.05)){
+			spike = rnd.nextBoolean() ? rnd.nextExponential(state * 0.3) : -rnd.nextExponential(state * 0.3);
 		}
 		state = state + spike;
 	}
