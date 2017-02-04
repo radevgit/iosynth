@@ -8,12 +8,13 @@ package net.iosynth.sensor;
  *
  */
 public class SensorDoubleWalk extends Sensor {
-	private double state;
+	private transient double state;
 	private double step;
 	private double min, max;
 	private double anomaly;
 	private transient boolean isAnomaly;
-	
+	private transient double stepD;
+	private transient double spike;
 	/**
 	 * 
 	 */
@@ -22,7 +23,8 @@ public class SensorDoubleWalk extends Sensor {
 		this.state = 0;
 		this.step  = 0.1;
 		this.min   = 0.0;
-		this.max   = 10.0;	
+		this.max   = 10.0;
+		this.spike = 0.0;
 	}
 
 	/* (non-Javadoc)
@@ -33,17 +35,27 @@ public class SensorDoubleWalk extends Sensor {
 		if (rnd.nextDouble() + 0.000000001 < anomaly) {
 			if (isAnomaly) {
 				isAnomaly = !isAnomaly;
+				this.step = this.step - stepD;
+				stepD = 0.0;
 			} else {
 				isAnomaly = !isAnomaly;
+				stepD = this.step * 1.0;
+				this.step = this.step + stepD;
 			}
 		}
-		double spike = isAnomaly && rnd.nextDouble() < 0.01 ? rnd.nextExponential(state*0.5): 0.0;
-		state = state + rnd.nextGaussian()*2.0*this.step;
-		if(state > max){
+		state = state + rnd.nextGaussian() * 2.0 * this.step;
+		if (state > max) {
 			state = max;
 		}
-		if(state < min){
+		if (state < min) {
 			state = min;
+		}
+
+		state = state - spike;
+		if (isAnomaly && (rnd.nextDouble() < 0.01)) {
+			spike = rnd.nextBoolean() ? rnd.nextExponential(state * 0.3) : -rnd.nextExponential(state * 0.3);
+		} else {
+			spike = 0.0;
 		}
 		state = state + spike;
 	}

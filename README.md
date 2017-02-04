@@ -414,17 +414,17 @@ Cycle double "values" provided as array.
 
 Example:
 ```json
-{"type":"double_cycle", "name":"state", "values":[1,2,3,4,5]}
+{"type":"double_cycle", "name":"state", "values":[1,2,2,3,6,3,6,4,5]}
 ```
 
 **`double_walk`**
 
-Random walk between "min" and "max" with "step" and initial "state".
+Random walk between "min" and "max" with "step".
 "anomaly" is probability to switch between normal data and anomaly data regime. 
 
 Example:
 ```json
-{"type":"double_walk", "name":"temp", "min":23, "max":34, "state":24, "step":1, "anomaly":0.00001}
+{"type":"double_walk", "name":"temp", "min":25, "max":35, "state":30, "step":0.1, "anomaly":0.01}
 ```
 
 **`double_oscillator`**
